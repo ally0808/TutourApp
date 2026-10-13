@@ -17,7 +17,7 @@
 
       <h1>¡Descubre los mejores lugares!</h1>
 
-      <div class="search-box">
+      <div class="search-box" (click)="irANavegacion('/explore')">
 
         <ion-icon name="search-outline"></ion-icon>
 
@@ -25,6 +25,7 @@
           type="text"
           placeholder="¿Qué buscas?"
           aria-label="Buscar"
+          (focus)="irANavegacion('/explore')"
         />
 
       </div>
@@ -44,7 +45,7 @@
     <div class="categories-grid">
 
       <!-- Hospedaje -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Hospedaje')">
 
         <div class="category-icon hospedaje">
           <img
@@ -59,7 +60,7 @@
 
 
       <!-- Restaurante -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Restaurante')">
 
         <div class="category-icon restaurante">
           <img
@@ -74,7 +75,7 @@
 
 
       <!-- Lugares recreativos -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Lugares recreativos')">
 
         <div class="category-icon recreativos">
           <img
@@ -89,7 +90,7 @@
 
 
       <!-- Desayunos -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Desayunos')">
 
         <div class="category-icon desayunos">
           <img
@@ -104,7 +105,7 @@
 
 
       <!-- Cenadurías -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Cenadurías')">
 
         <div class="category-icon cenadurias">
           <img
@@ -119,7 +120,7 @@
 
 
       <!-- Sabores de mi pueblo -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Sabores de mi pueblo')">
 
         <div class="category-icon sabores">
 
@@ -136,7 +137,7 @@
 
 
       <!-- Artesanías -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Artesanías')">
 
         <div class="category-icon artesanias">
 
@@ -153,7 +154,7 @@
 
 
       <!-- Bares -->
-      <button class="category-item">
+      <button class="category-item" type="button" (click)="irACategoria('Bares')">
 
         <div class="category-icon bares">
 
@@ -182,7 +183,7 @@
 
       <h2>Empresas Destacadas</h2>
 
-      <button class="see-more">
+      <button class="see-more" type="button" (click)="irANavegacion('/explore')">
         Ver más
       </button>
 
@@ -269,7 +270,9 @@
       <!-- FLECHA DE DETALLE -->
       <button
         class="detail-button"
+        type="button"
         aria-label="Ver detalle de {{ empresa.nombre }}"
+        (click)="irANavegacion('/explore')"
       >
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </button>
