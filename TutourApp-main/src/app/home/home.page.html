@@ -443,33 +443,44 @@
 <!-- =========================
      NAVEGACIÓN INFERIOR
 ========================== -->
-<nav class="bottom-navigation">
-
-  <button class="nav-item active" type="button">
-    <img src="assets/icon/inicio.png" alt="" class="nav-icon">
+<nav class="bottom-nav">
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/home')"
+    (click)="irA('inicio')"
+  >
+    <ion-icon name="home" class="nav-icon"></ion-icon>
     <span>Inicio</span>
   </button>
 
-  
-<button
-  class="nav-item"
-  type="button"
-  (click)="irANavegacion('/explore')"
->
-  <img src="assets/icon/explorar.png" alt="" class="nav-icon">
-  <span>Explorar</span>
-</button>
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/explore')"
+    (click)="irA('explorar')"
+  >
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
 
-
-  <button class="nav-item" type="button">
-    <img src="assets/icon/favoritos.png" alt="" class="nav-icon">
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/favorites')"
+    (click)="irA('favoritos')"
+  >
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
     <span>Favoritos</span>
   </button>
 
-  <button class="nav-item" type="button">
-    <img src="assets/icon/configuracion.png" alt="" class="nav-icon">
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/settings')"
+    (click)="irA('configuracion')"
+  >
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
     <span>Configuración</span>
   </button>
-
 </nav>
-

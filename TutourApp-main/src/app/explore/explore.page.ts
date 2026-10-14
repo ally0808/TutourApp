@@ -63,22 +63,20 @@ export interface Lugar {
   ]
 })
 export class ExplorePage implements OnInit, AfterViewInit {
-
-  @ViewChild('categoryCarousel')
-  categoryCarousel?: ElementRef<HTMLDivElement>;
+  @ViewChild('categoryCarousel') categoryCarousel?: ElementRef<HTMLDivElement>;
 
   // Búsqueda y categorías
   busqueda = '';
   categoriaSeleccionada = 'Todos';
 
-  // Control de flechas del carrusel
+  // Control de visibilidad de las flechas del carrusel
   puedeScrollIzq = false;
   puedeScrollDer = true;
 
   // Vista actual (Lista / Mapa)
   vistaActual: 'lista' | 'mapa' = 'lista';
 
-  // Negocio enfocado en el mapa
+  // Negocio enfocado en el mapa (null = muestra todos los lugares)
   negocioSeleccionadoMapa: Lugar | null = null;
 
   // Visor de imágenes
@@ -92,11 +90,16 @@ export class ExplorePage implements OnInit, AfterViewInit {
   // Mapa
   mapaUrl!: SafeResourceUrl;
 
+  public router = inject(Router);
   private sanitizer = inject(DomSanitizer);
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  // Categorías solicitadas por el usuario
+  // Soporte para arrastrar con mouse / touch
+  private isDragging = false;
+  private startX = 0;
+  private scrollLeftStart = 0;
+
+  // Categorías solicitadas
   categories: Categoria[] = [
     { name: 'Todos', color: '#F7C93C' },
     { name: 'Hospedaje', color: '#4DBEC9' },
@@ -229,10 +232,8 @@ export class ExplorePage implements OnInit, AfterViewInit {
       settingsOutline
     });
 
-    if (this.places.length > 0) {
-      this.negocioSeleccionadoMapa = this.places[0];
-      this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-    }
+    // Inicia con el mapa general de Calvillo
+    this.actualizarUrlMapaGeneral();
   }
 
   ngOnInit(): void {
@@ -251,11 +252,87 @@ export class ExplorePage implements OnInit, AfterViewInit {
     }, 200);
   }
 
-  // Soporte para arrastrar con mouse / touch
-  private isDragging = false;
-  private startX = 0;
-  private scrollLeftStart = 0;
+  // Navegación
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url.includes(ruta);
+  }
 
+  irA(seccion: string): void {
+    const rutas: Record<string, string> = {
+      inicio: '/home',
+      explorar: '/explore',
+      favoritos: '/home',
+      configuracion: '/home'
+    };
+
+    const ruta = rutas[seccion];
+    if (ruta) {
+      void this.router.navigateByUrl(ruta);
+    }
+  }
+
+  // Control de desplazamiento del carrusel
+  onCarouselScroll(): void {
+    this.actualizarEstadoFlechas();
+  }
+
+  actualizarEstadoFlechas(): void {
+    const el = this.categoryCarousel?.nativeElement;
+    if (!el) return;
+
+    const scrollLeft = Math.ceil(el.scrollLeft);
+    const maxScroll = el.scrollWidth - el.clientWidth;
+
+    this.puedeScrollIzq = scrollLeft > 5;
+    this.puedeScrollDer = scrollLeft < (maxScroll - 12);
+  }
+
+  desplazarCategorias(direccion: 'izq' | 'der'): void {
+    const el = this.categoryCarousel?.nativeElement;
+    if (!el) return;
+
+    const delta = direccion === 'der' ? 150 : -150;
+
+    if (typeof el.scrollBy === 'function') {
+      el.scrollBy({ left: delta, behavior: 'smooth' });
+    } else {
+      el.scrollLeft += delta;
+    }
+
+    setTimeout(() => {
+      this.actualizarEstadoFlechas();
+    }, 300);
+  }
+
+  // Arrastre con mouse / touch
+  iniciarArrastre(event: MouseEvent | TouchEvent): void {
+    const el = this.categoryCarousel?.nativeElement;
+    if (!el) return;
+
+    this.isDragging = true;
+    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
+    this.startX = pageX - el.offsetLeft;
+    this.scrollLeftStart = el.scrollLeft;
+  }
+
+  moverArrastre(event: MouseEvent | TouchEvent): void {
+    if (!this.isDragging) return;
+
+    const el = this.categoryCarousel?.nativeElement;
+    if (!el) return;
+
+    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
+    const x = pageX - el.offsetLeft;
+    const desplazamiento = (x - this.startX) * 1.5;
+    el.scrollLeft = this.scrollLeftStart - desplazamiento;
+    this.actualizarEstadoFlechas();
+  }
+
+  detenerArrastre(): void {
+    this.isDragging = false;
+  }
+
+  // Filtros y Búsqueda
   get lugaresFiltrados(): Lugar[] {
     const texto = this.normalizar(this.busqueda);
     const palabras = texto.split(/\s+/).filter((p) => p.length > 0);
@@ -289,136 +366,27 @@ export class ExplorePage implements OnInit, AfterViewInit {
       .trim();
   }
 
-  // Al escribir en el buscador: actualiza resultados y enfoca el negocio en el mapa
+  // Al escribir en el buscador
   alBuscar(): void {
-    const texto = this.normalizar(this.busqueda);
-
-    if (texto.length === 0) {
-      const disponibles = this.lugaresFiltrados;
-      this.negocioSeleccionadoMapa =
-        disponibles.length > 0 ? disponibles[0] : (this.places[0] || null);
-      if (this.negocioSeleccionadoMapa) {
-        this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-      }
-      return;
-    }
-
-    const encontrados = this.lugaresFiltrados;
-    if (encontrados.length > 0) {
-      this.negocioSeleccionadoMapa = encontrados[0];
-      this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-      return;
-    }
-
-    // Si no se encontró en la categoría actual, buscar en todos los lugares
-    const enTodos = this.places.filter((p) => {
-      const contenido = this.normalizar(
-        `${p.name} ${p.category} ${p.location} ${p.mapQuery || ''}`
-      );
-      return contenido.includes(texto);
-    });
-
-    if (enTodos.length > 0) {
-      this.categoriaSeleccionada = 'Todos';
-      this.negocioSeleccionadoMapa = enTodos[0];
-      this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-    } else {
-      this.negocioSeleccionadoMapa = null;
-    }
+    this.negocioSeleccionadoMapa = null;
+    this.actualizarUrlMapaGeneral();
   }
 
-  // Al seleccionar categoría
+  // Al seleccionar categoría ("Todos", "Hospedaje", etc.)
   seleccionarCategoria(nombre: string): void {
     this.categoriaSeleccionada = nombre;
-    const encontrados = this.lugaresFiltrados;
-    if (encontrados.length > 0) {
-      this.negocioSeleccionadoMapa = encontrados[0];
-      this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-    } else {
-      this.negocioSeleccionadoMapa = null;
-    }
+    this.negocioSeleccionadoMapa = null;
+    this.actualizarUrlMapaGeneral();
   }
 
-  // Desplazar el carrusel de categorías hacia izquierda o derecha
-  desplazarCategorias(direccion: 'izq' | 'der'): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) {
-      return;
-    }
-
-    const delta = direccion === 'der' ? 140 : -140;
-
-    if (typeof el.scrollBy === 'function') {
-      el.scrollBy({ left: delta, behavior: 'smooth' });
-    } else {
-      el.scrollLeft += delta;
-    }
-
-    setTimeout(() => {
-      this.actualizarEstadoFlechas();
-    }, 300);
-  }
-
-  onCarouselScroll(): void {
-    this.actualizarEstadoFlechas();
-  }
-
-  actualizarEstadoFlechas(): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) {
-      return;
-    }
-
-    this.puedeScrollIzq = el.scrollLeft > 10;
-    this.puedeScrollDer = el.scrollLeft < (el.scrollWidth - el.clientWidth - 10);
-  }
-
-  // Soporte táctil y de arrastre con mouse para el carrusel
-  iniciarArrastre(event: MouseEvent | TouchEvent): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) {
-      return;
-    }
-    this.isDragging = true;
-    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
-    this.startX = pageX - el.offsetLeft;
-    this.scrollLeftStart = el.scrollLeft;
-  }
-
-  moverArrastre(event: MouseEvent | TouchEvent): void {
-    if (!this.isDragging) {
-      return;
-    }
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) {
-      return;
-    }
-    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
-    const x = pageX - el.offsetLeft;
-    const desplazamiento = (x - this.startX) * 1.5;
-    el.scrollLeft = this.scrollLeftStart - desplazamiento;
-    this.actualizarEstadoFlechas();
-  }
-
-  detenerArrastre(): void {
-    this.isDragging = false;
-  }
-
-  // Cambiar entre vista de lista y vista de mapa
+  // Vistas y Mapa
   cambiarVista(vista: 'lista' | 'mapa'): void {
     this.vistaActual = vista;
-    if (vista === 'mapa') {
-      const encontrados = this.lugaresFiltrados;
-      if (!this.negocioSeleccionadoMapa && encontrados.length > 0) {
-        this.negocioSeleccionadoMapa = encontrados[0];
-      }
-      if (this.negocioSeleccionadoMapa) {
-        this.actualizarUrlMapa(this.negocioSeleccionadoMapa);
-      }
+    if (vista === 'mapa' && !this.negocioSeleccionadoMapa) {
+      this.actualizarUrlMapaGeneral();
     }
   }
 
-  // Seleccionar un negocio para ver en mapa
   verEnMapa(place: Lugar, event?: Event): void {
     if (event) {
       event.stopPropagation();
@@ -428,7 +396,19 @@ export class ExplorePage implements OnInit, AfterViewInit {
     this.vistaActual = 'mapa';
   }
 
-  // Actualizar la URL de Google Maps para el negocio seleccionado
+  // Deseleccionar y regresar a la lista de todos los negocios en mapa
+  deseleccionarNegocioMapa(): void {
+    this.negocioSeleccionadoMapa = null;
+    this.actualizarUrlMapaGeneral();
+  }
+
+  private actualizarUrlMapaGeneral(): void {
+    const query = 'Calvillo, Aguascalientes, Mexico';
+    this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=13&output=embed`
+    );
+  }
+
   private actualizarUrlMapa(lugar: Lugar): void {
     const query = lugar.mapQuery || `${lugar.name}, ${lugar.location}`;
     this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -446,13 +426,14 @@ export class ExplorePage implements OnInit, AfterViewInit {
     this.nombreImagenAmpliada = '';
   }
 
+  // Favoritos
   esFavorito(id: number): boolean {
     return this.favoritos.includes(id);
   }
 
   alternarFavorito(id: number): void {
     if (this.esFavorito(id)) {
-      this.favoritos = this.favoritos.filter(favoritoId => favoritoId !== id);
+      this.favoritos = this.favoritos.filter((favoritoId) => favoritoId !== id);
     } else {
       this.favoritos = [...this.favoritos, id];
     }
@@ -464,7 +445,7 @@ export class ExplorePage implements OnInit, AfterViewInit {
       const guardados = localStorage.getItem(this.claveFavoritos);
       if (guardados) {
         const datos: unknown = JSON.parse(guardados);
-        if (Array.isArray(datos) && datos.every(id => typeof id === 'number')) {
+        if (Array.isArray(datos) && datos.every((id) => typeof id === 'number')) {
           this.favoritos = datos;
         }
       }
@@ -478,20 +459,6 @@ export class ExplorePage implements OnInit, AfterViewInit {
       localStorage.setItem(this.claveFavoritos, JSON.stringify(this.favoritos));
     } catch {
       console.warn('No fue posible guardar los favoritos.');
-    }
-  }
-
-  irA(seccion: string): void {
-    const rutas: Record<string, string> = {
-      inicio: '/home',
-      explorar: '/explore',
-      favoritos: '/home',
-      configuracion: '/home'
-    };
-
-    const ruta = rutas[seccion];
-    if (ruta) {
-      void this.router.navigateByUrl(ruta);
     }
   }
 }

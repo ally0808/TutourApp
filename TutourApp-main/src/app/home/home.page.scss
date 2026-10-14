@@ -1028,3 +1028,74 @@ ion-content.home-content {
 .category-item:active {
   transform: scale(0.96);
 }
+
+/* =====================================================
+   MENÚ INFERIOR (BOTTOM NAVIGATION) - UNIFICADO TOTAL
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item span {
+  display: block;
+  font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Iconos */
+.bottom-nav .nav-item ion-icon.nav-icon,
+.nav-icon {
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  color: #ffffff;
+}
+
+/* Estado ACTIVO */
+.bottom-nav .nav-item.nav-active,
+.nav-item.nav-active {
+  color: #2f80ed !important;
+}
+
+.bottom-nav .nav-item.nav-active ion-icon.nav-icon,
+.nav-item.nav-active .nav-icon {
+  color: #2f80ed !important;
+}
