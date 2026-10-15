@@ -22,6 +22,11 @@ export const routes: Routes = [
       import('./explore/explore.page').then((m) => m.ExplorePage),
   },
   {
+    path: 'favorites',
+    loadComponent: () =>
+      import('./favorites/favorites.page').then((m) => m.FavoritesPage),
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',

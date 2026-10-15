@@ -33,21 +33,14 @@ import {
   SafeResourceUrl
 } from '@angular/platform-browser';
 
+import { LUGARES, Lugar } from '../data/lugares.data';
+import { FavoritosService } from '../services/favoritos.service';
+
+export type { Lugar } from '../data/lugares.data';
+
 interface Categoria {
   name: string;
   color: string;
-}
-
-export interface Lugar {
-  id: number;
-  name: string;
-  category: string;
-  color: string;
-  rating: string;
-  reviews: string;
-  location: string;
-  image: string;
-  mapQuery?: string;
 }
 
 @Component({
@@ -83,16 +76,18 @@ export class ExplorePage implements OnInit, AfterViewInit {
   imagenAmpliada: string | null = null;
   nombreImagenAmpliada = '';
 
-  // Favoritos guardados en el dispositivo
-  favoritos: number[] = [];
-  private readonly claveFavoritos = 'tutour-favoritos';
-
   // Mapa
   mapaUrl!: SafeResourceUrl;
 
   public router = inject(Router);
   private sanitizer = inject(DomSanitizer);
   private route = inject(ActivatedRoute);
+  private favoritosService = inject(FavoritosService);
+
+  // Favoritos guardados en el dispositivo (compartidos con la vista Favoritos)
+  get favoritos(): number[] {
+    return this.favoritosService.favoritosIds();
+  }
 
   // Soporte para arrastrar con mouse / touch
   private isDragging = false;
@@ -112,108 +107,8 @@ export class ExplorePage implements OnInit, AfterViewInit {
     { name: 'Bares', color: '#E01E2E' },
   ];
 
-  // Establecimientos correspondientes
-  places: Lugar[] = [
-    {
-      id: 1,
-      name: 'Cabañas Don Chava',
-      category: 'Hospedaje',
-      color: '#4DBEC9',
-      rating: '4.9',
-      reviews: '1200',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Cabañas Don Chava, Calvillo',
-      image: 'assets/images/cabanas-don-chava.png'
-    },
-    {
-      id: 2,
-      name: 'Grada Noventa y Seis',
-      category: 'Bares',
-      color: '#E01E2E',
-      rating: '4.8',
-      reviews: '500',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Grada Noventa y Seis, Calvillo',
-      image: 'assets/images/grada-noventa-y-seis.png'
-    },
-    {
-      id: 3,
-      name: 'Panadería Don Emiliano',
-      category: 'Sabores de mi pueblo',
-      color: '#FAA954',
-      rating: '5.0',
-      reviews: '3000',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Panadería Don Emiliano, Calvillo',
-      image: 'assets/images/panaderia-don-emiliano.png'
-    },
-    {
-      id: 4,
-      name: 'Restaurante Camino Viejo',
-      category: 'Restaurante',
-      color: '#E06D44',
-      rating: '5.0',
-      reviews: '250',
-      location: 'Presa Malpaso, 20834 Ags., Mexico',
-      mapQuery: 'Presa Malpaso, 20834 Ags., Mexico',
-      image: 'assets/images/restaurante-camino-viejo.png'
-    },
-    {
-      id: 5,
-      name: 'Yolihuani Relax Resort',
-      category: 'Hospedaje',
-      color: '#4DBEC9',
-      rating: '5.0',
-      reviews: '180',
-      location: 'Carretera La Panadera-Palo Alto km 14, Calvillo, México.',
-      mapQuery: 'Yolihuani Relax Resort, Calvillo',
-      image: 'assets/images/yolihuani-relax-resort.png'
-    },
-    {
-      id: 6,
-      name: 'Cenaduría Doña Lupe',
-      category: 'Cenadurías',
-      color: '#CB7246',
-      rating: '4.9',
-      reviews: '420',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Calle 5 de Mayo, Calvillo, Aguascalientes',
-      image: 'assets/images/panaderia-don-emiliano.png'
-    },
-    {
-      id: 7,
-      name: 'Parque La Cueva Aventura',
-      category: 'Lugares recreativos',
-      color: '#660066',
-      rating: '4.8',
-      reviews: '850',
-      location: 'Carretera Calvillo-Jalpa Km 55, Calvillo, Ags.',
-      mapQuery: 'La Cueva, Calvillo, Aguascalientes',
-      image: 'assets/images/banner-alojamiento.jpg'
-    },
-    {
-      id: 8,
-      name: 'Desayunos El Rinconcito',
-      category: 'Desayunos',
-      color: '#9DC03E',
-      rating: '4.9',
-      reviews: '610',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Calle 5 de Mayo, Calvillo',
-      image: 'assets/images/banner-gastronomia.jpg'
-    },
-    {
-      id: 9,
-      name: 'Taller de Deshilado y Artesanías',
-      category: 'Artesanías',
-      color: '#8F2368',
-      rating: '5.0',
-      reviews: '980',
-      location: 'Calle 5 de Mayo #104, Zona Centro.',
-      mapQuery: 'Artesanias Calvillo, Aguascalientes',
-      image: 'assets/images/calvillo-iglesia.png'
-    }
-  ];
+  // Establecimientos correspondientes (catálogo compartido)
+  places: Lugar[] = LUGARES;
 
   constructor() {
     addIcons({
@@ -237,11 +132,21 @@ export class ExplorePage implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.cargarFavoritos();
     this.route.queryParamMap.subscribe((params) => {
       const cat = params.get('cat');
       if (cat) {
         this.seleccionarCategoria(cat);
+      }
+
+      // Abrir un lugar específico (por ejemplo, desde Favoritos)
+      const lugarId = Number(params.get('lugar'));
+      if (lugarId) {
+        const lugar = this.places.find((p) => p.id === lugarId);
+        if (lugar) {
+          this.categoriaSeleccionada = 'Todos';
+          this.busqueda = '';
+          this.verEnMapa(lugar);
+        }
       }
     });
   }
@@ -261,7 +166,7 @@ export class ExplorePage implements OnInit, AfterViewInit {
     const rutas: Record<string, string> = {
       inicio: '/home',
       explorar: '/explore',
-      favoritos: '/home',
+      favoritos: '/favorites',
       configuracion: '/home'
     };
 
@@ -428,37 +333,10 @@ export class ExplorePage implements OnInit, AfterViewInit {
 
   // Favoritos
   esFavorito(id: number): boolean {
-    return this.favoritos.includes(id);
+    return this.favoritosService.esFavorito(id);
   }
 
   alternarFavorito(id: number): void {
-    if (this.esFavorito(id)) {
-      this.favoritos = this.favoritos.filter((favoritoId) => favoritoId !== id);
-    } else {
-      this.favoritos = [...this.favoritos, id];
-    }
-    this.guardarFavoritos();
-  }
-
-  private cargarFavoritos(): void {
-    try {
-      const guardados = localStorage.getItem(this.claveFavoritos);
-      if (guardados) {
-        const datos: unknown = JSON.parse(guardados);
-        if (Array.isArray(datos) && datos.every((id) => typeof id === 'number')) {
-          this.favoritos = datos;
-        }
-      }
-    } catch {
-      this.favoritos = [];
-    }
-  }
-
-  private guardarFavoritos(): void {
-    try {
-      localStorage.setItem(this.claveFavoritos, JSON.stringify(this.favoritos));
-    } catch {
-      console.warn('No fue posible guardar los favoritos.');
-    }
+    this.favoritosService.alternar(id);
   }
 }

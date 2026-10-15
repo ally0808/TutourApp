@@ -217,12 +217,12 @@
      <button
   class="favorite-button"
   type="button"
-  [class.is-favorite]="empresa.isFavorite"
-  [attr.aria-label]="empresa.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+  [class.is-favorite]="esFavorito(empresa.id)"
+  [attr.aria-label]="esFavorito(empresa.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
   (click)="toggleFavorite(empresa)"
 >
   <ion-icon
-    [name]="empresa.isFavorite ? 'heart' : 'heart-outline'"
+    [name]="esFavorito(empresa.id) ? 'heart' : 'heart-outline'"
   ></ion-icon>
 </button>
 

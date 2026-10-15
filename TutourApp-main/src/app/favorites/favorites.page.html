@@ -1,0 +1,160 @@
+<ion-content [fullscreen]="true" class="favorites-content">
+
+  <!-- Encabezado -->
+  <header class="header-container">
+    <h1 class="title-favorites">Favoritos</h1>
+  </header>
+
+  @if (favoritos().length === 0) {
+    <!-- ==============================================
+         ESTADO VACÍO
+    =============================================== -->
+    <section class="empty-favorites" aria-live="polite">
+      <div class="empty-illustration" aria-hidden="true">
+        <svg class="empty-heart" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Corazón -->
+          <path
+            class="heart-shape"
+            d="M110 190 C 60 150, 8 112, 8 62 C 8 30, 32 8, 62 8 C 84 8, 100 20, 110 36 C 120 20, 136 8, 158 8 C 188 8, 212 30, 212 62 C 212 112, 160 150, 110 190 Z"
+          />
+          <!-- Círculo con signo + -->
+          <g class="plus-badge">
+            <circle cx="158" cy="138" r="30" class="plus-ring-bg" />
+            <circle cx="158" cy="138" r="24" class="plus-ring" />
+            <line x1="158" y1="124" x2="158" y2="152" class="plus-line" />
+            <line x1="144" y1="138" x2="172" y2="138" class="plus-line" />
+          </g>
+        </svg>
+      </div>
+
+      <h2 class="empty-title">Todavía no tienes favoritos</h2>
+      <p class="empty-text">
+        Guarda los lugares y experiencias que quieras visitar para encontrarlos fácilmente después
+      </p>
+    </section>
+  } @else {
+    <!-- ==============================================
+         LISTA DE FAVORITOS
+    =============================================== -->
+    <section class="favorites-list">
+      @for (place of favoritos(); track place.id; let i = $index) {
+        <article
+          class="place-card"
+          [style.animationDelay.ms]="i * 60"
+          (click)="verLugar(place)"
+        >
+          <!-- Fotografía -->
+          <div
+            class="card-image-container"
+            (click)="ampliarImagen(place.image, place.name, $event)"
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="'Ampliar fotografía de ' + place.name"
+          >
+            <img [src]="place.image" [alt]="place.name" class="place-img" loading="lazy" />
+          </div>
+
+          <!-- Información -->
+          <div class="card-info">
+            <h2 class="place-title">{{ place.name }}</h2>
+
+            <span class="badge-category" [style.backgroundColor]="place.color">
+              {{ place.category }}
+            </span>
+
+            <div class="rating-row">
+              <ion-icon name="star" class="star-icon"></ion-icon>
+              <span class="rating-score">{{ place.rating }}</span>
+              <span class="rating-reviews">({{ place.reviews }})</span>
+            </div>
+
+            <div class="location-row">
+              <ion-icon name="location-outline" class="location-icon"></ion-icon>
+              <span class="location-text">{{ place.location }}</span>
+            </div>
+          </div>
+
+          <!-- Quitar de favoritos -->
+          <button
+            type="button"
+            class="favorite-button"
+            [id]="'btn-quitar-favorito-' + place.id"
+            (click)="quitarFavorito(place.id, $event)"
+            [attr.aria-label]="'Quitar ' + place.name + ' de favoritos'"
+          >
+            <ion-icon name="heart" class="heart-icon"></ion-icon>
+          </button>
+
+          <!-- Flecha -->
+          <div class="card-arrow">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </article>
+      }
+    </section>
+  }
+
+  <!-- Visor de imagen ampliada -->
+  @if (imagenAmpliada) {
+    <div class="image-viewer" (click)="cerrarImagen()">
+      <button
+        type="button"
+        class="image-viewer-close"
+        (click)="cerrarImagen()"
+        aria-label="Cerrar vista previa"
+      >
+        ×
+      </button>
+      <img
+        [src]="imagenAmpliada"
+        [alt]="nombreImagenAmpliada"
+        class="image-viewer-photo"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+  }
+
+</ion-content>
+
+<!-- Menú inferior -->
+<nav class="bottom-nav">
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/home')"
+    (click)="irA('inicio')"
+  >
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/explore')"
+    (click)="irA('explorar')"
+  >
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/favorites')"
+    (click)="irA('favoritos')"
+  >
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/settings')"
+    (click)="irA('configuracion')"
+  >
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

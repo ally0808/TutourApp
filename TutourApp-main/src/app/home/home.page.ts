@@ -9,6 +9,7 @@ import {
 
 import { IonContent, IonIcon } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { FavoritosService } from '../services/favoritos.service';
 import { addIcons } from 'ionicons';
 import {
   searchOutline,
@@ -44,6 +45,7 @@ import {
 })
 export class HomePage implements AfterViewInit, OnDestroy {
   private router = inject(Router);
+  private favoritosService = inject(FavoritosService);
 
   // Método para verificar si la ruta actual coincide
 esRutaActiva(ruta: string): boolean {
@@ -66,44 +68,44 @@ esRutaActiva(ruta: string): boolean {
 
   empresas = [
     {
+      id: 1,
       nombre: 'Cabañas Don Chava',
       categoria: 'Hospedaje',
       calificacion: 5.0,
       direccion: 'Carretera al Maguey no. 201 El Sauz, Calvillo Aguascalientes',
-      imagen: 'assets/images/cabanas-don-chava.png',
-      isFavorite: false
+      imagen: 'assets/images/cabanas-don-chava.png'
     },
     {
+      id: 3,
       nombre: 'Panadería Don Emiliano',
       categoria: 'Sabores de mi pueblo',
       calificacion: 5.0,
       direccion: 'Calvillo, Aguascalientes',
-      imagen: 'assets/images/panaderia-don-emiliano.png',
-      isFavorite: false
+      imagen: 'assets/images/panaderia-don-emiliano.png'
     },
     {
+      id: 2,
       nombre: 'Grada Noventa y Seis',
       categoria: 'Bares',
       calificacion: 5.0,
       direccion: 'Matamoros 508, Zona Centro, Calvillo, Ags. (Las Graditas)',
-      imagen: 'assets/images/grada-noventa-y-seis.png',
-      isFavorite: false
+      imagen: 'assets/images/grada-noventa-y-seis.png'
     },
     {
+      id: 4,
       nombre: 'Restaurante Camino Viejo',
       categoria: 'Restaurante',
       calificacion: 5.0,
       direccion: 'Presa de Malpaso, Calvillo, Aguascalientes.',
-      imagen: 'assets/images/restaurante-camino-viejo.png',
-      isFavorite: false
+      imagen: 'assets/images/restaurante-camino-viejo.png'
     },
     {
+      id: 5,
       nombre: 'Yolihuani Relax Resort',
       categoria: 'Hospedaje',
       calificacion: 5.0,
       direccion: 'Carretera La Panadera-Palo Alto km 14, Calvillo, México.',
-      imagen: 'assets/images/yolihuani-relax-resort.png',
-      isFavorite: false
+      imagen: 'assets/images/yolihuani-relax-resort.png'
     },
   ];
 
@@ -184,7 +186,7 @@ esRutaActiva(ruta: string): boolean {
     const rutas: Record<string, string> = {
       inicio: '/home',
       explorar: '/explore',
-      favoritos: '/home',
+      favoritos: '/favorites',
       configuracion: '/home'
     };
 
@@ -195,13 +197,17 @@ esRutaActiva(ruta: string): boolean {
   }
 
   irANavegacion(ruta: string): void {
-    if (ruta === '/home' || ruta === '/explore') {
+    if (ruta === '/home' || ruta === '/explore' || ruta === '/favorites') {
       void this.router.navigateByUrl(ruta);
     }
   }
 
-  toggleFavorite(empresa: any): void {
-    empresa.isFavorite = !empresa.isFavorite;
+  esFavorito(id: number): boolean {
+    return this.favoritosService.esFavorito(id);
+  }
+
+  toggleFavorite(empresa: { id: number }): void {
+    this.favoritosService.alternar(empresa.id);
   }
 
   presionarBanner(banner: string): void {
