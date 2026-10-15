@@ -9,7 +9,7 @@
     <!-- ==============================================
          ESTADO VACÍO
     =============================================== -->
-    <section class="empty-favorites" aria-live="polite">
+   <section class="empty-favorites" aria-live="polite">
       <div class="empty-illustration" aria-hidden="true">
         <svg class="empty-heart" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
           <!-- Corazón -->
@@ -31,6 +31,12 @@
       <p class="empty-text">
         Guarda los lugares y experiencias que quieras visitar para encontrarlos fácilmente después
       </p>
+
+      <!-- Botón para ir a Explorar (Llamado a la acción) -->
+      <button type="button" class="btn-explore" (click)="irA('explorar')">
+        <ion-icon name="compass-outline" class="btn-explore-icon"></ion-icon>
+        Explorar lugares
+      </button>
     </section>
   } @else {
     <!-- ==============================================

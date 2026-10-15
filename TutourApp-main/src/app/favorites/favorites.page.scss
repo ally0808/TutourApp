@@ -37,10 +37,12 @@ ion-content.favorites-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   max-width: 380px;
+  min-height: calc(100vh - 160px);
   margin: 0 auto;
-  padding: 36px 18px 110px;
+  padding: 20px 18px;
   box-sizing: border-box;
   animation: fadeUp 0.45s ease both;
 }
@@ -427,5 +429,35 @@ ion-content.favorites-content {
   .empty-favorites,
   .place-card {
     animation: none;
+  }
+}
+
+/* Estilo del botón de llamado a la acción en estado vacío */
+.btn-explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding: 12px 26px;
+  background: #2f80ed;
+  color: #ffffff;
+  border: none;
+  border-radius: 22px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(47, 128, 237, 0.35);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    transform: scale(0.96);
+    background: #256bc7;
+  }
+
+  .btn-explore-icon {
+    font-size: 18px;
   }
 }

@@ -48,9 +48,9 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private favoritosService = inject(FavoritosService);
 
   // Método para verificar si la ruta actual coincide
-esRutaActiva(ruta: string): boolean {
-  return this.router.url.includes(ruta);
-}
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url.includes(ruta);
+  }
 
   @ViewChild('featuredScroll')
   featuredScroll?: ElementRef<HTMLDivElement>;
@@ -65,6 +65,26 @@ esRutaActiva(ruta: string): boolean {
   private touchEndX = 0;
 
   bannerPresionado: string | null = null;
+
+  // ==========================================
+  // VARIABLES Y MÉTODOS DE BÚSQUEDA (DENTRO DE LA CLASE)
+  // ==========================================
+  terminoBusqueda = '';
+
+  onSearchInput(event: any): void {
+    const valor = event.target?.value || event.detail?.value || '';
+    this.terminoBusqueda = valor.toLowerCase().trim();
+  }
+
+  get empresasFiltradas() {
+    if (!this.terminoBusqueda) return [];
+    return this.empresas.filter(empresa =>
+      empresa.nombre.toLowerCase().includes(this.terminoBusqueda) ||
+      empresa.categoria.toLowerCase().includes(this.terminoBusqueda) ||
+      empresa.direccion.toLowerCase().includes(this.terminoBusqueda)
+    );
+  }
+  // ==========================================
 
   empresas = [
     {
@@ -333,7 +353,6 @@ esRutaActiva(ruta: string): boolean {
     const distancia = tarjeta.offsetWidth + 12;
 
     if (diferencia > 0) {
-      // Deslizó hacia la izquierda
       if (typeof container.scrollBy === 'function') {
         container.scrollBy({
           left: distancia,
@@ -343,7 +362,6 @@ esRutaActiva(ruta: string): boolean {
         container.scrollLeft += distancia;
       }
     } else {
-      // Deslizó hacia la derecha
       if (typeof container.scrollBy === 'function') {
         container.scrollBy({
           left: -distancia,
@@ -355,4 +373,3 @@ esRutaActiva(ruta: string): boolean {
     }
   }
 }
-
