@@ -14,3 +14,12 @@ if (!window.matchMedia) {
       dispatchEvent: () => false,
     }) as MediaQueryList;
 }
+
+if (typeof Element !== 'undefined') {
+  if (!Element.prototype.scrollTo) {
+    Element.prototype.scrollTo = () => undefined;
+  }
+  if (!Element.prototype.scrollBy) {
+    Element.prototype.scrollBy = () => undefined;
+  }
+}

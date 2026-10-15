@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonContent],
 })
-export class WelcomePage {
+export class WelcomePage implements OnInit {
 
   private router = inject(Router);
 
