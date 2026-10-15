@@ -27,6 +27,36 @@ export const routes: Routes = [
       import('./favorites/favorites.page').then((m) => m.FavoritesPage),
   },
   {
+    path: 'configuracion',
+    loadComponent: () =>
+      import('./configuracion/configuracion.page').then((m) => m.ConfiguracionPage),
+  },
+  {
+    path: 'uso-tutour',
+    loadComponent: () =>
+      import('./uso-tutour/uso-tutour.page').then((m) => m.UsoTutourPage),
+  },
+  {
+    path: 'sobre-nosotros',
+    loadComponent: () =>
+      import('./sobre-nosotros/sobre-nosotros.page').then((m) => m.SobreNosotrosPage),
+  },
+  {
+    path: 'idioma',
+    loadComponent: () =>
+      import('./idioma/idioma.page').then((m) => m.IdiomaPage),
+  },
+  {
+    path: 'privacidad',
+    loadComponent: () =>
+      import('./privacidad/privacidad.page').then((m) => m.PrivacidadPage),
+  },
+  {
+    path: 'contacto',
+    loadComponent: () =>
+      import('./contacto/contacto.page').then((m) => m.ContactoPage),
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',

@@ -57,7 +57,7 @@ export class FavoritesPage {
       inicio: '/home',
       explorar: '/explore',
       favoritos: '/favorites',
-      configuracion: '/home'
+      configuracion: '/configuracion'
     };
 
     const ruta = rutas[seccion];

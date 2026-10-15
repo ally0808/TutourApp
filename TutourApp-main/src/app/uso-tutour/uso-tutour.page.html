@@ -1,0 +1,85 @@
+<ion-content class="uso-page" [fullscreen]="true">
+  <main class="uso-container">
+    <header class="uso-header">
+      <button type="button" class="back-btn" id="uso-back-btn" aria-label="Volver" routerLink="/configuracion">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <h1 class="uso-title">Uso de Tutour</h1>
+    </header>
+
+    <section class="uso-hero">
+      <img class="hero-img" src="assets/placeholder-hero.jpg" alt="Imagen principal de Calvillo" />
+      <div class="hero-overlay">
+        <h2 class="hero-title">¿Cómo usar Tutour?</h2>
+        <p class="hero-subtitle">Descubre lugares, servicios y experiencias de Calvillo de forma sencilla y rápida.</p>
+      </div>
+    </section>
+
+    <section class="uso-card" aria-label="Guía de uso">
+      <ul class="uso-list">
+        <li class="uso-item" id="uso-buscar">
+          <span class="uso-icon icon-green"><ion-icon name="search-outline"></ion-icon></span>
+          <div class="uso-text">
+            <h3>Buscar</h3>
+            <p>Utiliza el buscador para encontrar lugares, servicios o experiencias.</p>
+          </div>
+        </li>
+
+        <li class="uso-item" id="uso-explorar">
+          <span class="uso-icon icon-pink"><ion-icon name="compass-outline"></ion-icon></span>
+          <div class="uso-text">
+            <h3>Explorar</h3>
+            <p>Consulta experiencias por categoría y descubre nuevas opciones.</p>
+          </div>
+        </li>
+
+        <li class="uso-item" id="uso-ubicacion">
+          <span class="uso-icon icon-blue"><ion-icon name="location-outline"></ion-icon></span>
+          <div class="uso-text">
+            <h3>Ubicación</h3>
+            <p>Consulta la ubicación de los sitios y utiliza el mapa para saber cómo llegar.</p>
+          </div>
+        </li>
+
+        <li class="uso-item" id="uso-favoritos">
+          <span class="uso-icon icon-orange"><ion-icon name="heart-outline"></ion-icon></span>
+          <div class="uso-text">
+            <h3>Favoritos</h3>
+            <p>Agrega lugares y experiencias que quieras consultar después. Tus favoritos se guardan en este dispositivo.</p>
+          </div>
+        </li>
+
+        <li class="uso-item" id="uso-detalles">
+          <span class="uso-icon icon-purple"><ion-icon name="information-outline"></ion-icon></span>
+          <div class="uso-text">
+            <h3>Detalles</h3>
+            <p>Revisa horarios, ubicación, descripción, servicios y otros datos disponibles de cada lugar.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <p class="uso-closing">¡Explora, descubre y disfruta Calvillo!</p>
+  </main>
+</ion-content>
+
+<ion-footer class="config-footer">
+  <nav class="tab-bar" aria-label="Navegación principal">
+    <button type="button" class="tab-item" id="tab-inicio" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+      <span>Inicio</span>
+    </button>
+    <button type="button" class="tab-item" id="tab-explorar" routerLink="/explore">
+      <ion-icon name="search"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button type="button" class="tab-item" id="tab-favoritos" routerLink="/favorites">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button type="button" class="tab-item active" id="tab-configuracion" routerLink="/configuracion">
+      <ion-icon name="settings-outline"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-footer>

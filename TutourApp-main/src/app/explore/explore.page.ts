@@ -167,7 +167,7 @@ export class ExplorePage implements OnInit, AfterViewInit {
       inicio: '/home',
       explorar: '/explore',
       favoritos: '/favorites',
-      configuracion: '/home'
+      configuracion: '/configuracion'
     };
 
     const ruta = rutas[seccion];
