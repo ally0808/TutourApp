@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { IonContent, IonIcon } from '@ionic/angular';
+import { LUGARES } from '../data/lugares.data';
 import { Router } from '@angular/router';
 import { FavoritosService } from '../services/favoritos.service';
 import { addIcons } from 'ionicons';
@@ -33,7 +34,7 @@ import {
   newspaperOutline,
   peopleOutline,
   chevronForwardOutline,
-  bulbOutline,
+  bulbOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -47,17 +48,14 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private favoritosService = inject(FavoritosService);
 
-  // Método para verificar si la ruta actual coincide
-  esRutaActiva(ruta: string): boolean {
-    return this.router.url.includes(ruta);
-  }
-
-  @ViewChild('featuredScroll')
-  featuredScroll?: ElementRef<HTMLDivElement>;
+  @ViewChild('featuredScroll') featuredScroll?: ElementRef<HTMLDivElement>;
 
   private carouselInterval: ReturnType<typeof setInterval> | undefined;
   private initTimeout: ReturnType<typeof setTimeout> | undefined;
+
+  // Control de arrastre para no bloquear el clic
   private isDragging = false;
+  private fueArrastre = false;
   private startX = 0;
   private scrollLeft = 0;
 
@@ -65,69 +63,18 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private touchEndX = 0;
 
   bannerPresionado: string | null = null;
-
-  // ==========================================
-  // VARIABLES Y MÉTODOS DE BÚSQUEDA (DENTRO DE LA CLASE)
-  // ==========================================
   terminoBusqueda = '';
 
-  onSearchInput(event: any): void {
-    const valor = event.target?.value || event.detail?.value || '';
-    this.terminoBusqueda = valor.toLowerCase().trim();
-  }
-
-  get empresasFiltradas() {
-    if (!this.terminoBusqueda) return [];
-    return this.empresas.filter(empresa =>
-      empresa.nombre.toLowerCase().includes(this.terminoBusqueda) ||
-      empresa.categoria.toLowerCase().includes(this.terminoBusqueda) ||
-      empresa.direccion.toLowerCase().includes(this.terminoBusqueda)
-    );
-  }
-  // ==========================================
-
-  empresas = [
-    {
-      id: 1,
-      nombre: 'Cabañas Don Chava',
-      categoria: 'Hospedaje',
-      calificacion: 5.0,
-      direccion: 'Carretera al Maguey no. 201 El Sauz, Calvillo Aguascalientes',
-      imagen: 'assets/images/cabanas-don-chava.png'
-    },
-    {
-      id: 3,
-      nombre: 'Panadería Don Emiliano',
-      categoria: 'Sabores de mi pueblo',
-      calificacion: 5.0,
-      direccion: 'Calvillo, Aguascalientes',
-      imagen: 'assets/images/panaderia-don-emiliano.png'
-    },
-    {
-      id: 2,
-      nombre: 'Grada Noventa y Seis',
-      categoria: 'Bares',
-      calificacion: 5.0,
-      direccion: 'Matamoros 508, Zona Centro, Calvillo, Ags. (Las Graditas)',
-      imagen: 'assets/images/grada-noventa-y-seis.png'
-    },
-    {
-      id: 4,
-      nombre: 'Restaurante Camino Viejo',
-      categoria: 'Restaurante',
-      calificacion: 5.0,
-      direccion: 'Presa de Malpaso, Calvillo, Aguascalientes.',
-      imagen: 'assets/images/restaurante-camino-viejo.png'
-    },
-    {
-      id: 5,
-      nombre: 'Yolihuani Relax Resort',
-      categoria: 'Hospedaje',
-      calificacion: 5.0,
-      direccion: 'Carretera La Panadera-Palo Alto km 14, Calvillo, México.',
-      imagen: 'assets/images/yolihuani-relax-resort.png'
-    },
-  ];
+  // 🎨 Vinculamos automáticamente con lugares.data.ts e incluimos el 'color'
+  empresas = LUGARES.map((lugar) => ({
+    id: lugar.id,
+    nombre: lugar.name,
+    categoria: lugar.category,
+    calificacion: lugar.rating,
+    direccion: lugar.location,
+    imagen: lugar.image,
+    color: lugar.color || '#ff9f43' // 👈 AHORA SÍ RECUPERA EL COLOR DE CADA EMPRESA
+  }));
 
   empresasCarrusel = [
     ...this.empresas,
@@ -165,23 +112,16 @@ export class HomePage implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.initTimeout = setTimeout(() => {
       const container = this.featuredScroll?.nativeElement;
-      if (!container) {
-        return;
-      }
+      if (!container) return;
 
       const tarjeta = container.querySelector('.business-card') as HTMLElement;
-      if (!tarjeta) {
-        return;
-      }
+      if (!tarjeta) return;
 
       const distancia = tarjeta.offsetWidth + 12;
       const anchoBloque = distancia * this.empresas.length;
 
       if (typeof container.scrollTo === 'function') {
-        container.scrollTo({
-          left: anchoBloque,
-          behavior: 'auto'
-        });
+        container.scrollTo({ left: anchoBloque, behavior: 'auto' });
       } else {
         container.scrollLeft = anchoBloque;
       }
@@ -193,15 +133,42 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.initTimeout) {
-      clearTimeout(this.initTimeout);
-    }
-    if (this.carouselInterval) {
-      clearInterval(this.carouselInterval);
-    }
+    if (this.initTimeout) clearTimeout(this.initTimeout);
+    if (this.carouselInterval) clearInterval(this.carouselInterval);
   }
 
-  // Método para la navegación del menú inferior
+  // ==========================================
+  // BÚSQUEDA
+  // ==========================================
+  onSearchInput(event: any): void {
+    const valor = event.target?.value || event.detail?.value || '';
+    this.terminoBusqueda = valor.toLowerCase().trim();
+  }
+
+  get empresasFiltradas() {
+    if (!this.terminoBusqueda) return [];
+    return this.empresas.filter(empresa =>
+      empresa.nombre.toLowerCase().includes(this.terminoBusqueda) ||
+      empresa.categoria.toLowerCase().includes(this.terminoBusqueda) ||
+      empresa.direccion.toLowerCase().includes(this.terminoBusqueda)
+    );
+  }
+
+  // ==========================================
+  // NAVEGACIÓN Y NAVEGACIÓN A DETALLE
+  // ==========================================
+  verDetalle(id: number): void {
+    if (this.fueArrastre) {
+      this.fueArrastre = false;
+      return;
+    }
+    void this.router.navigate(['/detalle-empresa'], { queryParams: { id } });
+  }
+
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url.includes(ruta);
+  }
+
   irA(seccion: string): void {
     const rutas: Record<string, string> = {
       inicio: '/home',
@@ -222,28 +189,12 @@ export class HomePage implements AfterViewInit, OnDestroy {
     }
   }
 
-  esFavorito(id: number): boolean {
-    return this.favoritosService.esFavorito(id);
-  }
-
-  toggleFavorite(empresa: { id: number }): void {
-    this.favoritosService.alternar(empresa.id);
-  }
-
-  presionarBanner(banner: string): void {
-    this.bannerPresionado = banner;
-  }
-
-  soltarBanner(): void {
-    this.bannerPresionado = null;
-  }
-
   irACategoria(categoria: string): void {
     void this.router.navigate(['/explore'], { queryParams: { cat: categoria } });
   }
 
   irAGastronomia(): void {
-    this.irACategoria('Restaurante');
+    this.irACategoria('Restaurantes');
   }
 
   irAlojamientoAventura(): void {
@@ -254,16 +205,37 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.irACategoria('Lugares recreativos');
   }
 
+  // ==========================================
+  // FAVORITOS
+  // ==========================================
+  esFavorito(id: number): boolean {
+    return this.favoritosService.esFavorito(id);
+  }
+
+  toggleFavorite(empresa: { id: number }): void {
+    this.favoritosService.alternar(empresa.id);
+  }
+
+  // ==========================================
+  // BANNERS Y ANIMACIONES
+  // ==========================================
+  presionarBanner(banner: string): void {
+    this.bannerPresionado = banner;
+  }
+
+  soltarBanner(): void {
+    this.bannerPresionado = null;
+  }
+
+  // ==========================================
+  // CARRUSEL Y GESTOS TÁCTILES
+  // ==========================================
   moverCarrusel(): void {
     const container = this.featuredScroll?.nativeElement;
-    if (!container) {
-      return;
-    }
+    if (!container) return;
 
     const tarjeta = container.querySelector('.business-card') as HTMLElement;
-    if (!tarjeta || this.empresas.length === 0) {
-      return;
-    }
+    if (!tarjeta || this.empresas.length === 0) return;
 
     const distancia = tarjeta.offsetWidth + 12;
     const anchoBloque = distancia * this.empresas.length;
@@ -280,51 +252,41 @@ export class HomePage implements AfterViewInit, OnDestroy {
     }
 
     if (typeof container.scrollBy === 'function') {
-      container.scrollBy({
-        left: distancia,
-        behavior: 'smooth'
-      });
+      container.scrollBy({ left: distancia, behavior: 'smooth' });
     } else {
       container.scrollLeft += distancia;
     }
   }
 
   iniciarArrastre(event: MouseEvent): void {
+    this.fueArrastre = false;
     const container = this.featuredScroll?.nativeElement;
-    if (!container) {
-      return;
-    }
+    if (!container) return;
 
     this.isDragging = true;
     this.startX = event.pageX - container.offsetLeft;
     this.scrollLeft = container.scrollLeft;
-
     container.classList.add('is-dragging');
   }
 
   moverArrastre(event: MouseEvent): void {
-    if (!this.isDragging) {
-      return;
-    }
-
-    event.preventDefault();
+    if (!this.isDragging) return;
 
     const container = this.featuredScroll?.nativeElement;
-    if (!container) {
-      return;
-    }
+    if (!container) return;
 
     const x = event.pageX - container.offsetLeft;
     const distancia = (x - this.startX) * 1.2;
+
+    if (Math.abs(x - this.startX) > 5) {
+      this.fueArrastre = true;
+    }
 
     container.scrollLeft = this.scrollLeft - distancia;
   }
 
   terminarArrastre(): void {
-    if (!this.isDragging) {
-      return;
-    }
-
+    if (!this.isDragging) return;
     this.isDragging = false;
 
     if (this.featuredScroll?.nativeElement) {
@@ -333,40 +295,35 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   iniciarTouch(event: TouchEvent): void {
+    this.fueArrastre = false;
     this.touchStartX = event.touches[0].clientX;
   }
 
   terminarTouch(event: TouchEvent): void {
     this.touchEndX = event.changedTouches[0].clientX;
-
     const diferencia = this.touchStartX - this.touchEndX;
-    const container = this.featuredScroll?.nativeElement;
-    if (!container || Math.abs(diferencia) < 30) {
-      return;
+
+    if (Math.abs(diferencia) > 10) {
+      this.fueArrastre = true;
     }
+
+    const container = this.featuredScroll?.nativeElement;
+    if (!container || Math.abs(diferencia) < 30) return;
 
     const tarjeta = container.querySelector('.business-card') as HTMLElement;
-    if (!tarjeta) {
-      return;
-    }
+    if (!tarjeta) return;
 
     const distancia = tarjeta.offsetWidth + 12;
 
     if (diferencia > 0) {
       if (typeof container.scrollBy === 'function') {
-        container.scrollBy({
-          left: distancia,
-          behavior: 'smooth'
-        });
+        container.scrollBy({ left: distancia, behavior: 'smooth' });
       } else {
         container.scrollLeft += distancia;
       }
     } else {
       if (typeof container.scrollBy === 'function') {
-        container.scrollBy({
-          left: -distancia,
-          behavior: 'smooth'
-        });
+        container.scrollBy({ left: -distancia, behavior: 'smooth' });
       } else {
         container.scrollLeft -= distancia;
       }

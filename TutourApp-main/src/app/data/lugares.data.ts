@@ -1,117 +1,123 @@
-/**
- * Catálogo compartido de establecimientos.
- * Lo usan Explorar, Favoritos e Inicio para que los IDs sean consistentes.
- */
+export interface ServicioEmpresa {
+  nombre: string;
+  disponible: boolean;
+}
+
 export interface Lugar {
   id: number;
   name: string;
   category: string;
-  color: string;
-  rating: string;
-  reviews: string;
+  rating: number;
+  reviewsCount?: number;
+  reviews?: number;
+  color?: string;
   location: string;
-  image: string;
+  image: string;       // 📸 Foto de portada del restaurante
+  logo?: string;        // 🏷️ Logotipo de la empresa
+  gallery?: string[];   // 🖼️ Galería de fotos del restaurante
+  phone?: string;
+  whatsapp?: string;
+  website?: string;
+  facebook?: string;
+  instagram?: string;
+  hours?: string;
+  priceRange?: string;
+  about?: string[];
+  offers?: string[];
+  services?: ServicioEmpresa[];
   mapQuery?: string;
 }
 
 export const LUGARES: Lugar[] = [
   {
+    id: 4,
+    name: 'Restaurante Camino Viejo',
+    category: 'Restaurantes',
+    rating: 4.9,
+    reviewsCount: 1200,
+    reviews: 1200,
+    color: '#e67e22',
+    location: 'Presa de Malpaso, Calvillo, Aguascalientes.',
+    
+    // 📸 Foto del restaurante para portada/tarjetas
+    image: 'assets/images/restaurante-camino-viejo.png',
+    
+    // 🏷️ Logo exclusivo (aquí va la foto del logo)
+    logo: 'assets/images/camino-viejo.png',
+    
+    // 🖼️ Fotos para el carrusel superior (fotos del restaurante/platillos)
+    gallery: [
+      'assets/images/restaurante-camino-viejo.png'
+    ],
+    
+    phone: '4951214060',
+    whatsapp: '524951214060',
+    website: 'http://www.caminoviejo.com.mx',
+    hours: 'Todos los días: 12:00 p.m. a 7:00 p.m.',
+    priceRange: '$200.00 a $400.00 MXN',
+    about: [
+      'Extraordinaria aventura que combina todo lo que Calvillo pueblo mágico del estado de Aguascalientes tiene, excelente gastronomía y los más bellos paisajes de todo el estado.',
+      'Camino Viejo es una excelente opción para pasar una tarde agradable en compañía de la familia disfrutando de la hermosa vista y lo mejor en carnes y mariscos de la región.'
+    ],
+    offers: [
+      'Ensaladas',
+      'Cocteles',
+      'Queso fundido',
+      'Filete de pescado',
+      'Cortes de Carnes',
+      'Coctelería especial'
+    ],
+    services: [
+      { nombre: 'Zona discapacitados', disponible: false },
+      { nombre: 'Baños', disponible: true },
+      { nombre: 'Estacionamiento', disponible: true },
+      { nombre: 'Música ambiental', disponible: true },
+      { nombre: 'WIFI', disponible: true },
+      { nombre: 'Pago con tarjeta', disponible: true },
+      { nombre: 'Área infantil', disponible: true },
+      { nombre: 'Zona aire libre', disponible: true },
+      { nombre: 'Comida y bebida', disponible: true }
+    ],
+    mapQuery: 'Restaurant Camino Viejo SA de CV, Presa de Malpaso, Calvillo'
+  },
+  {
     id: 1,
     name: 'Cabañas Don Chava',
     category: 'Hospedaje',
-    color: '#4DBEC9',
-    rating: '4.9',
-    reviews: '1200',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Cabañas Don Chava, Calvillo',
-    image: 'assets/images/cabanas-don-chava.png'
-  },
-  {
-    id: 2,
-    name: 'Grada Noventa y Seis',
-    category: 'Bares',
-    color: '#E01E2E',
-    rating: '4.8',
-    reviews: '500',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Grada Noventa y Seis, Calvillo',
-    image: 'assets/images/grada-noventa-y-seis.png'
-  },
-  {
-    id: 3,
-    name: 'Panadería Don Emiliano',
-    category: 'Sabores de mi pueblo',
-    color: '#FAA954',
-    rating: '5.0',
-    reviews: '3000',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Panadería Don Emiliano, Calvillo',
-    image: 'assets/images/panaderia-don-emiliano.png'
-  },
-  {
-    id: 4,
-    name: 'Restaurante Camino Viejo',
-    category: 'Restaurante',
-    color: '#E06D44',
-    rating: '5.0',
-    reviews: '250',
-    location: 'Presa Malpaso, 20834 Ags., Mexico',
-    mapQuery: 'Presa Malpaso, 20834 Ags., Mexico',
-    image: 'assets/images/restaurante-camino-viejo.png'
-  },
-  {
-    id: 5,
-    name: 'Yolihuani Relax Resort',
-    category: 'Hospedaje',
-    color: '#4DBEC9',
-    rating: '5.0',
-    reviews: '180',
-    location: 'Carretera La Panadera-Palo Alto km 14, Calvillo, México.',
-    mapQuery: 'Yolihuani Relax Resort, Calvillo',
-    image: 'assets/images/yolihuani-relax-resort.png'
-  },
-  {
-    id: 6,
-    name: 'Cenaduría Doña Lupe',
-    category: 'Cenadurías',
-    color: '#CB7246',
-    rating: '4.9',
-    reviews: '420',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Calle 5 de Mayo, Calvillo, Aguascalientes',
-    image: 'assets/images/panaderia-don-emiliano.png'
-  },
-  {
-    id: 7,
-    name: 'Parque La Cueva Aventura',
-    category: 'Lugares recreativos',
-    color: '#660066',
-    rating: '4.8',
-    reviews: '850',
-    location: 'Carretera Calvillo-Jalpa Km 55, Calvillo, Ags.',
-    mapQuery: 'La Cueva, Calvillo, Aguascalientes',
-    image: 'assets/images/banner-alojamiento.jpg'
-  },
-  {
-    id: 8,
-    name: 'Desayunos El Rinconcito',
-    category: 'Desayunos',
-    color: '#9DC03E',
-    rating: '4.9',
-    reviews: '610',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Calle 5 de Mayo, Calvillo',
-    image: 'assets/images/banner-gastronomia.jpg'
-  },
-  {
-    id: 9,
-    name: 'Taller de Deshilado y Artesanías',
-    category: 'Artesanías',
-    color: '#8F2368',
-    rating: '5.0',
-    reviews: '980',
-    location: 'Calle 5 de Mayo #104, Zona Centro.',
-    mapQuery: 'Artesanias Calvillo, Aguascalientes',
-    image: 'assets/images/calvillo-iglesia.png'
+    rating: 4.9,
+    reviewsCount: 1200,
+    reviews: 1200,
+    color: '#27ae60',
+    location: 'Carretera al Maguey no. 201 El Sauz, Calvillo Aguascalientes',
+    image: 'assets/images/cabanas-don-chava.png',
+    logo: 'assets/images/don-chava-logo.png',
+    gallery: [
+      'assets/images/cabanas-don-chava.png'
+    ],
+    phone: '4951234567',
+    whatsapp: '524951234567',
+    website: 'http://www.cabanasdonchava.com',
+    hours: 'Atención 24 hrs',
+    priceRange: '$800.00 a $2,500.00 MXN',
+    about: [
+      'Cabañas Don Chava te brinda descanso y tranquilidad en armonía con la naturaleza, acompañados de bellos atardeceres que solo nos da el bello pueblo mágico de Calvillo.'
+    ],
+    offers: [
+      'Cabañas matrimoniales',
+      'Cabañas familiares',
+      'Asadores privados',
+      'Áreas verdes'
+    ],
+    services: [
+      { nombre: 'Zona discapacitados', disponible: true },
+      { nombre: 'Baños', disponible: true },
+      { nombre: 'Estacionamiento', disponible: true },
+      { nombre: 'WIFI', disponible: true },
+      { nombre: 'Pago con tarjeta', disponible: true },
+      { nombre: 'Agua caliente', disponible: true },
+      { nombre: 'Pet friendly', disponible: true },
+      { nombre: 'Piscina', disponible: true }
+    ],
+    mapQuery: 'Carretera al Maguey no. 201 El Sauz, Calvillo'
   }
 ];

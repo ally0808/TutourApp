@@ -42,21 +42,26 @@
 </ion-content>
 
 <ion-footer class="config-footer">
-  <nav class="tab-bar" aria-label="Navegación principal">
-    <button type="button" class="tab-item" id="tab-inicio" routerLink="/home">
-      <ion-icon name="home"></ion-icon>
+  <nav class="bottom-nav">
+    <button type="button" class="nav-item" routerLink="/home">
+      <ion-icon name="home-outline" class="nav-icon"></ion-icon>
       <span>Inicio</span>
     </button>
-    <button type="button" class="tab-item" id="tab-explorar" routerLink="/explore">
-      <ion-icon name="search"></ion-icon>
+
+    <!-- Cambiado /explorar por /explore -->
+    <button type="button" class="nav-item" routerLink="/explore">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
       <span>Explorar</span>
     </button>
-    <button type="button" class="tab-item" id="tab-favoritos" routerLink="/favorites">
-      <ion-icon name="heart-outline"></ion-icon>
+
+    <!-- Cambiado /favoritos por /favorites -->
+    <button type="button" class="nav-item" routerLink="/favorites">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
       <span>Favoritos</span>
     </button>
-    <button type="button" class="tab-item active" id="tab-configuracion">
-      <ion-icon name="settings-outline"></ion-icon>
+
+    <button type="button" class="nav-item nav-active" routerLink="/configuracion">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
       <span>Configuración</span>
     </button>
   </nav>

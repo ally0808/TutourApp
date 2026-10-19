@@ -1,54 +1,86 @@
-$bg: #000;
-$active: #3b9bf0;
-$tab-inactive: #fff;
+$bg: #000000;
+$active: #2f80ed;
+$tab-inactive: #ffffff;
 $box-bg: #e3eef6;
+$text-dark: #1a1a1a;
+$text-muted: #555555;
 
 .sobre-page {
   --background: #{$bg};
-  color: #fff;
+  color: #ffffff;
 }
 
 .sobre-container {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 100vh;
+  padding-bottom: 90px; /* Evita que el menú inferior tape el contenido */
   background: $bg;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  padding-bottom: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  box-sizing: border-box;
 }
 
+/* =====================================================
+   HEADER CENTRADO CON BOTÓN TRASLÚCIDO
+===================================================== */
 .sobre-header {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
+  justify-content: center;
+  padding: 16px 20px;
+  background: $bg;
+  z-index: 10;
 
   .back-btn {
-    background: none;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 0;
     padding: 0;
-    color: #fff;
-    font-size: 34px;
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, transform 0.15s ease;
+
+    &:active {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-50%) scale(0.94);
+    }
+  }
+
+  .sobre-title {
+    margin: 0;
+    flex: 1;
+    padding: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.3px;
   }
 }
 
-.sobre-title {
-  margin: 0;
-  flex: 1;
-  padding-right: 34px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: 400;
-  color: #fff;
-}
-
+/* =====================================================
+   HERO BANNER CON DEGRADADO INMERSIVO
+===================================================== */
 .sobre-hero {
+  position: relative;
   width: 100%;
-  height: 310px;
+  height: 260px;
   overflow: hidden;
-  background: #444;
+  background: #222222;
 
   .hero-img {
     width: 100%;
@@ -56,76 +88,120 @@ $box-bg: #e3eef6;
     object-fit: cover;
     display: block;
   }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 60%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
+    pointer-events: none;
+  }
 }
 
+/* =====================================================
+   TARJETA CONTENEDORA BLANCA (SOLAPADA/AESTHETIC)
+===================================================== */
 .sobre-card {
-  margin: 24px 24px 0;
-  padding: 16px 16px 40px;
-  background: #fff;
-  border-radius: 28px;
-  color: #111;
+  margin: -20px 16px 0; /* Efecto de solapado sobre la imagen */
+  padding: 24px 20px 24px;
+  background: #ffffff;
+  border-radius: 24px;
+  color: $text-dark;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 
   .card-title {
-    margin: 0 0 4px;
+    margin: 0 0 6px;
     font-size: 22px;
-    font-weight: 400;
+    font-weight: 700;
+    color: $text-dark;
+    letter-spacing: -0.4px;
   }
 
   .card-text {
-    margin: 0 0 20px;
-    font-size: 16px;
-    line-height: 1.25;
-    color: #111;
+    margin: 0 0 22px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: $text-muted;
   }
 }
 
+/* =====================================================
+   BLOQUES DE INFORMACIÓN (INFO BOXES)
+===================================================== */
 .info-box {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 0 8px 28px;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 14px;
   padding: 14px 16px;
   background: $box-bg;
-  border-radius: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: transform 0.15s ease, background 0.15s ease;
 
   &:last-child {
     margin-bottom: 0;
   }
+
+  &:active {
+    transform: scale(0.99);
+    background: darken($box-bg, 3%);
+  }
 }
 
 .info-icon {
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  margin-top: 4px;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  margin-top: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 30px;
+  color: #ffffff;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 
-  &.icon-green { background: #8bc34a; }
-  &.icon-purple { background: #6a0f6e; }
+  &.icon-green {
+    background: linear-gradient(135deg, #a8cf45, #7cb342);
+  }
+
+  &.icon-purple {
+    background: linear-gradient(135deg, #ab47bc, #6a1b9a);
+  }
 }
 
 .info-text {
+  flex: 1;
+
   h3 {
-    margin: 0 0 2px;
-    font-size: 20px;
-    font-weight: 400;
-    color: #111;
+    margin: 0 0 3px;
+    font-size: 16.5px;
+    font-weight: 600;
+    color: $text-dark;
+    letter-spacing: -0.2px;
   }
 
   p {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.25;
-    color: #111;
+    font-size: 13px;
+    line-height: 1.4;
+    color: $text-muted;
   }
 }
 
-.sobre-footer {
+/* =====================================================
+   MENÚ INFERIOR UNIFICADO (BOTTOM NAVIGATION / TAB BAR)
+===================================================== */
+.sobre-footer,
+.config-footer {
   background: $bg;
   box-shadow: none;
 
@@ -134,31 +210,66 @@ $box-bg: #e3eef6;
   }
 }
 
-.tab-bar {
+.tab-bar,
+.bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 8px 0 12px;
-  background: $bg;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  height: 62px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
 
-  .tab-item {
+  .tab-item,
+  .nav-item {
     display: flex;
+    flex: 1 1 0;
+    min-width: 0;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    background: transparent;
+    justify-content: center;
+    gap: 3px;
+    padding: 0;
+    margin: 0;
     border: none;
-    color: $tab-inactive;
-    font-size: 11px;
+    background: transparent;
+    color: #ffffff;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 
-    ion-icon {
-      font-size: 30px;
+    span {
+      display: block;
+      font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      line-height: 1 !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    &.active {
-      color: $active;
+    ion-icon,
+    ion-icon.nav-icon {
+      font-size: 28px !important;
+      width: 28px !important;
+      height: 28px !important;
+      color: #ffffff;
+    }
+
+    &.active,
+    &.nav-active {
+      color: $active !important;
+
+      ion-icon,
+      ion-icon.nav-icon {
+        color: $active !important;
+      }
     }
   }
 }

@@ -1,71 +1,92 @@
 <ion-content class="idioma-page" [fullscreen]="true">
   <div class="idioma-container">
+
+    <!-- Encabezado con botón de regresar -->
     <header class="idioma-header">
-      <button type="button" class="back-btn" id="idioma-back-btn" routerLink="/configuracion" aria-label="Regresar">
+      <button type="button" class="back-btn" routerLink="/configuracion">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
       <h1 class="idioma-title">Idioma</h1>
     </header>
 
-    <section class="idioma-card">
+    <!-- Tarjeta Principal de Idiomas -->
+    <div class="idioma-card">
+      
       <div class="card-head">
         <div class="globe-icon">
           <ion-icon name="globe-outline"></ion-icon>
         </div>
-        <h2 class="card-title">Selecciona el idioma de la aplicación</h2>
+        <h2 class="card-title">Selecciona el idioma<br />de la aplicación</h2>
       </div>
 
       <ul class="lang-list">
-        <li class="lang-item selected" id="idioma-es">
-          <span class="flag flag-es"></span>
+        <!-- Español -->
+        <li class="lang-item" (click)="seleccionarIdioma('es')">
+          <img src="assets/icon/es.png" alt="Español" class="flag-img" />
           <span class="lang-name">Español</span>
-          <span class="radio checked"></span>
+          <div class="radio" [class.checked]="idiomaSeleccionado === 'es'"></div>
         </li>
-        <li class="lang-item" id="idioma-en">
-          <span class="flag flag-en"></span>
+
+        <!-- Inglés -->
+        <li class="lang-item" (click)="seleccionarIdioma('en')">
+          <img src="assets/icon/en.png" alt="Inglés" class="flag-img" />
           <span class="lang-name">Inglés</span>
-          <span class="radio"></span>
+          <div class="radio" [class.checked]="idiomaSeleccionado === 'en'"></div>
         </li>
-        <li class="lang-item" id="idioma-fr">
-          <span class="flag flag-fr"></span>
+
+        <!-- Francés -->
+        <li class="lang-item" (click)="seleccionarIdioma('fr')">
+          <img src="assets/icon/fr.png" alt="Francés" class="flag-img" />
           <span class="lang-name">Francés</span>
-          <span class="radio"></span>
+          <div class="radio" [class.checked]="idiomaSeleccionado === 'fr'"></div>
         </li>
-        <li class="lang-item" id="idioma-pt">
-          <span class="flag flag-pt"></span>
-          <span class="lang-name">Portugues</span>
-          <span class="radio"></span>
+
+        <!-- Portugués -->
+        <li class="lang-item" (click)="seleccionarIdioma('pt')">
+          <img src="assets/icon/pt.png" alt="Portugués" class="flag-img" />
+          <span class="lang-name">Portugués</span>
+          <div class="radio" [class.checked]="idiomaSeleccionado === 'pt'"></div>
         </li>
-        <li class="lang-item" id="idioma-ja">
-          <span class="flag flag-ja"></span>
-          <span class="lang-name">Japónes</span>
-          <span class="radio"></span>
+
+        <!-- Japonés -->
+        <li class="lang-item" (click)="seleccionarIdioma('ja')">
+          <img src="assets/icon/ja.png" alt="Japonés" class="flag-img" />
+          <span class="lang-name">Japonés</span>
+          <div class="radio" [class.checked]="idiomaSeleccionado === 'ja'"></div>
         </li>
       </ul>
-    </section>
 
-    <button type="button" class="info-btn" id="idioma-info-btn" aria-label="Información">
+    </div>
+
+    <!-- Mensaje informativo inferior -->
+    <button type="button" class="info-btn">
       <ion-icon name="information-circle-outline"></ion-icon>
+      <span>Otros idiomas estarán disponibles pronto...</span>
     </button>
+
   </div>
 </ion-content>
 
+<!-- Menú Inferior Unificado -->
 <ion-footer class="idioma-footer">
-  <nav class="tab-bar">
-    <button type="button" class="tab-item" id="tab-inicio" routerLink="/home">
-      <ion-icon name="home"></ion-icon>
+  <nav class="bottom-nav">
+    <button type="button" class="nav-item" routerLink="/home">
+      <ion-icon name="home-outline" class="nav-icon"></ion-icon>
       <span>Inicio</span>
     </button>
-    <button type="button" class="tab-item" id="tab-explorar" routerLink="/explore">
-      <ion-icon name="search-outline"></ion-icon>
+
+    <button type="button" class="nav-item" routerLink="/explore">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
       <span>Explorar</span>
     </button>
-    <button type="button" class="tab-item" id="tab-favoritos" routerLink="/favorites">
-      <ion-icon name="heart-outline"></ion-icon>
+
+    <button type="button" class="nav-item" routerLink="/favorites">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
       <span>Favoritos</span>
     </button>
-    <button type="button" class="tab-item" id="tab-configuracion" routerLink="/configuracion">
-      <ion-icon name="settings-outline"></ion-icon>
+
+    <button type="button" class="nav-item nav-active" routerLink="/configuracion">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
       <span>Configuración</span>
     </button>
   </nav>

@@ -1,0 +1,227 @@
+<ion-content class="detalle-page" [fullscreen]="true">
+  @if (empresaActual) {
+    <div class="detalle-container">
+
+      <!-- 1. GALERÍA HERO CON CONTADOR Y NAVEGACIÓN -->
+      <div class="hero-gallery">
+        <img [src]="fotos[fotoActualIndex]" [alt]="empresaActual.name" class="hero-img" />
+        <div class="hero-overlay"></div>
+        
+        <button type="button" class="floating-btn back-btn" routerLink="/explore">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+
+        <button type="button" class="floating-btn fav-btn" (click)="toggleFavorito()">
+          <ion-icon [name]="esFavorito ? 'heart' : 'heart-outline'" [class.active]="esFavorito"></ion-icon>
+        </button>
+
+        @if (fotos.length > 1) {
+          <button type="button" class="carousel-arrow left-arrow" (click)="anteriorFoto()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <button type="button" class="carousel-arrow right-arrow" (click)="siguienteFoto()">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+
+          <div class="photo-counter">
+            {{ fotoActualIndex + 1 }}/{{ fotos.length }}
+          </div>
+        }
+      </div>
+
+      <!-- 2. TARJETA CABECERA PRINCIPAL -->
+      <div class="main-card">
+        
+        <div class="brand-row">
+          @if (empresaActual.logo) {
+            <div class="company-logo">
+              <img [src]="empresaActual.logo" [alt]="empresaActual.name" />
+            </div>
+          }
+          <div class="brand-info">
+            <div class="category-tags">
+              <span class="tag tag-cyan">{{ empresaActual.category }}</span>
+              <span class="tag tag-gold">Calvillo Pueblo Mágico</span>
+            </div>
+            <h1 class="company-name">{{ empresaActual.name }}</h1>
+          </div>
+        </div>
+
+        <div class="meta-row">
+          <div class="rating-badge">
+            <ion-icon name="star"></ion-icon>
+            <span class="score">{{ empresaActual.rating }}</span>
+            <span class="reviews">({{ empresaActual.reviewsCount }})</span>
+          </div>
+          <div class="location-subtitle">
+            <ion-icon name="location-sharp"></ion-icon>
+            <span>{{ empresaActual.location }}</span>
+          </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN PRINCIPALES -->
+        <div class="figma-actions-grid">
+          @if (empresaActual.phone) {
+            <a [href]="'tel:' + empresaActual.phone" class="action-card btn-call" aria-label="Llamar">
+              <ion-icon name="call"></ion-icon>
+            </a>
+          }
+
+          @if (empresaActual.whatsapp) {
+            <a [href]="'https://wa.me/' + empresaActual.whatsapp" target="_blank" class="action-card btn-wsp" aria-label="WhatsApp">
+              <ion-icon name="logo-whatsapp"></ion-icon>
+            </a>
+          }
+
+          @if (empresaActual.website) {
+            <a [href]="empresaActual.website" target="_blank" class="action-card btn-web" aria-label="Sitio Web">
+              <ion-icon name="globe-outline"></ion-icon>
+            </a>
+          }
+
+          <button type="button" class="action-card btn-share" (click)="compartir()" aria-label="Compartir">
+            <ion-icon name="share-social"></ion-icon>
+          </button>
+        </div>
+
+        <!-- 3. BARRA DE PESTAÑAS -->
+        <div class="segments-bar">
+          <button 
+            type="button" 
+            class="segment-btn" 
+            [class.active]="seccionActiva === 'info'"
+            (click)="cambiarTab('info')">
+            Información
+          </button>
+
+          <button 
+            type="button" 
+            class="segment-btn" 
+            [class.active]="seccionActiva === 'oferta'"
+            (click)="cambiarTab('oferta')">
+            ¿Qué ofrece?
+          </button>
+
+          <button 
+            type="button" 
+            class="segment-btn" 
+            [class.active]="seccionActiva === 'servicios'"
+            (click)="cambiarTab('servicios')">
+            Servicios
+          </button>
+
+          <button 
+            type="button" 
+            class="segment-btn" 
+            [class.active]="seccionActiva === 'ubicacion'"
+            (click)="cambiarTab('ubicacion')">
+            Ubicación
+          </button>
+        </div>
+
+        <!-- 4. CONTENIDO DINÁMICO -->
+        <div class="tab-content">
+
+          <!-- INFORMACIÓN -->
+          @if (seccionActiva === 'info') {
+            <div class="tab-pane">
+              <div class="info-block">
+                <h3>¿Quiénes somos?</h3>
+                @for (parrafo of empresaActual.about || []; track $index) {
+                  <p>{{ parrafo }}</p>
+                }
+              </div>
+
+              @if (empresaActual.priceRange) {
+                <div class="detail-box price-box">
+                  <div class="box-icon"><ion-icon name="cash-outline"></ion-icon></div>
+                  <div class="box-text">
+                    <h4>Precios promedio</h4>
+                    <p class="price-range">{{ empresaActual.priceRange }} / persona</p>
+                    <span class="note">Precios de consumo sugerido. Para precios exactos comunicarse directamente.</span>
+                  </div>
+                </div>
+              }
+
+              @if (empresaActual.hours) {
+                <div class="detail-box time-box">
+                  <div class="box-icon"><ion-icon name="time-outline"></ion-icon></div>
+                  <div class="box-text">
+                    <h4>Horarios de atención</h4>
+                    <p><strong>{{ empresaActual.hours }}</strong></p>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ¿QUÉ OFRECE? -->
+          @if (seccionActiva === 'oferta') {
+            <div class="tab-pane">
+              <div class="menu-chips-grid">
+                @for (item of empresaActual.offers || []; track $index) {
+                  <span class="menu-chip">{{ item }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- SERVICIOS -->
+          @if (seccionActiva === 'servicios') {
+            <div class="tab-pane">
+              <div class="services-grid">
+                @for (s of empresaActual.services || []; track $index) {
+                  <div 
+                    class="service-item" 
+                    [class.active-service]="s.disponible"
+                    [class.inactive-service]="!s.disponible">
+                    <ion-icon [name]="s.disponible ? 'checkmark-circle' : 'close-circle-outline'"></ion-icon>
+                    <span>{{ s.nombre }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- UBICACIÓN -->
+          @if (seccionActiva === 'ubicacion') {
+            <div class="tab-pane">
+              <div class="address-card">
+                <ion-icon name="location-sharp" class="loc-icon"></ion-icon>
+                <div>
+                  <h4>Dirección</h4>
+                  <p>{{ empresaActual.location }}</p>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+  }
+</ion-content>
+
+<!-- Menú Inferior Unificado -->
+<ion-footer class="detalle-footer">
+  <nav class="tab-bar">
+    <button type="button" class="tab-item" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+      <span>Inicio</span>
+    </button>
+    <button type="button" class="tab-item active" routerLink="/explore">
+      <ion-icon name="search-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button type="button" class="tab-item" routerLink="/favorites">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button type="button" class="tab-item" routerLink="/configuracion">
+      <ion-icon name="settings-outline"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-footer>

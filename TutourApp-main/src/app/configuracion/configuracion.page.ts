@@ -12,9 +12,10 @@ import {
   callOutline,
   chevronForwardOutline,
   home,
-  search,
+  searchOutline,
   heartOutline,
-  settingsOutline
+  settingsOutline,
+  homeOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -27,6 +28,10 @@ import {
 export class ConfiguracionPage {
   constructor() {
     addIcons({
+      homeOutline,
+      searchOutline,
+      heartOutline,
+      settingsOutline,
       arrowBackOutline,
       helpOutline,
       informationOutline,
@@ -35,9 +40,6 @@ export class ConfiguracionPage {
       callOutline,
       chevronForwardOutline,
       home,
-      search,
-      heartOutline,
-      settingsOutline
     });
   }
 }
