@@ -1,0 +1,78 @@
+<ion-content [fullscreen]="true" class="gastronomia-calvillo-page">
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" routerLink="/gastronomia">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Sabores de Calvillo</h1>
+  </div>
+
+  <!-- CARRUSEL AUTOMÁTICO DE EMPRESAS (3 SEGUNDOS) -->
+  <div class="hero-carousel">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Gastronomía local" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-container">
+    <!-- FILTROS POR CATEGORÍAS -->
+    <div class="categories-bar">
+      @for (cat of categorias; track cat) {
+        <button
+          type="button"
+          class="category-chip"
+          [class.active]="categoriaSeleccionada === cat"
+          (click)="seleccionarCategoria(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- LISTADO DE NEGOCIOS -->
+    <div class="places-grid">
+      @for (lugar of restaurantesFiltrados; track lugar.id) {
+        <article class="place-card" [routerLink]="['/place-detail', lugar.id]">
+          <div class="card-image-wrap">
+            <img [src]="lugar.image" [alt]="lugar.name" />
+            <span class="category-badge">{{ lugar.category }}</span>
+          </div>
+
+          <div class="card-info">
+            <div class="card-header">
+              <h3>{{ lugar.name }}</h3>
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <span>{{ lugar.rating }}</span>
+              </div>
+            </div>
+
+            <p class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ lugar.location }}</span>
+            </p>
+
+            <div class="card-footer">
+              <span class="action-link">
+                Ver detalles
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <p>No se encontraron negocios en esta categoría.</p>
+        </div>
+      }
+    </div>
+  </div>
+</ion-content>

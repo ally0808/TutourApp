@@ -1,0 +1,161 @@
+.gastronomia-page {
+  --background: #000000;
+
+  .top-bar {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .back-btn {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .page-title {
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .hero-gallery {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 24px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.6);
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        &.active {
+          background-color: #e67e22;
+          width: 22px;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+
+  .content-card {
+    background-color: #ffffff;
+    border-radius: 28px 28px 0 0;
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    padding: 24px 20px 40px 20px;
+
+    .intro-p,
+    .body-p {
+      color: #333333;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .calvillo-highlight-card {
+      background: #fff8f0;
+      border: 1px solid #fce3ce;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 24px;
+
+      .badge-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #e67e22;
+        color: #ffffff;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        color: #111111;
+        font-size: 20px;
+        font-weight: 800;
+        margin: 0 0 12px 0;
+      }
+
+      p {
+        color: #444444;
+        font-size: 13.5px;
+        line-height: 1.55;
+        margin-bottom: 12px;
+      }
+
+      .action-box {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px dashed #f1cdb0;
+        text-align: center;
+
+        .action-text {
+          font-weight: 700;
+          color: #d35400;
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+
+        .btn-discover {
+          width: 100%;
+          background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+          color: #ffffff;
+          border: none;
+          padding: 14px 20px;
+          border-radius: 14px;
+          font-size: 15px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
+          cursor: pointer;
+
+          &:active {
+            transform: scale(0.98);
+          }
+        }
+      }
+    }
+  }
+}

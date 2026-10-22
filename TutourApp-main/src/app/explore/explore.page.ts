@@ -1,329 +1,214 @@
 import {
   Component,
-  ElementRef,
-  ViewChild,
-  AfterViewInit,
+  inject,
   OnInit,
-  inject
+  AfterViewInit,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IonContent, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
-  searchOutline,
-  search,
   star,
-  locationOutline,
-  location,
-  locationSharp,
   heart,
   heartOutline,
+  locationOutline,
+  arrowBackOutline,
   chevronForwardOutline,
   chevronBackOutline,
-  optionsOutline,
+  searchOutline,
+  closeOutline,
   home,
+  search,
   settingsOutline
 } from 'ionicons/icons';
-
-import {
-  DomSanitizer,
-  SafeResourceUrl
-} from '@angular/platform-browser';
-
 import { LUGARES, Lugar } from '../data/lugares.data';
-import { FavoritosService } from '../services/favoritos.service';
-
-export type { Lugar } from '../data/lugares.data';
-
-interface Categoria {
-  name: string;
-  color: string;
-}
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.page.html',
   styleUrls: ['./explore.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonContent,
-    IonIcon
-  ]
+  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonIcon]
 })
 export class ExplorePage implements OnInit, AfterViewInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private sanitizer = inject(DomSanitizer);
+
   @ViewChild('categoryCarousel') categoryCarousel?: ElementRef<HTMLDivElement>;
 
   // Búsqueda y categorías
   busqueda = '';
   categoriaSeleccionada = 'Todos';
 
+  // Objeto de categorías para la iteración del HTML (@for (cat of categories; track cat.name))
+  categories = [
+    { name: 'Todos', color: '#f39c12' },
+    { name: 'Bares', color: '#FF0000'},
+    { name: 'Restaurantes', color: '#FAA954' },
+    { name: 'Desayunos', color: '#A8CF45'},
+    { name: 'Artesanías', color: '#F06277'},
+    { name: 'Hospedajes', color: '#5CC6D0' },
+    { name: 'Cenadurías', color: '#CB7246'},
+    { name: 'Sabores de mi Pueblo', color: '#FCD846'},
+    { name: 'Lugares Recreativos', color: '#660066' }
+  ];
+
+  // Control de vista ('lista' | 'mapa')
+  vistaActual: 'lista' | 'mapa' = 'lista';
+
   // Control de visibilidad de las flechas del carrusel
   puedeScrollIzq = false;
   puedeScrollDer = true;
 
-  // Vista actual (Lista / Mapa)
-  vistaActual: 'lista' | 'mapa' = 'lista';
-
-  // Negocio enfocado en el mapa (null = muestra todos los lugares)
+  // Negocio seleccionado en el mapa
   negocioSeleccionadoMapa: Lugar | null = null;
 
-  // Visor de imágenes
+  // URL segura para el iframe del mapa
+  mapaUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59265.80800361286!2d-102.7533827!3d21.8466185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429b634860b73cb%3A0x280be08e2b83eb1e!2sCalvillo%2C%20Ags.!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx'
+  );
+
+  // Visualizador de imagen ampliada
   imagenAmpliada: string | null = null;
   nombreImagenAmpliada = '';
 
-  // Mapa
-  mapaUrl!: SafeResourceUrl;
+  // Lista de favoritos (IDs)
+  favoritosIds: (number | string)[] = [];
 
-  public router = inject(Router);
-  private sanitizer = inject(DomSanitizer);
-  private route = inject(ActivatedRoute);
-  private favoritosService = inject(FavoritosService);
-
-  // Favoritos guardados en el dispositivo (compartidos con la vista Favoritos)
-  get favoritos(): number[] {
-    return this.favoritosService.favoritosIds();
-  }
-
-  // Soporte para arrastrar con mouse / touch
+  // Variables de control de arrastre del carrusel
   private isDragging = false;
   private startX = 0;
-  private scrollLeftStart = 0;
+  private scrollLeftPos = 0;
 
-  // Categorías solicitadas
-  categories: Categoria[] = [
-    { name: 'Todos', color: '#F7C93C' },
-    { name: 'Hospedaje', color: '#4DBEC9' },
-    { name: 'Restaurante', color: '#E06D44' },
-    { name: 'Lugares recreativos', color: '#660066' },
-    { name: 'Desayunos', color: '#9DC03E' },
-    { name: 'Cenadurías', color: '#CB7246' },
-    { name: 'Sabores de mi pueblo', color: '#FAA954' },
-    { name: 'Artesanías', color: '#8F2368' },
-    { name: 'Bares', color: '#E01E2E' },
-  ];
-
-  // Establecimientos correspondientes (catálogo compartido)
-  places: Lugar[] = LUGARES;
+  // Listas de datos
+  todosLosLugares: Lugar[] = LUGARES;
+  lugaresFiltrados: Lugar[] = LUGARES;
 
   constructor() {
     addIcons({
-      searchOutline,
-      search,
       star,
-      locationOutline,
-      location,
-      locationSharp,
       heart,
       heartOutline,
+      locationOutline,
+      arrowBackOutline,
       chevronForwardOutline,
       chevronBackOutline,
-      optionsOutline,
-      home,
+      searchOutline,
+      closeOutline,
+      home,            
+      search,          
       settingsOutline
     });
-
-    // Inicia con el mapa general de Calvillo
-    this.actualizarUrlMapaGeneral();
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      const cat = params.get('cat');
-      if (cat) {
-        this.seleccionarCategoria(cat);
-      }
-
-      // Abrir un lugar específico (por ejemplo, desde Favoritos)
-      const lugarId = Number(params.get('lugar'));
-      if (lugarId) {
-        const lugar = this.places.find((p) => p.id === lugarId);
-        if (lugar) {
-          this.categoriaSeleccionada = 'Todos';
-          this.busqueda = '';
-          this.verEnMapa(lugar);
-        }
+    this.route.queryParams.subscribe(params => {
+      if (params['cat']) {
+        this.seleccionarCategoria(params['cat']);
+      } else {
+        this.filtrarLugares();
       }
     });
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.actualizarEstadoFlechas();
-    }, 200);
+    this.verificarScroll();
   }
 
-  // Navegación
-  esRutaActiva(ruta: string): boolean {
-    return this.router.url.includes(ruta);
+  // 🔍 Métodos de Búsqueda y Filtros
+  alBuscar(): void {
+    this.filtrarLugares();
   }
 
-  irA(seccion: string): void {
-    const rutas: Record<string, string> = {
-      inicio: '/home',
-      explorar: '/explore',
-      favoritos: '/favorites',
-      configuracion: '/configuracion'
-    };
-
-    const ruta = rutas[seccion];
-    if (ruta) {
-      void this.router.navigateByUrl(ruta);
-    }
+  seleccionarCategoria(catName: string): void {
+    this.categoriaSeleccionada = catName;
+    this.filtrarLugares();
   }
 
-  // Control de desplazamiento del carrusel
-  onCarouselScroll(): void {
-    this.actualizarEstadoFlechas();
-  }
+  filtrarLugares(): void {
+    const texto = this.busqueda.toLowerCase().trim();
+    const catSel = this.categoriaSeleccionada.toLowerCase().trim();
 
-  actualizarEstadoFlechas(): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) return;
+    this.lugaresFiltrados = this.todosLosLugares.filter(lugar => {
+      const catLugar = lugar.category.toLowerCase().trim();
 
-    const scrollLeft = Math.ceil(el.scrollLeft);
-    const maxScroll = el.scrollWidth - el.clientWidth;
+      let coincideCategoria = false;
 
-    this.puedeScrollIzq = scrollLeft > 5;
-    this.puedeScrollDer = scrollLeft < (maxScroll - 12);
-  }
-
-  desplazarCategorias(direccion: 'izq' | 'der'): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) return;
-
-    const delta = direccion === 'der' ? 150 : -150;
-
-    if (typeof el.scrollBy === 'function') {
-      el.scrollBy({ left: delta, behavior: 'smooth' });
-    } else {
-      el.scrollLeft += delta;
-    }
-
-    setTimeout(() => {
-      this.actualizarEstadoFlechas();
-    }, 300);
-  }
-
-  // Arrastre con mouse / touch
-  iniciarArrastre(event: MouseEvent | TouchEvent): void {
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) return;
-
-    this.isDragging = true;
-    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
-    this.startX = pageX - el.offsetLeft;
-    this.scrollLeftStart = el.scrollLeft;
-  }
-
-  moverArrastre(event: MouseEvent | TouchEvent): void {
-    if (!this.isDragging) return;
-
-    const el = this.categoryCarousel?.nativeElement;
-    if (!el) return;
-
-    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
-    const x = pageX - el.offsetLeft;
-    const desplazamiento = (x - this.startX) * 1.5;
-    el.scrollLeft = this.scrollLeftStart - desplazamiento;
-    this.actualizarEstadoFlechas();
-  }
-
-  detenerArrastre(): void {
-    this.isDragging = false;
-  }
-
-  // Filtros y Búsqueda
-  get lugaresFiltrados(): Lugar[] {
-    const texto = this.normalizar(this.busqueda);
-    const palabras = texto.split(/\s+/).filter((p) => p.length > 0);
-
-    return this.places.filter((place) => {
-      const coincideCategoria =
-        this.categoriaSeleccionada === 'Todos' ||
-        this.normalizar(place.category) === this.normalizar(this.categoriaSeleccionada);
-
-      if (!coincideCategoria) {
-        return false;
+      if (catSel === 'todos') {
+        coincideCategoria = true;
+      } else if (catSel === 'bares') {
+        coincideCategoria = ['bares', 'bar', 'cantina', 'cantinas', 'bar / antro'].includes(catLugar);
+      } else if (catSel === 'restaurantes' || catSel === 'restaurante' || catSel === 'gastronomía' || catSel === 'gastronomia') {
+        coincideCategoria = ['restaurantes', 'restaurante', 'gastronomía', 'gastronomia', 'comida'].includes(catLugar);
+      } else if (catSel === 'desayunos') {
+        coincideCategoria = ['desayunos', 'desayuno', 'cafetería', 'cafeteria', 'café'].includes(catLugar);
+      } else if (catSel === 'artesanías') {
+        coincideCategoria = ['artesanías', 'artesanias', 'artesanía', 'artesania', 'artesano'].includes(catLugar);
+      } else if (catSel === 'hospedajes') {
+        coincideCategoria = ['hospedaje', 'hospedaje', 'alojamiento', 'alojamientos', 'hotel', 'hoteles', 'cabaña', 'cabañas', 'posada'].includes(catLugar);
+      } else if (catSel === 'cenadurías') {
+        coincideCategoria = ['cenadurías', 'cenadurias', 'cenaduría', 'cenaduria', 'cenador'].includes(catLugar);
+      } else if (catSel === 'sabores de mi pueblo') {
+        coincideCategoria = ['sabores de mi pueblo', 'sabores', 'gastronomía', 'gastronomia', 'tradicional', 'dulces'].includes(catLugar);
+      } else if (catSel === 'lugares recreativos') {
+        coincideCategoria = ['lugares recreativos', 'lugar recreativo', 'atractivos', 'atractivo', 'recreativo', 'parque', 'presa', 'balneario'].includes(catLugar);
+      } else {
+        // Fallback por si agregas otra categoría no listada
+        coincideCategoria = catLugar === catSel || catLugar.includes(catSel) || catSel.includes(catLugar);
       }
 
-      if (palabras.length === 0) {
-        return true;
-      }
+      const coincideTexto =
+        !texto ||
+        lugar.name.toLowerCase().includes(texto) ||
+        lugar.location.toLowerCase().includes(texto);
 
-      const contenido = this.normalizar(
-        `${place.name} ${place.category} ${place.location} ${place.mapQuery || ''}`
-      );
-
-      return palabras.every((palabra) => contenido.includes(palabra));
+      return coincideCategoria && coincideTexto;
     });
   }
 
-  private normalizar(texto: string): string {
-    return texto
-      .toLocaleLowerCase('es-MX')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim();
-  }
-
-  // Al escribir en el buscador
-  alBuscar(): void {
-    this.negocioSeleccionadoMapa = null;
-    this.actualizarUrlMapaGeneral();
-  }
-
-  // Al seleccionar categoría ("Todos", "Hospedaje", etc.)
-  seleccionarCategoria(nombre: string): void {
-    this.categoriaSeleccionada = nombre;
-    this.negocioSeleccionadoMapa = null;
-    this.actualizarUrlMapaGeneral();
-  }
-
-  // Vistas y Mapa
+  // 🔀 Alternar entre Lista y Mapa
   cambiarVista(vista: 'lista' | 'mapa'): void {
     this.vistaActual = vista;
-    if (vista === 'mapa' && !this.negocioSeleccionadoMapa) {
-      this.actualizarUrlMapaGeneral();
-    }
   }
 
-  verEnMapa(place: Lugar, event?: Event): void {
-    if (event) {
-      event.stopPropagation();
-    }
+  // 📍 Mapa / Negocio Seleccionado
+  verEnMapa(place: Lugar): void {
     this.negocioSeleccionadoMapa = place;
-    this.actualizarUrlMapa(place);
-    this.vistaActual = 'mapa';
+
+    // 1. Si la empresa tiene su propia URL de mapa en la base de datos (ej. place.mapUrl)
+    if ((place as any).mapUrl) {
+      this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl((place as any).mapUrl);
+    } else {
+      // 2. Si no tiene URL guardada, genera un mapa de Google Maps con su nombre y dirección
+      const busqueda = encodeURIComponent(`${place.name}, ${place.location || 'Calvillo, Ags.'}`);
+      const embedUrl = `https://maps.google.com/maps?q=${busqueda}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+      
+      this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+    }
+
+    // Cambia automáticamente a la pestaña de mapa
+    this.cambiarVista('mapa');
   }
 
-  // Deseleccionar y regresar a la lista de todos los negocios en mapa
   deseleccionarNegocioMapa(): void {
     this.negocioSeleccionadoMapa = null;
-    this.actualizarUrlMapaGeneral();
-  }
-
-  private actualizarUrlMapaGeneral(): void {
-    const query = 'Calvillo, Aguascalientes, Mexico';
+    
+    // Restablece el mapa al mapa general de Calvillo
     this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=13&output=embed`
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59265.80800361286!2d-102.7533827!3d21.8466185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429b634860b73cb%3A0x280be08e2b83eb1e!2sCalvillo%2C%20Ags.!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx'
     );
   }
 
-  private actualizarUrlMapa(lugar: Lugar): void {
-    const query = lugar.mapQuery || `${lugar.name}, ${lugar.location}`;
-    this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=15&output=embed`
-    );
-  }
-
-  ampliarImagen(imagen: string, nombre: string): void {
-    this.imagenAmpliada = imagen;
-    this.nombreImagenAmpliada = nombre;
+  // 🖼️ Ampliación de Imágenes
+  ampliarImagen(url: string, nombre?: string): void {
+    this.imagenAmpliada = url;
+    this.nombreImagenAmpliada = nombre || '';
   }
 
   cerrarImagen(): void {
@@ -331,12 +216,97 @@ export class ExplorePage implements OnInit, AfterViewInit {
     this.nombreImagenAmpliada = '';
   }
 
-  // Favoritos
-  esFavorito(id: number): boolean {
-    return this.favoritosService.esFavorito(id);
+  // ❤️ Favoritos
+  esFavorito(id: number | string): boolean {
+    return this.favoritosIds.includes(id);
   }
 
-  alternarFavorito(id: number): void {
-    this.favoritosService.alternar(id);
+  alternarFavorito(id: number | string): void {
+    if (this.esFavorito(id)) {
+      this.favoritosIds = this.favoritosIds.filter(favId => favId !== id);
+    } else {
+      this.favoritosIds.push(id);
+    }
+  }
+
+  // 1. Cargar los IDs guardados al iniciar
+  cargarFavoritos(): void {
+    const favsGuardados = localStorage.getItem('favoritosIds');
+    if (favsGuardados) {
+      try {
+        this.favoritosIds = JSON.parse(favsGuardados);
+      } catch {
+        this.favoritosIds = [];
+      }
+    }
+  }
+  
+
+  // 🧭 Navegación
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url === ruta;
+  }
+
+  irA(seccion: string): void {
+    switch (seccion) {
+      case 'inicio':
+        void this.router.navigate(['/home']);
+        break;
+      case 'explorar':
+        void this.router.navigate(['/explore']);
+        break;
+      case 'favoritos':
+        void this.router.navigate(['/favorites']);
+        break;
+      case 'configuracion':
+        void this.router.navigate(['/settings']);
+        break;
+    }
+  }
+
+  // ↔️ Carrusel de Categorías y Arrastre (Drag)
+  verificarScroll(): void {
+    if (!this.categoryCarousel?.nativeElement) return;
+    const el = this.categoryCarousel.nativeElement;
+    this.puedeScrollIzq = el.scrollLeft > 0;
+    this.puedeScrollDer = el.scrollLeft + el.clientWidth < el.scrollWidth - 5;
+  }
+
+  onCarouselScroll(): void {
+    this.verificarScroll();
+  }
+
+  desplazarCategorias(direccion: 'izq' | 'der'): void {
+    if (!this.categoryCarousel?.nativeElement) return;
+    const el = this.categoryCarousel.nativeElement;
+    const desplazamiento = 160;
+
+    el.scrollBy({
+      left: direccion === 'der' ? desplazamiento : -desplazamiento,
+      behavior: 'smooth'
+    });
+
+    setTimeout(() => this.verificarScroll(), 300);
+  }
+
+  iniciarArrastre(event: MouseEvent | TouchEvent): void {
+    if (!this.categoryCarousel?.nativeElement) return;
+    this.isDragging = true;
+    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
+    this.startX = pageX - this.categoryCarousel.nativeElement.offsetLeft;
+    this.scrollLeftPos = this.categoryCarousel.nativeElement.scrollLeft;
+  }
+
+  moverArrastre(event: MouseEvent | TouchEvent): void {
+    if (!this.isDragging || !this.categoryCarousel?.nativeElement) return;
+    event.preventDefault();
+    const pageX = 'touches' in event ? event.touches[0].pageX : event.pageX;
+    const x = pageX - this.categoryCarousel.nativeElement.offsetLeft;
+    const walk = (x - this.startX) * 1.5;
+    this.categoryCarousel.nativeElement.scrollLeft = this.scrollLeftPos - walk;
+  }
+
+  detenerArrastre(): void {
+    this.isDragging = false;
   }
 }

@@ -91,18 +91,18 @@
           <span>Hospedaje</span>
         </button>
 
-        <button class="category-item" type="button" (click)="irACategoria('Restaurante')">
-          <div class="category-icon restaurante">
-            <img src="assets/icon/restaurante.png" alt="Restaurantes" />
-          </div>
-          <span>Restaurantes</span>
-        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Restaurantes')">
+  <div class="category-icon restaurante">
+    <img src="assets/icon/restaurante.png" alt="Restaurantes" />
+  </div>
+  <span>Restaurantes</span>
+</button>
 
         <button class="category-item" type="button" (click)="irACategoria('Lugares recreativos')">
           <div class="category-icon recreativos">
-            <img src="assets/icon/lugares-recreativos.png" alt="Lugares recreativos" />
+            <img src="assets/icon/lugares-recreativos.png" alt="Lugares Recreativos" />
           </div>
-          <span>Lugares recreativos</span>
+          <span>Lugares Recreativos</span>
         </button>
 
         <button class="category-item" type="button" (click)="irACategoria('Desayunos')">
@@ -119,11 +119,11 @@
           <span>Cenadurías</span>
         </button>
 
-        <button class="category-item" type="button" (click)="irACategoria('Sabores de mi pueblo')">
+        <button class="category-item" type="button" (click)="irACategoria('Sabores de mi Pueblo')">
           <div class="category-icon sabores">
-            <img src="assets/icon/sabores-de-mi-pueblo.png" alt="Sabores de mi pueblo" />
+            <img src="assets/icon/sabores-de-mi-pueblo.png" alt="Sabores de mi Pueblo" />
           </div>
-          <span>Sabores de mi pueblo</span>
+          <span>Sabores de mi Pueblo</span>
         </button>
 
         <button class="category-item" type="button" (click)="irACategoria('Artesanías')">
@@ -177,12 +177,12 @@
               <span
                 class="category-badge"
                 [class.hospedaje]="empresa.categoria === 'Hospedaje'"
-                [class.sabores-de-mi-pueblo]="empresa.categoria === 'Sabores de mi pueblo'"
+                [class.sabores-de-mi-pueblo]="empresa.categoria === 'Sabores de mi Pueblo'"
                 [class.bares]="empresa.categoria === 'Bares'"
-                [class.restaurante]="empresa.categoria === 'Restaurante'"
+                [class.restaurantes]="empresa.categoria === 'Restaurantes'"
                 [class.cenadurias]="empresa.categoria === 'Cenadurías'"
                 [class.artesanias]="empresa.categoria === 'Artesanías'"
-                [class.recreativos]="empresa.categoria === 'Lugares recreativos'"
+                [class.recreativos]="empresa.categoria === 'Lugares Recreativos'"
                 [class.desayunos]="empresa.categoria === 'Desayunos'"
               >
                 {{ empresa.categoria }}
@@ -220,18 +220,18 @@
     =============================================== -->
     <section class="promotions-section">
       <article
-        class="promotion-card"
-        [class.is-pressed]="bannerPresionado === 'gastronomia'"
-        (pointerdown)="presionarBanner('gastronomia')"
-        (pointerup)="soltarBanner()"
-        (pointercancel)="soltarBanner()"
-        (pointerleave)="soltarBanner()"
-        (click)="irAGastronomia()"
-      >
-        <img src="assets/images/banner-gastronomia.jpg" alt="Gastronomía de Calvillo" />
-        <div class="promotion-overlay"></div>
-        <h2>GASTRONOMÍA</h2>
-      </article>
+  class="promotion-card"
+  [class.is-pressed]="bannerPresionado === 'gastronomia'"
+  (pointerdown)="presionarBanner('gastronomia')"
+  (pointerup)="soltarBanner()"
+  (pointercancel)="soltarBanner()"
+  (pointerleave)="soltarBanner()"
+  routerLink="/gastronomia"
+>
+  <img src="assets/images/banner-gastronomia.jpg" alt="Gastronomía de Calvillo" />
+  <div class="promotion-overlay"></div>
+  <h2>GASTRONOMÍA</h2>
+</article>
 
       <article
         class="promotion-card"

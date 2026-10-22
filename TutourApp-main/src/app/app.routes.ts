@@ -61,6 +61,14 @@ export const routes: Routes = [
       import('./contacto/contacto.page').then((m) => m.ContactoPage),
   },
   {
+    path: 'gastronomia',
+    loadComponent: () => import('./gastronomia/gastronomia.page').then(m => m.GastronomiaPage)
+  },
+  {
+    path: 'gastronomia-calvillo',
+    loadComponent: () => import('./gastronomia-calvillo/gastronomia-calvillo.page').then(m => m.GastronomiaCalvilloPage)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',
@@ -69,5 +77,9 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'splash',
   },
+  {
+    path: '**', 
+    redirectTo: 'explore'
+  }
   
 ];

@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 
 import { IonContent, IonIcon } from '@ionic/angular';
+import { Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { LUGARES } from '../data/lugares.data';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FavoritosService } from '../services/favoritos.service';
 import { addIcons } from 'ionicons';
 import {
@@ -42,9 +44,12 @@ import {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonIcon]
+  imports: [IonContent, FormsModule, IonIcon, RouterLink]
 })
 export class HomePage implements AfterViewInit, OnDestroy {
+  private location = inject(Location);
+  busqueda = '';
+  terminoBusqueda = '';
   private router = inject(Router);
   private favoritosService = inject(FavoritosService);
 
@@ -63,7 +68,6 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private touchEndX = 0;
 
   bannerPresionado: string | null = null;
-  terminoBusqueda = '';
 
   // 🎨 Vinculamos automáticamente con lugares.data.ts e incluimos el 'color'
   empresas = LUGARES.map((lugar) => ({
@@ -73,7 +77,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
     calificacion: lugar.rating,
     direccion: lugar.location,
     imagen: lugar.image,
-    color: lugar.color || '#ff9f43' // 👈 AHORA SÍ RECUPERA EL COLOR DE CADA EMPRESA
+    color: lugar.color || '#ff9f43' 
   }));
 
   empresasCarrusel = [
@@ -107,6 +111,20 @@ export class HomePage implements AfterViewInit, OnDestroy {
       peopleOutline,
       chevronForwardOutline
     });
+  }
+
+  //Método para regresar a la página anterior
+  regresar(): void {
+    this.location.back();
+  }
+
+  // 3. MÉTODO PÚBLICO para el buscador (Sin 'private')
+  aluscar(): void {
+    if (this.busqueda.trim()) {
+      void this.router.navigate(['/explore'], {
+        queryParams: { q: this.busqueda }
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -157,6 +175,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   // ==========================================
   // NAVEGACIÓN Y NAVEGACIÓN A DETALLE
   // ==========================================
+  
   verDetalle(id: number): void {
     if (this.fueArrastre) {
       this.fueArrastre = false;
@@ -194,7 +213,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   irAGastronomia(): void {
-    this.irACategoria('Restaurantes');
+    this.irACategoria('gastronomía');
   }
 
   irAlojamientoAventura(): void {

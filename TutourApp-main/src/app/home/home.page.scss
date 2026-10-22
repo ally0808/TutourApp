@@ -182,7 +182,7 @@ ion-content.home-content {
 .categories-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 8px;
+  column-gap: 9px;
   row-gap: 22px;
   width: 100%;
   box-sizing: border-box;
@@ -245,7 +245,7 @@ ion-content.home-content {
 }
 
 
-/* COLORES EXACTOS */
+/* COLORES */
 
 .category-icon.hospedaje {
   background: #5CC6D0;
@@ -507,7 +507,7 @@ ion-content.home-content {
 .category-badge.bares {
   background: #ff0505;
 }
-.category-badge.restaurante {
+.category-badge.restaurantes {
   background: #FAA954;
 }
 .category-badge.cenadurias {
@@ -1443,3 +1443,71 @@ ion-content.home-content {
       }
     }
   }
+
+  /* Contenedor del buscador con botón flotante */
+.search-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  margin: 16px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botón circular de regresar */
+.back-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+
+  ion-icon {
+    font-size: 22px;
+    color: #222222;
+  }
+
+  &:active {
+    transform: scale(0.92);
+    background-color: #f0f0f0;
+  }
+}
+
+/* Caja del buscador */
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 25px;
+  padding: 0 16px;
+  height: 44px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+
+  .search-icon {
+    font-size: 20px;
+    color: #777777;
+    margin-right: 10px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 15px;
+    color: #222222;
+
+    &::placeholder {
+      color: #888888;
+    }
+  }
+}

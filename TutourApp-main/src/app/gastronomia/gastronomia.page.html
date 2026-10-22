@@ -1,0 +1,66 @@
+<ion-content [fullscreen]="true" class="gastronomia-page">
+  <!-- ENCABEZADO CON BOTÓN DE REGRESO -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" routerLink="/home">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Gastronomía</h1>
+  </div>
+
+  <!-- CARRUSEL DE IMÁGENES -->
+  <div class="hero-gallery">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Gastronomía Pueblos Mágicos" class="hero-img" />
+    
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- TARJETA CON TEXTO RESUMIDO -->
+  <div class="content-card">
+    <p class="intro-p">
+      La gastronomía de los <strong>Pueblos Mágicos de México</strong> refleja la riqueza cultural, demográfica y tradicional de cada región.
+    </p>
+
+    <p class="body-p">
+      Con más de 121 platillos emblemáticos, destacan sabores como los <em>mejillones a las finas hierbas</em> (Tecate), el <em>caldo de papa con queso</em> (Batopilas) o el <em>cortadillo</em> (Cuatro Ciénegas).
+    </p>
+
+    <p class="body-p">
+      Acompañan esta tradición bebidas como el tequila, la charanda, el champurrado y las aguas frescas, además de dulces típicos como alegrías, palanquetas, jamoncillos y ates de guayaba o membrillo.
+    </p>
+
+    <!-- TARJETA DESTACADA: CALVILLO -->
+    <div class="calvillo-highlight-card">
+      <div class="badge-tag">
+        <ion-icon name="restaurant-outline"></ion-icon>
+        <span>Aguascalientes</span>
+      </div>
+
+      <h2>Gastronomía de Calvillo</h2>
+
+      <p>
+        Ofrece una mezcla única donde destacan las <strong>chuletas glaseadas de guayaba</strong>, mariscos, pozole, birria de carnero, gorditas, frijoles de la olla en molcajete y pan de canela.
+      </p>
+
+      <p>
+        Su gran especialidad son los postres: imperdibles el <strong>dulce de guayaba</strong>, el jamoncillo de leche y el nixtamal.
+      </p>
+
+      <div class="action-box">
+        <p class="action-text">¡Encuentra abajo las diferentes opciones que Calvillo te ofrece!</p>
+        
+        <button type="button" class="btn-discover" routerLink="/gastronomia-calvillo">
+  <span>¡Descúbrela!</span>
+  <ion-icon name="chevron-forward-outline"></ion-icon>
+</button>
+      </div>
+    </div>
+  </div>
+</ion-content>
