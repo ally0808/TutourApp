@@ -1,10 +1,10 @@
 <ion-content [fullscreen]="true" class="gastronomia-calvillo-page">
   <!-- BARRA SUPERIOR -->
   <div class="top-bar">
-    <button type="button" class="back-btn" routerLink="/gastronomia">
+    <button type="button" class="back-btn" routerLink="/home">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </button>
-    <h1 class="page-title">Sabores de Calvillo</h1>
+    <h1 class="page-title">Gastronomía de Calvillo</h1>
   </div>
 
   <!-- CARRUSEL AUTOMÁTICO DE EMPRESAS (3 SEGUNDOS) -->
@@ -40,10 +40,21 @@
     <!-- LISTADO DE NEGOCIOS -->
     <div class="places-grid">
       @for (lugar of restaurantesFiltrados; track lugar.id) {
-        <article class="place-card" [routerLink]="['/place-detail', lugar.id]">
+        <article class="place-card" [routerLink]="['/explore']" [queryParams]="{ lugar: lugar.id }">
           <div class="card-image-wrap">
             <img [src]="lugar.image" [alt]="lugar.name" />
-            <span class="category-badge">{{ lugar.category }}</span>
+            
+            <!-- BADGE CON COLORES DINÁMICOS -->
+            <span 
+              class="category-badge"
+              [class.restaurantes]="lugar.category === 'Restaurantes' || lugar.category === 'Restaurante'"
+              [class.bares]="lugar.category === 'Bares' || lugar.category === 'Bar'"
+              [class.cenadurias]="lugar.category === 'Cenadurías' || lugar.category === 'Cenaduría'"
+              [class.sabores-de-mi-pueblo]="lugar.category === 'Sabores de mi Pueblo'"
+              [class.desayunos]="lugar.category === 'Desayunos'"
+            >
+              {{ lugar.category }}
+            </span>
           </div>
 
           <div class="card-info">
@@ -75,4 +86,28 @@
       }
     </div>
   </div>
+
+  <!-- 🟢 BARRA DE NAVEGACIÓN INFERIOR -->
+  <nav class="bottom-nav">
+    <!-- Casita (Inicio) forzada a activa (azul #2f80ed) en esta vista -->
+    <button type="button" class="nav-item" routerLink="/home" [class.nav-active]="true">
+      <ion-icon name="home" class="nav-icon"></ion-icon>
+      <span>Inicio</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/explore" [class.nav-active]="esRutaActiva('/explore')">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+      <span>Explorar</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/favorites" [class.nav-active]="esRutaActiva('/favorites')">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/configuracion" [class.nav-active]="esRutaActiva('/configuracion')">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
 </ion-content>

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { Router, RouterLink } from '@angular/router';
+import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
@@ -10,7 +10,11 @@ import {
   restaurantOutline,
   cafeOutline,
   moonOutline,
-  chevronForwardOutline
+  chevronForwardOutline,
+  home,
+  searchOutline,
+  heartOutline,
+  settingsOutline
 } from 'ionicons/icons';
 import { LUGARES, Lugar } from '../data/lugares.data';
 
@@ -19,23 +23,33 @@ import { LUGARES, Lugar } from '../data/lugares.data';
   templateUrl: './gastronomia-calvillo.page.html',
   styleUrls: ['./gastronomia-calvillo.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
 })
 export class GastronomiaCalvilloPage implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   // Categorías de filtro
-  categorias = ['Todos', 'Restaurantes', 'Cenadurías', 'Cafés y Postres'];
+  categorias = ['Todos', 'Restaurantes', 'Cenadurías', 'Sabores de mi Pueblo', 'Bares'];
   categoriaSeleccionada = 'Todos';
 
-  // Obtenemos solo los lugares gastronómicos de lugares.data.ts
-  todosLosRestaurantes: Lugar[] = LUGARES.filter(l =>
-    ['restaurantes', 'restaurante', 'cenaduría', 'cenadurías', 'gastronomía', 'cafetería'].includes(l.category.toLowerCase())
-  );
+  // Obtenemos todos los establecimientos gastronómicos
+  todosLosRestaurantes: Lugar[] = LUGARES.filter(l => {
+    const cat = (l.category || '').toLowerCase().trim();
+    return (
+      cat.includes('restauran') ||
+      cat.includes('cena') ||
+      cat.includes('sabores') ||
+      cat.includes('pueblo') ||
+      cat.includes('bar') ||
+      cat.includes('caf') ||
+      cat.includes('gastro')
+    );
+  });
 
   restaurantesFiltrados: Lugar[] = [];
 
-  // Carrusel superior con las fotos de los negocios gastronómicos
+  // Carrusel
   fotosHero: string[] = [];
   fotoActualIndex = 0;
   private timer: ReturnType<typeof setInterval> | undefined;
@@ -48,19 +62,21 @@ export class GastronomiaCalvilloPage implements OnInit, OnDestroy {
       restaurantOutline,
       cafeOutline,
       moonOutline,
-      chevronForwardOutline
+      chevronForwardOutline,
+      home,
+      searchOutline,
+      heartOutline,
+      settingsOutline
     });
   }
 
   ngOnInit(): void {
     this.restaurantesFiltrados = this.todosLosRestaurantes;
 
-    // Extraemos las imágenes de las empresas gastronómicas para el carrusel
     this.fotosHero = this.todosLosRestaurantes
       .map(r => r.image)
       .filter(img => !!img);
 
-    // Si hay pocas fotos en la data, agregamos fotos por defecto
     if (this.fotosHero.length === 0) {
       this.fotosHero = ['assets/images/banner-gastronomia.jpg'];
     }
@@ -78,6 +94,10 @@ export class GastronomiaCalvilloPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.detenerCarrusel();
+  }
+
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url.includes(ruta);
   }
 
   iniciarCarrusel(): void {
@@ -116,11 +136,15 @@ export class GastronomiaCalvilloPage implements OnInit, OnDestroy {
       this.restaurantesFiltrados = this.todosLosRestaurantes.filter(item =>
         item.category.toLowerCase().includes('cena')
       );
-    } else if (cat === 'Cafés y Postres') {
+    } else if (cat === 'Sabores de mi Pueblo') {
       this.restaurantesFiltrados = this.todosLosRestaurantes.filter(item => {
         const catLower = item.category.toLowerCase();
-        return catLower.includes('caf') || catLower.includes('postre') || catLower.includes('dulce');
+        return catLower.includes('sabores') || catLower.includes('pueblo') || catLower.includes('caf');
       });
+    } else if (cat === 'Bares') {
+      this.restaurantesFiltrados = this.todosLosRestaurantes.filter(item =>
+        item.category.toLowerCase().includes('bar')
+      );
     } else {
       this.restaurantesFiltrados = this.todosLosRestaurantes.filter(item =>
         item.category.toLowerCase().includes(cat.toLowerCase())
