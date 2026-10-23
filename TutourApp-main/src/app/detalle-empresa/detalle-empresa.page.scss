@@ -1,0 +1,473 @@
+$bg: #000000;
+$white: #ffffff;
+$text-dark: #1a1a1a;
+$text-muted: #666666;
+$active: #2f80ed;
+
+/* Colores de los botones Figma */
+$btn-call-bg: #40c4ff;
+$btn-wsp-bg: #8bc34a;
+$btn-web-bg: #ec407a;
+$btn-share-bg: #ffca28;
+
+.detalle-page {
+  --background: #{$bg};
+  color: $white;
+}
+
+.detalle-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 90px;
+  background: $bg;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   HERO / GALERÍA CON CONTADOR 1/5 Y NAVEGACIÓN
+===================================================== */
+.hero-gallery {
+  position: relative;
+  width: 100%;
+  height: 290px;
+  overflow: hidden;
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.1) 40%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+
+  /* Botones flotantes estilo glassmorphism */
+  .floating-btn {
+    position: absolute;
+    top: 16px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: $white;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    &.back-btn { left: 16px; }
+    &.fav-btn {
+      right: 16px;
+      ion-icon.active { color: #ff3b30; }
+    }
+  }
+
+  /* Flechas del carrusel */
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.35);
+    border: none;
+    color: $white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+
+    &.left-arrow { left: 10px; }
+    &.right-arrow { right: 10px; }
+  }
+
+  /* Badge indicador 1/5 */
+  .photo-counter {
+    position: absolute;
+    bottom: 38px;
+    right: 16px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    color: $white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* =====================================================
+   TARJETA PRINCIPAL (OVERLAP BLANCO)
+===================================================== */
+.main-card {
+  margin: -24px 16px 0;
+  padding: 20px 18px;
+  background: $white;
+  border-radius: 26px;
+  color: $text-dark;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+
+  .company-logo {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    border-radius: 12px;
+    overflow: hidden; /* Corta automáticamente todo lo que sobresalga del cuadro */
+    background-color: #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    img {
+      height: 100%;
+      width: 390%; /* Expande la imagen 3.9 veces para expulsar la franja negra fuera del marco */
+      max-width: none;
+      object-fit: cover;
+      object-position: left center; /* Ancla la vista a la esquina izquierda donde está el logo */
+    }
+  }
+
+  .brand-info {
+    flex: 1;
+  }
+}
+
+
+    .category-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+
+      .tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 8px;
+        text-transform: uppercase;
+
+        &.tag-cyan { background: #e0f7fa; color: #00838f; }
+        &.tag-gold { background: #fff8e1; color: #f57f17; }
+      }
+    }
+
+    .company-name {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: $text-dark;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+    }
+  
+
+.meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+
+  .rating-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    ion-icon { color: #fbc02d; font-size: 18px; }
+    .score { font-weight: 700; font-size: 14.5px; color: $text-dark; }
+    .reviews { color: $text-muted; font-size: 13px; }
+  }
+
+  .location-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: $text-muted;
+
+    ion-icon { color: #8a8a8a; font-size: 16px; flex-shrink: 0; }
+  }
+}
+
+/* =====================================================
+   BOTONES CUADRADOS FIGMA (LLAMAR, WSP, WEB, COMPARTIR)
+===================================================== */
+.figma-actions-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+
+  .action-card {
+    flex: 1;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: $white;
+    font-size: 26px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s ease;
+
+    &:active { transform: scale(0.92); }
+
+    &.btn-call { background: $btn-call-bg; }
+    &.btn-wsp { background: $btn-wsp-bg; }
+    &.btn-web { background: $btn-web-bg; }
+    &.btn-share { background: $btn-share-bg; }
+  }
+}
+
+/* =====================================================
+   BARRA DE SEGMENTOS DE NAVEGACIÓN (FIGMA)
+===================================================== */
+.segments-bar {
+  display: flex;
+  background: #f0f4f8;
+  padding: 4px;
+  border-radius: 20px;
+  gap: 2px;
+  margin-bottom: 18px;
+
+  .segment-btn {
+    flex: 1;
+    padding: 9px 4px;
+    border: none;
+    background: transparent;
+    color: $text-muted;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    white-space: nowrap;
+
+    &.active {
+      background: #e6004c; // Píldora activa destacada estilo Figma
+      color: $white;
+      box-shadow: 0 2px 8px rgba(230, 0, 76, 0.35);
+    }
+  }
+}
+
+/* =====================================================
+   CONTENIDO DE LAS PESTAÑAS
+===================================================== */
+.tab-content {
+  .section-desc {
+    margin: 0 0 16px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: $text-muted;
+  }
+}
+
+.info-block {
+  h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; color: $text-dark; }
+  p { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; color: $text-muted; }
+}
+
+.detail-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 16px;
+  margin-top: 12px;
+  border: 1px solid #e2e8f0;
+
+  .box-icon ion-icon { font-size: 24px; color: $active; }
+  .box-text {
+    h4 { margin: 0 0 2px; font-size: 14px; font-weight: 600; color: $text-dark; }
+    p { margin: 0; font-size: 13px; color: $text-dark; }
+    .price-range { font-weight: 700; color: #10b981; }
+    .note { display: block; font-size: 11px; color: $text-muted; margin-top: 4px; }
+  }
+}
+
+.social-section {
+  margin-top: 18px;
+  h4 { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: $text-dark; }
+  .social-row {
+    display: flex;
+    gap: 12px;
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-dark;
+      font-size: 20px;
+      text-decoration: none;
+    }
+  }
+}
+
+/* Grid de Chips de Comida */
+.menu-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .menu-chip {
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #eaf3fa;
+    color: #1b5e91;
+  }
+}
+
+/* Grid de Servicios */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+
+  .service-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+
+    ion-icon { font-size: 18px; flex-shrink: 0; }
+
+    &.active-service {
+      color: $text-dark;
+      ion-icon { color: #10b981; } // Verde para disponible
+    }
+
+    &.inactive-service {
+      color: #b0b0b0;
+      opacity: 0.6;
+      ion-icon { color: #d1d5db; }
+    }
+  }
+}
+
+/* Ubicación y Mapa */
+.address-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  .loc-icon { font-size: 24px; color: #ef4444; }
+  h4 { margin: 0; font-size: 14px; font-weight: 600; }
+  p { margin: 0; font-size: 12.5px; color: $text-muted; }
+}
+
+.map-frame {
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.map-open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  background: #10b981;
+  color: $white;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   TAB BAR / FOOTER FIJO
+===================================================== */
+ion-footer.detalle-footer,
+.detalle-footer {
+  --background: #0d0d0d;
+  background: #0d0d0d;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+
+  &::before { display: none; }
+}
+
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  width: 100%;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+
+  .tab-item {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+
+    span { font-size: 11px !important; font-weight: 500 !important; }
+    ion-icon { font-size: 28px !important; }
+
+    &.active {
+      color: $active !important;
+      ion-icon { color: $active !important; }
+    }
+  }
+}

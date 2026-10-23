@@ -1,0 +1,326 @@
+$bg: #000000;
+$white: #ffffff;
+$active: #2f80ed;
+$tab-inactive: #ffffff;
+$pill-bg: #e3eef6;
+$text-dark: #1a1a1a;
+$text-muted: #666666;
+$brand-cyan: #5cc6d0;
+
+.contacto-page {
+  --background: #{$bg};
+  color: $white;
+}
+
+.contacto-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 90px; /* Evita que la barra inferior tape el contenido */
+  background: $bg;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   HEADER CENTRADO CON BOTÓN TRASLÚCIDO
+===================================================== */
+.contacto-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  background: $bg;
+  z-index: 10;
+
+  .back-btn {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 0;
+    padding: 0;
+    color: $white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, transform 0.15s ease;
+
+    &:active {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-50%) scale(0.94);
+    }
+  }
+
+  .contacto-title {
+    margin: 0;
+    flex: 1;
+    padding: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: $white;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* =====================================================
+   HERO BANNER CON DEGRADADO
+===================================================== */
+.contacto-hero {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 20px 32px;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.6) 60%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 700;
+      color: $white;
+      letter-spacing: -0.4px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    p {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+
+/* =====================================================
+   TARJETA CONTENEDORA BLANCA (SOLAPADA)
+===================================================== */
+.contacto-card {
+  margin: -20px 16px 0;
+  padding: 22px 16px 20px;
+  background: $white;
+  border-radius: 24px;
+  color: $text-dark;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Píldoras de contacto estilizadas */
+.contact-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 54px;
+  margin-bottom: 14px;
+  padding-left: 0;
+  transition: transform 0.15s ease;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: $pill-bg;
+    border-radius: 28px;
+    z-index: 0;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  .contact-icon {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2f80ed, #0056b3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    font-size: 22px;
+    box-shadow: 0 4px 12px rgba(47, 128, 237, 0.3);
+  }
+
+  .contact-text {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    padding: 6px 14px 6px 16px;
+
+    h3 {
+      margin: 0 0 2px;
+      font-size: 15px;
+      font-weight: 600;
+      color: $text-dark;
+      letter-spacing: -0.2px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: $active;
+      word-break: break-word;
+    }
+  }
+}
+
+/* Redes Sociales */
+.social-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 28px 0 18px;
+
+  .social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f0f4f8;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-dark;
+    font-size: 24px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+
+    &:active {
+      transform: scale(0.92);
+      background: $active;
+      color: $white;
+      box-shadow: 0 4px 14px rgba(47, 128, 237, 0.35);
+    }
+  }
+}
+
+.contacto-footer-text {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-dark;
+  letter-spacing: -0.2px;
+}
+
+/* =====================================================
+   MENÚ INFERIOR UNIFICADO (TAB BAR)
+===================================================== */
+ion-footer.contacto-footer,
+.contacto-footer {
+  --background: #0d0d0d;
+  --border-color: transparent;
+  background: #0d0d0d;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  box-shadow: none;
+
+  &::before {
+    display: none;
+  }
+}
+
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  width: 100%;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+
+  .tab-item {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    span {
+      display: block;
+      font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      line-height: 1 !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    ion-icon {
+      font-size: 28px !important;
+      width: 28px !important;
+      height: 28px !important;
+      color: #ffffff;
+    }
+
+    &.active {
+      color: $active !important;
+
+      ion-icon {
+        color: $active !important;
+      }
+    }
+  }
+}

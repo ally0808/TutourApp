@@ -1,0 +1,113 @@
+<ion-content [fullscreen]="true" class="gastronomia-calvillo-page">
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" routerLink="/home">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Gastronomía de Calvillo</h1>
+  </div>
+
+  <!-- CARRUSEL AUTOMÁTICO DE EMPRESAS (3 SEGUNDOS) -->
+  <div class="hero-carousel">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Gastronomía local" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-container">
+    <!-- FILTROS POR CATEGORÍAS -->
+    <div class="categories-bar">
+      @for (cat of categorias; track cat) {
+        <button
+          type="button"
+          class="category-chip"
+          [class.active]="categoriaSeleccionada === cat"
+          (click)="seleccionarCategoria(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- LISTADO DE NEGOCIOS -->
+    <div class="places-grid">
+      @for (lugar of restaurantesFiltrados; track lugar.id) {
+        <article class="place-card" [routerLink]="['/explore']" [queryParams]="{ lugar: lugar.id }">
+          <div class="card-image-wrap">
+            <img [src]="lugar.image" [alt]="lugar.name" />
+            
+            <!-- BADGE CON COLORES DINÁMICOS -->
+            <span 
+              class="category-badge"
+              [class.restaurantes]="lugar.category === 'Restaurantes' || lugar.category === 'Restaurante'"
+              [class.bares]="lugar.category === 'Bares' || lugar.category === 'Bar'"
+              [class.cenadurias]="lugar.category === 'Cenadurías' || lugar.category === 'Cenaduría'"
+              [class.sabores-de-mi-pueblo]="lugar.category === 'Sabores de mi Pueblo'"
+              [class.desayunos]="lugar.category === 'Desayunos'"
+            >
+              {{ lugar.category }}
+            </span>
+          </div>
+
+          <div class="card-info">
+            <div class="card-header">
+              <h3>{{ lugar.name }}</h3>
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <span>{{ lugar.rating }}</span>
+              </div>
+            </div>
+
+            <p class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ lugar.location }}</span>
+            </p>
+
+            <div class="card-footer">
+              <span class="action-link">
+                Ver detalles
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <p>No se encontraron negocios en esta categoría.</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- 🟢 BARRA DE NAVEGACIÓN INFERIOR -->
+  <nav class="bottom-nav">
+    <!-- Casita (Inicio) forzada a activa (azul #2f80ed) en esta vista -->
+    <button type="button" class="nav-item" routerLink="/home" [class.nav-active]="true">
+      <ion-icon name="home" class="nav-icon"></ion-icon>
+      <span>Inicio</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/explore" [class.nav-active]="esRutaActiva('/explore')">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+      <span>Explorar</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/favorites" [class.nav-active]="esRutaActiva('/favorites')">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+
+    <button type="button" class="nav-item" routerLink="/configuracion" [class.nav-active]="esRutaActiva('/configuracion')">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-content>

@@ -1,0 +1,436 @@
+<ion-content [fullscreen]="true" class="explore-content">
+
+  <!-- Encabezado -->
+  <header class="header-container">
+    <h1 class="title-explore">Explorar</h1>
+  </header>
+
+  <!-- Buscador -->
+  <section class="search-wrapper">
+    <div class="search-bar">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+      <input
+        type="search"
+        id="input-busqueda"
+        placeholder="Buscar lugares servicios o experiencias"
+        class="search-input"
+        [(ngModel)]="busqueda"
+        (ngModelChange)="alBuscar()"
+        aria-label="Buscar establecimientos"
+      />
+    </div>
+  </section>
+
+  <!-- Carrusel de categorías deslizable -->
+  <section class="categories-section" aria-label="Categorías turísticas">
+    <div class="carousel-outer-wrapper">
+
+      <!-- Flecha izquierda cuando hay desplazamiento previo -->
+      @if (puedeScrollIzq) {
+        <button
+          type="button"
+          class="carousel-arrow arrow-left"
+          (click)="desplazarCategorias('izq')"
+          aria-label="Categorías anteriores"
+        >
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
+      }
+
+      <!-- Contenedor con scroll táctil / deslizable -->
+      <div
+        class="categories-carousel"
+        #categoryCarousel
+        (scroll)="onCarouselScroll()"
+        (mousedown)="iniciarArrastre($event)"
+        (mousemove)="moverArrastre($event)"
+        (mouseup)="detenerArrastre()"
+        (mouseleave)="detenerArrastre()"
+        (touchstart)="iniciarArrastre($event)"
+        (touchmove)="moverArrastre($event)"
+        (touchend)="detenerArrastre()"
+      >
+        @for (cat of categories; track cat.name) {
+          <button
+            type="button"
+            class="category-btn"
+            [style.backgroundColor]="cat.color"
+            [class.category-selected]="categoriaSeleccionada === cat.name"
+            [attr.aria-pressed]="categoriaSeleccionada === cat.name"
+            (click)="seleccionarCategoria(cat.name)"
+          >
+            <span>{{ cat.name }}</span>
+          </button>
+        }
+      </div>
+
+      <!-- Flecha derecha -->
+      @if (puedeScrollDer) {
+        <button
+          type="button"
+          class="carousel-arrow arrow-right"
+          (click)="desplazarCategorias('der')"
+          aria-label="Ver más categorías"
+        >
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      }
+
+    </div>
+
+    <!-- Texto 'Ver más categorías' -->
+    @if (puedeScrollDer) {
+      <div class="more-categories-row">
+        <button
+          type="button"
+          class="more-categories-btn"
+          (click)="desplazarCategorias('der')"
+        >
+          Ver más categorías
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- Selector Lista / Mapa -->
+  <section class="toggle-wrapper">
+    <div class="toggle-container">
+      <button
+        type="button"
+        id="btn-toggle-lista"
+        class="toggle-btn"
+        [class.active]="vistaActual === 'lista'"
+        [class.inactive]="vistaActual !== 'lista'"
+        (click)="cambiarVista('lista')"
+      >
+        Lista
+      </button>
+
+      <button
+        type="button"
+        id="btn-toggle-mapa"
+        class="toggle-btn"
+        [class.active]="vistaActual === 'mapa'"
+        [class.inactive]="vistaActual !== 'mapa'"
+        (click)="cambiarVista('mapa')"
+      >
+        Mapa
+      </button>
+    </div>
+  </section>
+
+  <!-- ==============================================
+        VISTA DE LISTA
+  =============================================== -->
+  @if (vistaActual === 'lista') {
+    <section class="places-list">
+      @for (place of lugaresFiltrados; track place.id) {
+        <article class="place-card" (click)="verEnMapa(place)">
+          <!-- Fotografía -->
+          <div
+            class="card-image-container"
+            (click)="ampliarImagen(place.image, place.name); $event.stopPropagation()"
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="'Ampliar fotografía de ' + place.name"
+          >
+            <img
+              [src]="place.image"
+              [alt]="place.name"
+              class="place-img"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Información del negocio -->
+          <div class="card-info">
+            <h2 class="place-title">{{ place.name }}</h2>
+
+            <span
+              class="badge-category"
+              [style.backgroundColor]="place.color"
+            >
+              {{ place.category }}
+            </span>
+
+            <div class="rating-row">
+              <ion-icon name="star" class="star-icon"></ion-icon>
+              <span class="rating-score">{{ place.rating }}</span>
+              <span class="rating-reviews">({{ place.reviews }})</span>
+            </div>
+
+            <div class="location-row">
+              <ion-icon name="location-outline" class="location-icon"></ion-icon>
+              <span class="location-text">{{ place.location }}</span>
+            </div>
+          </div>
+
+          <!-- Botón de favoritos -->
+          <button
+            type="button"
+            class="favorite-button"
+            [class.favorite-active]="esFavorito(place.id)"
+            (click)="alternarFavorito(place.id); $event.stopPropagation()"
+            [attr.aria-label]="esFavorito(place.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+          >
+            <ion-icon
+              [name]="esFavorito(place.id) ? 'heart' : 'heart-outline'"
+              class="heart-icon"
+            ></ion-icon>
+          </button>
+
+          <!-- Flecha hacia adelante -->
+          <div class="card-arrow">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </article>
+      }
+
+      @if (lugaresFiltrados.length === 0) {
+        <div class="empty-state">
+          <p>No se encontraron lugares</p>
+          <span>Intenta con otra búsqueda o categoría</span>
+        </div>
+      }
+    </section>
+  }
+
+  <!-- ==============================================
+        VISTA DE MAPA INTERACTIVO
+  =============================================== -->
+  @if (vistaActual === 'mapa') {
+    <section class="map-view-container">
+
+      <!-- Mapa interactivo de fondo -->
+      <div class="map-wrapper">
+        <iframe
+          [src]="mapaUrl"
+          title="Ubicación del negocio"
+          loading="lazy"
+          allowfullscreen
+        ></iframe>
+
+        <!-- Marcador y Callout de ubicación -->
+        @if (negocioSeleccionadoMapa) {
+          <div class="map-marker-overlay">
+            <div class="marker-callout">
+              <span>{{ negocioSeleccionadoMapa.location }}</span>
+              <div class="callout-arrow"></div>
+            </div>
+            <div class="marker-pin">
+              <div class="pin-circle">
+                <div class="pin-inner-dot"></div>
+              </div>
+              <div class="pin-shadow"></div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- CASO A: Negocio seleccionado -> Muestra botón para volver y la tarjeta del negocio -->
+      @if (negocioSeleccionadoMapa) {
+        <div class="selected-header-row">
+          <button type="button" class="btn-back-all" (click)="deseleccionarNegocioMapa()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+            Ver todos los lugares
+          </button>
+        </div>
+
+        <div class="map-bottom-card-container">
+          <article class="place-card map-floating-card">
+            <div
+              class="card-image-container"
+              (click)="ampliarImagen(negocioSeleccionadoMapa.image, negocioSeleccionadoMapa.name)"
+              role="button"
+              tabindex="0"
+            >
+              <img
+                [src]="negocioSeleccionadoMapa.image"
+                [alt]="negocioSeleccionadoMapa.name"
+                class="place-img"
+              />
+            </div>
+
+            <div class="card-info">
+              <h2 class="place-title">{{ negocioSeleccionadoMapa.name }}</h2>
+
+              <span
+                class="badge-category"
+                [style.backgroundColor]="negocioSeleccionadoMapa.color"
+              >
+                {{ negocioSeleccionadoMapa.category }}
+              </span>
+
+              <div class="rating-row">
+                <ion-icon name="star" class="star-icon"></ion-icon>
+                <span class="rating-score">{{ negocioSeleccionadoMapa.rating }}</span>
+                <span class="rating-reviews">({{ negocioSeleccionadoMapa.reviews }})</span>
+              </div>
+
+              <div class="location-row">
+                <ion-icon name="location-outline" class="location-icon"></ion-icon>
+                <span class="location-text">{{ negocioSeleccionadoMapa.location }}</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="favorite-button"
+              [class.favorite-active]="esFavorito(negocioSeleccionadoMapa.id)"
+              (click)="alternarFavorito(negocioSeleccionadoMapa.id); $event.stopPropagation()"
+            >
+              <ion-icon
+                [name]="esFavorito(negocioSeleccionadoMapa.id) ? 'heart' : 'heart-outline'"
+                class="heart-icon"
+              ></ion-icon>
+            </button>
+
+            <div class="card-arrow">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </div>
+          </article>
+        </div>
+      }
+
+      <!-- CASO B: Sin negocio seleccionado -> Muestra la LISTA COMPLETA de lugares abajo del mapa -->
+      @else {
+        <div class="map-places-list">
+          @for (place of lugaresFiltrados; track place.id) {
+            <article class="place-card" (click)="verEnMapa(place)">
+              <!-- Fotografía -->
+              <div
+                class="card-image-container"
+                (click)="ampliarImagen(place.image, place.name); $event.stopPropagation()"
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="'Ampliar fotografía de ' + place.name"
+              >
+                <img
+                  [src]="place.image"
+                  [alt]="place.name"
+                  class="place-img"
+                  loading="lazy"
+                />
+              </div>
+
+              <!-- Información del negocio -->
+              <div class="card-info">
+                <h2 class="place-title">{{ place.name }}</h2>
+
+                <span
+                  class="badge-category"
+                  [style.backgroundColor]="place.color"
+                >
+                  {{ place.category }}
+                </span>
+
+                <div class="rating-row">
+                  <ion-icon name="star" class="star-icon"></ion-icon>
+                  <span class="rating-score">{{ place.rating }}</span>
+                  <span class="rating-reviews">({{ place.reviews }})</span>
+                </div>
+
+                <div class="location-row">
+                  <ion-icon name="location-outline" class="location-icon"></ion-icon>
+                  <span class="location-text">{{ place.location }}</span>
+                </div>
+              </div>
+
+              <!-- Botón de favoritos -->
+              <button
+                type="button"
+                class="favorite-button"
+                [class.favorite-active]="esFavorito(place.id)"
+                (click)="alternarFavorito(place.id); $event.stopPropagation()"
+                [attr.aria-label]="esFavorito(place.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+              >
+                <ion-icon
+                  [name]="esFavorito(place.id) ? 'heart' : 'heart-outline'"
+                  class="heart-icon"
+                ></ion-icon>
+              </button>
+
+              <!-- Flecha hacia adelante -->
+              <div class="card-arrow">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </div>
+            </article>
+          }
+
+          @if (lugaresFiltrados.length === 0) {
+            <div class="empty-state map-empty">
+              <p>No se encontraron resultados para la búsqueda</p>
+              <span>Escribe otro término o selecciona otra categoría</span>
+            </div>
+          }
+        </div>
+      }
+
+    </section>
+  }
+
+  <!-- Visor de imagen ampliada -->
+  @if (imagenAmpliada) {
+    <div class="image-viewer" (click)="cerrarImagen()">
+      <button
+        type="button"
+        class="image-viewer-close"
+        (click)="cerrarImagen()"
+        aria-label="Cerrar vista previa"
+      >
+        ×
+      </button>
+      <img
+        [src]="imagenAmpliada"
+        [alt]="nombreImagenAmpliada"
+        class="image-viewer-photo"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+  }
+
+</ion-content>
+
+<!-- Menú inferior dinámico -->
+<nav class="bottom-nav">
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/home')"
+    (click)="irA('inicio')"
+  >
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/explore')"
+    (click)="irA('explorar')"
+  >
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/favorites')"
+    (click)="irA('favoritos')"
+  >
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.nav-active]="esRutaActiva('/settings')"
+    (click)="irA('configuracion')"
+  >
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>
