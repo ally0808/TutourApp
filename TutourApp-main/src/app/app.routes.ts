@@ -69,6 +69,26 @@ export const routes: Routes = [
     loadComponent: () => import('./gastronomia-calvillo/gastronomia-calvillo.page').then(m => m.GastronomiaCalvilloPage)
   },
   {
+    path: 'gastronomia-calvillo',
+    loadComponent: () => import('./gastronomia-calvillo/gastronomia-calvillo.page').then(m => m.GastronomiaCalvilloPage)
+  },
+  {
+    path: 'alojamiento-aventura-calvillo',
+    loadComponent: () => import('./alojamiento-aventura-calvillo/alojamiento-aventura-calvillo.page').then(m => m.AlojamientoAventuraCalvilloPage)
+  },
+    {
+    path: 'alojamiento-info',
+    loadComponent: () => import('./alojamiento-info/alojamiento-info.page').then(m => m.AlojamientoInfoPage)
+  },
+  {
+  path: 'atractivos-info',
+  loadComponent: () => import('./atractivos-info/atractivos-info.page').then(m => m.AtractivosInfoPage)
+  },
+  {
+  path: 'atractivos-turisticos-calvillo',
+  loadComponent: () => import('./atractivos-turisticos-calvillo/atractivos-turisticos-calvillo.page').then(m => m.AtractivosTuristicosCalvilloPage)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',

@@ -12,9 +12,9 @@ export interface Lugar {
   reviews?: number;
   color?: string;
   location: string;
-  image: string;       // 📸 Foto de portada del restaurante/empresa
-  logo?: string;        // 🏷️ Logotipo exclusivo de la empresa
-  gallery?: string[];   // 🖼️ Galería de fotos
+  image: string;       
+  logo?: string;        
+  gallery?: string[];   
   phone?: string;
   whatsapp?: string;
   website?: string;

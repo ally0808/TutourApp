@@ -215,13 +215,13 @@ export class HomePage implements AfterViewInit, OnDestroy {
   irAGastronomia(): void {
     this.irACategoria('gastronomía');
   }
-
-  irAlojamientoAventura(): void {
-    this.irACategoria('Hospedaje');
+irAlojamientoAventuraCalvillo(): void {
+    this.router.navigate(['/alojamiento-info']); 
   }
 
+
   irAtractivosTuristicos(): void {
-    this.irACategoria('Lugares recreativos');
+    this.router.navigate(['/atractivos-info']); 
   }
 
   // ==========================================

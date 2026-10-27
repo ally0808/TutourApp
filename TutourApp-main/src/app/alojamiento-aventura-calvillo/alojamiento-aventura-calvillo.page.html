@@ -1,0 +1,88 @@
+<ion-content [fullscreen]="true" class="alojamiento-aventura-calvillo-page">
+  <div class="top-bar">
+    <button type="button" class="back-btn" routerLink="/alojamiento-info">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Alojamiento y Aventura</h1>
+  </div>
+
+  <div class="hero-carousel">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Alojamiento y Aventura" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="categories-bar">
+      @for (cat of categorias; track cat) {
+        <button 
+          type="button" 
+          class="category-chip" 
+          [class.active]="categoriaSeleccionada === cat"
+          (click)="seleccionarCategoria(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <div class="places-grid">
+      @for (lugar of alojamientosFiltrados; track lugar.id) {
+        <div class="place-card" [routerLink]="['/detalle-empresa']" [queryParams]="{ id: lugar.id }">
+          <div class="card-image-wrap">
+            <img [src]="lugar.image" [alt]="lugar.name" />
+            <span class="category-badge hospedaje">{{ lugar.category }}</span>
+          </div>
+          <div class="card-info">
+            <div class="card-header">
+              <h3>{{ lugar.name }}</h3>
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <span>{{ lugar.rating }}</span>
+              </div>
+            </div>
+            <p class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ lugar.location }}</span>
+            </p>
+            <div class="card-footer">
+              <span class="action-link">
+                Ver más <ion-icon name="chevron-forward-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>No se encontraron alojamientos en esta categoría.</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button type="button" class="nav-item nav-active" routerLink="/home">
+      <ion-icon name="home" class="nav-icon"></ion-icon>
+      <span>Inicio</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/explore">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/favorites">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/configuracion">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-content>

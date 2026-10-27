@@ -1,0 +1,257 @@
+.alojamiento-info-page {
+  --background: #f8f9fa;
+
+  .top-bar {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .back-btn {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .page-title {
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .hero-carousel {
+    position: relative;
+    width: 100%;
+    height: 240px;
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.4) 100%);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 24px;
+      right: 16px;
+      display: flex;
+      gap: 5px;
+      z-index: 5;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        &.active {
+          background-color: #5CC6D0; /* Color turquesa de Alojamiento */
+          width: 18px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .main-container {
+    background-color: #ffffff;
+    border-radius: 20px 20px 0 0;
+    margin-top: -18px;
+    position: relative;
+    z-index: 3;
+    padding: 20px 18px 85px 18px;
+
+    .intro-text {
+      color: #4a5568;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 16px 0;
+
+      strong {
+        color: #1a202c;
+      }
+
+      em {
+        font-style: italic;
+      }
+    }
+
+    /* TARJETA DESTACADA */
+    .info-card {
+      background: #f0fdfa; /* Fondo suave turquesa */
+      border: 1px solid #ccfbf1;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 24px;
+
+      .badge-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #5CC6D0;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 20px;
+        margin-bottom: 12px;
+
+        ion-icon {
+          font-size: 14px;
+        }
+      }
+
+      .card-title {
+        color: #111827;
+        font-size: 20px;
+        font-weight: 800;
+        margin: 0 0 12px 0;
+      }
+
+      .card-desc {
+        color: #4b5563;
+        font-size: 13.5px;
+        line-height: 1.55;
+        margin: 0 0 12px 0;
+
+        strong {
+          color: #111827;
+        }
+      }
+
+      .card-divider {
+        border: none;
+        border-top: 1px dashed #cbd5e1;
+        margin: 16px 0;
+      }
+
+      .callout-text {
+        text-align: center;
+        color: #0d9488;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 0 14px 0;
+      }
+
+      /* BOTÓN PRINCIPAL DE ACCIÓN */
+      .btn-discover {
+        width: 100%;
+        background: #5CC6D0;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 16px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(92, 198, 208, 0.35);
+        transition: transform 0.1s ease, background 0.2s ease;
+
+        &:active {
+          transform: scale(0.98);
+          background: #4ab3bd;
+        }
+
+        ion-icon {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+/* =====================================================
+   MENÚ INFERIOR (BOTTOM NAVIGATION)
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item span {
+  display: block;
+  font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-nav .nav-item ion-icon.nav-icon,
+.nav-icon {
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  color: #ffffff;
+}
+
+.bottom-nav .nav-item.nav-active,
+.nav-item.nav-active {
+  color: #2f80ed !important;
+}
+
+.bottom-nav .nav-item.nav-active ion-icon.nav-icon,
+.nav-item.nav-active .nav-icon {
+  color: #2f80ed !important;
+}

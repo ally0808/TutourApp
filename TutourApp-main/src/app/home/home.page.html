@@ -234,32 +234,30 @@
 </article>
 
       <article
-        class="promotion-card"
-        [class.is-pressed]="bannerPresionado === 'alojamiento'"
-        (pointerdown)="presionarBanner('alojamiento')"
-        (pointerup)="soltarBanner()"
-        (pointercancel)="soltarBanner()"
-        (pointerleave)="soltarBanner()"
-        (click)="irAlojamientoAventura()"
-      >
-        <img src="assets/images/banner-alojamiento.jpg" alt="Alojamiento y aventura en Calvillo" />
-        <div class="promotion-overlay"></div>
-        <h2>ALOJAMIENTO Y AVENTURA</h2>
-      </article>
+  class="promotion-card"
+  [class.is-pressed]="bannerPresionado === 'alojamiento'"
+  (pointerdown)="presionarBanner('alojamiento')"
+  (pointerup)="soltarBanner()"
+  (pointercancel)="soltarBanner()"
+  (pointerleave)="soltarBanner()"
+  routerLink="/alojamiento-info">
+  <img src="assets/images/banner-alojamiento.jpg" alt="Alojamiento y Aventura en Calvillo" />
+  <h2>ALOJAMIENTO Y AVENTURA</h2>
+</article>
 
       <article
-        class="promotion-card"
-        [class.is-pressed]="bannerPresionado === 'atractivos'"
-        (pointerdown)="presionarBanner('atractivos')"
-        (pointerup)="soltarBanner()"
-        (pointercancel)="soltarBanner()"
-        (pointerleave)="soltarBanner()"
-        (click)="irAtractivosTuristicos()"
-      >
-        <img src="assets/images/banner-atractivos.jpg" alt="Atractivos turísticos de Calvillo" />
-        <div class="promotion-overlay"></div>
-        <h2>ATRACTIVOS TURÍSTICOS</h2>
-      </article>
+  class="promotion-card"
+  [class.is-pressed]="bannerPresionado === 'atractivos'"
+  (pointerdown)="presionarBanner('atractivos')"
+  (pointerup)="soltarBanner()"
+  (pointercancel)="soltarBanner()"
+  (pointerleave)="soltarBanner()"
+  routerLink="/atractivos-info"
+>
+  <img src="assets/images/banner-atractivos.jpg" alt="Atractivos turísticos de Calvillo" />
+  <div class="promotion-overlay"></div>
+  <h2>ATRACTIVOS TURÍSTICOS</h2>
+</article>
     </section>
 
     <!-- ==============================================

@@ -1,0 +1,79 @@
+<ion-content [fullscreen]="true" class="alojamiento-info-page">
+  <div class="top-bar">
+    <button type="button" class="back-btn" routerLink="/home">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Alojamiento y Aventura</h1>
+  </div>
+
+  <div class="hero-carousel">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Alojamiento Calvillo" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="main-container">
+    <p class="intro-text">
+      El hospedaje y la aventura en los <strong>Pueblos Mágicos de México</strong> reflejan la riqueza natural, la calidez y la hospitalidad de cada región.
+    </p>
+
+    <p class="intro-text">
+      Desde confortables <em>cabañas en la sierra</em> hasta <em>resorts con spa</em> y parques ecoturísticos, cada rincón ofrece descanso y desconexión.
+    </p>
+
+    <div class="info-card">
+      <div class="badge-tag">
+        <ion-icon name="compass-outline"></ion-icon>
+        <span>Aguascalientes</span>
+      </div>
+
+      <h2 class="card-title">Alojamiento y Aventura de Calvillo</h2>
+
+      <p class="card-desc">
+        Ofrece una mezcla única donde destacan las <strong>cabañas con vista a la sierra</strong>, hoteles boutique, spas de relajación y parques acuáticos o ecoturísticos.
+      </p>
+
+      <p class="card-desc">
+        Su gran especialidad son las experiencias de bienestar e itinerarios en la <strong>Sierra Fría</strong> y la <strong>Presa de La Codorniz</strong>.
+      </p>
+
+      <hr class="card-divider" />
+
+      <p class="callout-text">
+        ¡Encuentra abajo las diferentes opciones que Calvillo te ofrece!
+      </p>
+
+      <button type="button" class="btn-discover" routerLink="/alojamiento-aventura-calvillo">
+        <span>¡Descúbrela!</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button type="button" class="nav-item nav-active" routerLink="/home">
+      <ion-icon name="home" class="nav-icon"></ion-icon>
+      <span>Inicio</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/explore">
+      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/favorites">
+      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button type="button" class="nav-item" routerLink="/configuracion">
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-content>
