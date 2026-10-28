@@ -43,9 +43,9 @@ export class AtractivosTuristicosCalvilloPage implements OnInit, OnDestroy {
   atractivosFiltrados: Lugar[] = [];
 
   fotosHero: string[] = [
-    'assets/images/presa-codorniz.png',
-    'assets/images/sierra-fria.png',
-    'assets/images/parroquia-salitre.png'
+    'assets/images/museo-nacional-de-calvillo.jpg',
+    'assets/images/cascada-atractivos-turisticos.jpg',
+    'assets/images/santuario.jpg'
   ];
   fotoActualIndex: number = 0;
   private timer: ReturnType<typeof setInterval> | undefined;

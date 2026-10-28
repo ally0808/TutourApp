@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
@@ -18,16 +18,16 @@ import {
   templateUrl: './atractivos-info.page.html',
   styleUrls: ['./atractivos-info.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
 })
 export class AtractivosInfoPage implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
   fotosHero: string[] = [
-    'assets/images/presa-codorniz.png',
-    'assets/images/sierra-fria.png',
-    'assets/images/parroquia-salitre.png'
+    'assets/images/museo-nacional-de-calvillo.jpg',
+    'assets/images/cascada-atractivos-turisticos.jpg',
+    'assets/images/santuario.jpg'
   ];
 
   fotoActualIndex: number = 0;

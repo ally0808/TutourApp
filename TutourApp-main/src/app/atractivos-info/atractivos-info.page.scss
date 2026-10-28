@@ -1,63 +1,81 @@
 .atractivos-info-page {
-  --background: #f8f9fa;
+  --background: #ffffff;
 
-  .top-bar {
-    position: absolute;
-    top: 12px;
-    left: 16px;
-    right: 16px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    .back-btn {
-      background: rgba(0, 0, 0, 0.5);
-      border: none;
-      color: #ffffff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-    }
-
-    .page-title {
-      color: #ffffff;
-      font-size: 22px;
-      font-weight: 700;
-      margin: 0;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-    }
-  }
-
+  // --- CARRUSEL HERO CON HEADER INTEGRADO ---
   .hero-carousel {
     position: relative;
     width: 100%;
     height: 250px;
+    background-color: #333333; // Fondo oscuro temporal para distinguir texto blanco antes de cargar foto
 
     .hero-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
+    }
+
+    // Botón circular y título sobre la foto
+    .hero-header-overlay {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+
+      .back-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.45);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        padding: 0;
+
+        ion-icon {
+          font-size: 20px;
+          color: #ffffff;
+        }
+
+        &:active {
+          background-color: rgba(0, 0, 0, 0.7);
+        }
+      }
+
+      .page-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      }
     }
 
     .hero-gradient {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.4) 100%);
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+      z-index: 2;
     }
 
+    // Puntos del Carrusel
     .carousel-dots {
       position: absolute;
-      bottom: 24px;
-      right: 16px;
+      bottom: 30px; // Elevados para dejar espacio al borde curvo blanco
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      gap: 5px;
+      gap: 6px;
       z-index: 5;
 
       .dot {
@@ -65,153 +83,173 @@
         height: 8px;
         border-radius: 50%;
         background-color: rgba(255, 255, 255, 0.5);
-        transition: all 0.2s ease;
         cursor: pointer;
+        transition: all 0.3s ease;
 
         &.active {
-          background-color: #A8CF45;
-          width: 18px;
-          border-radius: 10px;
+          background-color: #e87817; // Naranja activo idéntico a Gastronomía
+          width: 20px;
+          border-radius: 4px;
         }
       }
     }
   }
 
+  // --- CONTENEDOR PRINCIPAL CON TRASLAPE BLANCO Y ESQUINAS REDONDEADAS ---
   .main-container {
-    background-color: #ffffff;
-    border-radius: 24px 24px 0 0;
-    margin-top: -18px;
     position: relative;
-    z-index: 3;
-    padding: 20px 18px 85px 18px;
+    z-index: 6;
+    margin-top: -22px; // Sube para solapar el hero
+    background-color: #ffffff;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    padding: 24px 16px 30px 16px;
 
     .intro-text {
-      color: #4a5568;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #4a4a4a;
       margin-bottom: 14px;
 
       strong {
-        color: #1a202c;
-      }
-    }
-
-    .info-card {
-      background: #fbfdf5;
-      border: 1.5px solid #e2f0bd;
-      border-radius: 20px;
-      padding: 18px;
-      margin-top: 20px;
-
-      .badge-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #A8CF45;
-        color: #ffffff;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 12px;
+        color: #1d1d1d;
       }
 
-      .card-title {
-        font-size: 20px;
-        font-weight: 800;
-        color: #1a202c;
-        margin: 0 0 10px 0;
-      }
-
-      .card-desc {
-        color: #4a5568;
-        font-size: 13.5px;
-        line-height: 1.55;
-        margin-bottom: 10px;
-      }
-
-      .card-divider {
-        border: none;
-        border-top: 1px dashed #cde28a;
-        margin: 16px 0;
-      }
-
-      .callout-text {
-        color: #719b1c;
-        font-size: 14px;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 16px;
-      }
-
-      .btn-discover {
-        width: 100%;
-        background: #A8CF45;
-        color: #ffffff;
-        border: none;
-        border-radius: 14px;
-        padding: 14px;
-        font-size: 16px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(168, 207, 69, 0.35);
-        transition: transform 0.2s ease, background 0.2s ease;
-
-        &:active {
-          transform: scale(0.98);
-        }
-
-        ion-icon {
-          font-size: 18px;
-        }
+      em {
+        font-style: italic;
       }
     }
   }
+
+  // --- TARJETAS INFORMATIVAS ---
+  .info-card {
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+
+      ion-icon { font-size: 14px; }
+    }
+
+    .card-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin: 0 0 10px 0;
+      line-height: 1.25;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+
+      strong { font-weight: 700; }
+    }
+
+    .card-divider {
+      border: none;
+      border-top: 2px dotted;
+      margin: 14px 0;
+    }
+
+    .callout-text {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 10px 0 14px 0;
+    }
+
+    .btn-discover {
+      width: 100%;
+      height: 46px;
+      color: #ffffff;
+      border: none;
+      border-radius: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+
+      ion-icon { font-size: 18px; }
+    }
+  }
+
+  // TARJETA CALVILLO (Verde)
+  .info-card.card-calvillo {
+    background-color: #f7fbe8;
+    border: 1px solid #e2eea8;
+
+    .badge-tag, .btn-discover { background-color: #8cc63f; }
+    .card-title { color: #1c260a; }
+    .card-desc { color: #475239; strong { color: #111; } }
+    .callout-text { color: #6e9818; }
+    .card-divider { border-color: #cae182; }
+  }
+
+  // TARJETA SAN JOSÉ DE GRACIA (Azul)
+  .info-card.card-sanjose {
+    background-color: #f0f8ff;
+    border: 1px solid #cce5ff;
+
+    .badge-tag, .btn-discover { background-color: #0088cc; }
+    .card-title { color: #002b4d; }
+    .card-desc { color: #2c4a63; strong { color: #001f3f; } }
+    .callout-text { color: #006699; }
+    .card-divider { border-color: #99cfe0; }
+  }
 }
 
-.bottom-nav {
-  position: fixed;
-  z-index: 1000;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 62px;
-  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
-  border-top: 1px solid #1a1a1a;
-  background: #0d0d0d;
-  box-sizing: border-box;
+// MENÚ INFERIOR UNIFICADO
+.bottom-footer {
+  background-color: #000000;
+  box-shadow: none;
 
-  .nav-item {
+  .bottom-nav {
     display: flex;
-    flex: 1;
-    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
-    border: none;
-    background: transparent;
-    color: #ffffff;
+    height: 58px;
+    background-color: #000000;
+    padding: 0 4px;
 
-    span {
+    .nav-item {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
       font-size: 11px;
-    }
+      font-weight: 500;
+      cursor: pointer;
+      flex: 1;
 
-    ion-icon {
-      font-size: 28px;
-    }
+      .nav-icon {
+        font-size: 20px;
+        color: #ffffff;
+      }
 
-    &.nav-active {
-      color: #2f80ed !important;
+      &.nav-active {
+        color: #007bff;
 
-      ion-icon {
-        color: #2f80ed !important;
+        .nav-icon {
+          color: #007bff;
+        }
       }
     }
   }
