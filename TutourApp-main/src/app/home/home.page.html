@@ -14,17 +14,31 @@
       <h1>¡Descubre los mejores lugares!</h1>
 
       <!-- BUSCADOR FUNCIONAL -->
-      <div class="search-box">
-        <ion-icon name="search-outline"></ion-icon>
-        <input
-          type="text"
-          placeholder="¿Qué buscas?"
-          aria-label="Buscar"
-          (input)="onSearchInput($event)"
-        />
-      </div>
-    </div>
-  </section>
+      <div class="search-container-row">
+  @if (terminoBusqueda.length > 0) {
+    <button 
+      type="button" 
+      class="back-btn" 
+      (click)="limpiarBusqueda()"
+      aria-label="Regresar al inicio"
+    >
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+  }
+
+  <div class="search-box">
+    <ion-icon name="search-outline"></ion-icon>
+    <input
+      type="text"
+      placeholder="¿Qué buscas?"
+      aria-label="Buscar"
+      [value]="terminoBusqueda"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+</div>
+  </div>
+</section>
 
   <!-- ==============================================
        RESULTADOS DE BÚSQUEDA
@@ -53,7 +67,12 @@
                   </button>
                 </div>
 
-                <span class="badge-cat">{{ empresa.categoria }}</span>
+                <span 
+  class="badge-cat" 
+  [style.backgroundColor]="obtenerColorCategoria(empresa.categoria)"
+>
+  {{ empresa.categoria }}
+</span>
 
                 <div class="rating-row">
                   <ion-icon name="star"></ion-icon>

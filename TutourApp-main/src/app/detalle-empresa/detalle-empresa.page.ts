@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 
@@ -43,12 +44,14 @@ import {
 })
 export class DetalleEmpresaPage implements OnInit {
   private route = inject(ActivatedRoute);
+  private location = inject(Location);
+  private sanitizer = inject(DomSanitizer);
 
-  seccionActiva: string = 'info';
+  // Tipado estricto para evitar errores en las comparaciones de la plantilla
+  seccionActiva: 'info' | 'oferta' | 'servicios' | 'ubicacion' = 'info';
   esFavorito: boolean = false;
   fotoActualIndex: number = 0;
-
-  empresaActual!: Lugar;
+  empresaActual: Lugar = LUGARES[0];
 
   constructor() {
     addIcons({
@@ -84,48 +87,63 @@ export class DetalleEmpresaPage implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       const id = Number(params.get('id'));
       const encontrada = LUGARES.find((p) => p.id === id);
-      
-      // Carga la empresa presionada o la primera como respaldo
-      this.empresaActual = encontrada || LUGARES[0];
+      if (encontrada) {
+        this.empresaActual = encontrada;
+      }
       this.fotoActualIndex = 0;
     });
   }
 
-  get fotos(): string[] {
-    return this.empresaActual.gallery && this.empresaActual.gallery.length > 0
-      ? this.empresaActual.gallery
-      : [this.empresaActual.image];
+  get mapUrl(): SafeResourceUrl {
+  const nombre = this.empresaActual?.name || '';
+  const direccion = this.empresaActual?.location || 'Calvillo, Ags';
+  const busqueda = encodeURIComponent(`${nombre} ${direccion}`);
+  // URL limpia compatible con iframe
+  const url = `https://www.google.com/maps?q=${busqueda}&output=embed`;
+  return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+}
+
+  abrirGoogleMaps(): void {
+    const direccion = this.empresaActual?.location || this.empresaActual?.name || 'Calvillo, Ags';
+    const busqueda = encodeURIComponent(`${this.empresaActual?.name || ''}, ${direccion}`);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${busqueda}`, '_blank');
   }
 
-  cambiarTab(tab: string) {
+  regresar(): void {
+    this.location.back();
+  }
+
+  get fotos(): string[] {
+    return this.empresaActual?.gallery && this.empresaActual.gallery.length > 0
+      ? this.empresaActual.gallery
+      : [this.empresaActual?.image || ''];
+  }
+
+  cambiarTab(tab: 'info' | 'oferta' | 'servicios' | 'ubicacion'): void {
     this.seccionActiva = tab;
   }
 
-  toggleFavorito() {
+  toggleFavorito(): void {
     this.esFavorito = !this.esFavorito;
   }
 
-  siguienteFoto() {
-    if (this.fotoActualIndex < this.fotos.length - 1) {
-      this.fotoActualIndex++;
-    } else {
-      this.fotoActualIndex = 0;
+  siguienteFoto(): void {
+    if (this.fotos.length > 0) {
+      this.fotoActualIndex = (this.fotoActualIndex + 1) % this.fotos.length;
     }
   }
 
-  anteriorFoto() {
-    if (this.fotoActualIndex > 0) {
-      this.fotoActualIndex--;
-    } else {
-      this.fotoActualIndex = this.fotos.length - 1;
+  anteriorFoto(): void {
+    if (this.fotos.length > 0) {
+      this.fotoActualIndex = (this.fotoActualIndex - 1 + this.fotos.length) % this.fotos.length;
     }
   }
 
-  compartir() {
+  compartir(): void {
     if (navigator.share) {
       navigator.share({
-        title: this.empresaActual.name,
-        text: `¡Mira ${this.empresaActual.name} en Calvillo Pueblo Mágico!`,
+        title: this.empresaActual?.name,
+        text: `¡Mira ${this.empresaActual?.name} en Calvillo Pueblo Mágico!`,
         url: window.location.href,
       }).catch(() => {});
     }

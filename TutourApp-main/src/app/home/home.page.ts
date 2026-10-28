@@ -15,6 +15,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FavoritosService } from '../services/favoritos.service';
 import { addIcons } from 'ionicons';
 import {
+  arrowBackOutline,
   searchOutline,
   search,
   bedOutline,
@@ -88,6 +89,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   constructor() {
     addIcons({
+      arrowBackOutline,
       bulbOutline,
       searchOutline,
       search,
@@ -111,6 +113,28 @@ export class HomePage implements AfterViewInit, OnDestroy {
       peopleOutline,
       chevronForwardOutline
     });
+  }
+
+  obtenerColorCategoria(categoria: string): string {
+  if (!categoria) return '#ff9f43';
+  const cat = categoria.toLowerCase().trim();
+
+  if (cat.includes('hospedaje') || cat.includes('hotel')) return '#5CC6D0';
+  if (cat.includes('restaurante') || cat.includes('gastronomía')) return '#FAA954';
+  if (cat.includes('recreativo') || cat.includes('atractivo')) return '#660066';
+  if (cat.includes('desayuno')) return '#A8CF45';
+  if (cat.includes('cenaduría') || cat.includes('cenaduria')) return '#CB7246';
+  if (cat.includes('sabor') || cat.includes('pueblo')) return '#FCD846';
+  if (cat.includes('artesanía') || cat.includes('artesania')) return '#F06277';
+  if (cat.includes('bar') || cat.includes('bares')) return '#FF0000';
+
+  return '#ff9f43'; // Color por defecto si no encuentra coincidencia
+  }
+
+  // Método para limpiar la búsqueda y volver al inicio
+  limpiarBusqueda(): void {
+    this.terminoBusqueda = '';
+    this.busqueda = '';
   }
 
   //Método para regresar a la página anterior
