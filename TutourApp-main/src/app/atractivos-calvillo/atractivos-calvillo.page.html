@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true" class="calvillo-page">
+  
+  <!-- ENCABEZADO SUPERIOR CON BOTÓN DE REGRESO -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" (click)="regresar()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Calvillo Pueblo Mágico</h1>
+  </div>
+
+  <!-- CONTENEDOR DE TARJETAS -->
+  <div class="cards-container">
+    
+    <h2 class="section-title">
+      ¡Descubre los Atractivos Turísticos de Calvillo Pueblo Mágico!
+    </h2>
+
+    <div class="cards-list">
+      @for (item of atractivos; track item.id) {
+        <button 
+          type="button" 
+          class="business-card" 
+          [class.card-highlight]="item.esDestacado"
+          (click)="irADetalle(item.ruta)">
+          
+          <div class="business-image">
+            <img [src]="item.imagen" [alt]="item.titulo" />
+            <div class="business-overlay"></div>
+          </div>
+
+          <div class="business-content">
+            @if (item.subtitulo) {
+              <span>{{ item.subtitulo }}</span>
+            }
+
+            @if (item.esDestacado) {
+              <div class="badge-pill">
+                <span>{{ item.titulo }}</span>
+              </div>
+            } @else {
+              <h3>{{ item.titulo }}</h3>
+            }
+
+            <p class="brand-subtext">Calvillo Pueblo Mágico</p>
+          </div>
+
+        </button>
+      }
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- NAVEGACIÓN INFERIOR (AFUERA DE ION-CONTENT) -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/home')" (click)="irA('inicio')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/explore')" (click)="irA('explorar')">
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/favorites')" (click)="irA('favoritos')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/configuracion')" (click)="irA('configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

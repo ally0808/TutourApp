@@ -86,7 +86,7 @@ export const routes: Routes = [
   },
   {
   path: 'atractivos-turisticos-calvillo',
-  loadComponent: () => import('./atractivos-turisticos-calvillo/atractivos-turisticos-calvillo.page').then(m => m.AtractivosTuristicosCalvilloPage)
+  loadComponent: () => import('./atractivos-calvillo/atractivos-calvillo.page').then(m => m.AtractivosCalvilloPage)
   },
   {
     path: '',

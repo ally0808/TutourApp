@@ -57,10 +57,30 @@
         <p class="action-text">¡Encuentra abajo las diferentes opciones que Calvillo te ofrece!</p>
         
         <button type="button" class="btn-discover" routerLink="/gastronomia-calvillo">
-  <span>¡Descúbrela!</span>
-  <ion-icon name="chevron-forward-outline"></ion-icon>
-</button>
+          <span>¡Descúbrela!</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
       </div>
     </div>
   </div>
 </ion-content>
+
+<!-- NAVEGACIÓN INFERIOR (AFUERA DE ION-CONTENT) -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/home')" (click)="irA('inicio')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/explore')" (click)="irA('explorar')">
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/favorites')" (click)="irA('favoritos')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/configuracion')" (click)="irA('configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

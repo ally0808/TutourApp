@@ -1,32 +1,31 @@
 <ion-content [fullscreen]="true" class="atractivos-info-page">
-  <!-- SECCIÓN HERO CON HEADER SUPERPUESTO -->
+  <!-- SECCIÓN HERO CON HEADER INTEGRADO -->
   <div class="hero-carousel">
-  <!-- Esta etiqueta toma la foto de la lista automáticamente -->
-  <img [src]="fotosHero[fotoActualIndex]" alt="Atractivos Turísticos" class="hero-img" />
-
-  <!-- Header superpuesto (Botón y Título) -->
-  <div class="hero-header-overlay">
-    <button type="button" class="back-btn" routerLink="/home" aria-label="Regresar">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </button>
-    <h1 class="page-title">Atractivos Turísticos</h1>
-  </div>
+    <img [src]="fotosHero[fotoActualIndex]" alt="Atractivos Turísticos" class="hero-img" />
+    
+    <!-- Header superpuesto -->
+    <div class="hero-header-overlay">
+      <button type="button" class="back-btn" routerLink="/home" aria-label="Regresar">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <h1 class="page-title">Atractivos Turísticos</h1>
+    </div>
 
     <div class="hero-gradient"></div>
 
-    <!-- Puntos del carrusel -->
-  <div class="carousel-dots">
-    @for (foto of fotosHero; track $index) {
-      <span 
-        class="dot" 
-        [class.active]="$index === fotoActualIndex"
-        (click)="cambiarFoto($index)">
-      </span>
-    }
+    <!-- Puntos del Carrusel -->
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
   </div>
-</div>
 
-  <!-- CONTENEDOR PRINCIPAL CON BORDES REDONDEADOS QUE TRASLAPAN LA IMAGEN -->
+  <!-- CONTENEDOR PRINCIPAL CON TRASLAPE BLANCO -->
   <div class="main-container">
     <p class="intro-text">
       En los <strong>pueblos mágicos de México</strong> hay una gran cantidad de pintorescos lugares en los cuales muestran toda la diversidad natural exclusiva de cada pueblo mágico.
@@ -40,10 +39,10 @@
     <div class="info-card card-calvillo">
       <div class="badge-tag">
         <ion-icon name="compass-outline"></ion-icon>
-        <span>Calvillo</span>
+        <span>Aguascalientes</span>
       </div>
 
-      <h2 class="card-title">Atractivos Turísticos de Calvillo</h2>
+      <h2 class="card-title">Calvillo Pueblo Mágico</h2>
 
       <p class="card-desc">
         Calvillo alberga impresionantes paisajes naturales como la <strong>Presa de La Codorniz</strong>, la imponente <strong>Parroquia del Señor del Salitre</strong> y senderos en la <strong>Sierra Fría</strong>.
@@ -62,13 +61,13 @@
     </div>
 
     <!-- 2. TARJETA SAN JOSÉ DE GRACIA -->
-   <div class="info-card card-sanjose">
+    <div class="info-card card-sanjose">
       <div class="badge-tag">
         <ion-icon name="compass-outline"></ion-icon>
-        <span>San José de Gracia</span>
+        <span>Aguascalientes</span>
       </div>
 
-      <h2 class="card-title">Atractivos Turísticos de San José de Gracia</h2>
+      <h2 class="card-title">San José de Gracia</h2>
 
       <p class="card-desc">
         San José de Gracia destaca por el monumental <strong>Santuario del Cristo Roto</strong> en la Presa Plutarco Elías Calles, las emocionantes tirolesas y puentes colgantes de <strong>Boca de Túnel</strong>, y su hermoso entorno natural.
@@ -88,24 +87,22 @@
   </div>
 </ion-content>
 
-<!-- Menú Inferior Unificado -->
-<ion-footer class="bottom-footer">
-  <nav class="bottom-nav">
-    <button type="button" class="nav-item nav-active" routerLink="/home">
-      <ion-icon name="home" class="nav-icon"></ion-icon>
-      <span>Inicio</span>
-    </button>
-    <button type="button" class="nav-item" routerLink="/explore">
-      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
-      <span>Explorar</span>
-    </button>
-    <button type="button" class="nav-item" routerLink="/favorites">
-      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
-      <span>Favoritos</span>
-    </button>
-    <button type="button" class="nav-item" routerLink="/configuracion">
-      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
-      <span>Configuración</span>
-    </button>
-  </nav>
-</ion-footer>
+<!-- NAVEGACIÓN INFERIOR (UNIFICADA) -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/home')" (click)="irA('inicio')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/explore')" (click)="irA('explorar')">
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/favorites')" (click)="irA('favoritos')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/configuracion')" (click)="irA('configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

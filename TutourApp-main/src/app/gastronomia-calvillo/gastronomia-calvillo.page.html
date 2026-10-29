@@ -37,10 +37,10 @@
       }
     </div>
 
-    <!-- LISTADO DE NEGOCIOS -->
+    <!-- LISTADO DE NEGOCIOS CON TU DISEÑO ORIGINAL -->
     <div class="places-grid">
       @for (lugar of restaurantesFiltrados; track lugar.id) {
-        <article class="place-card" [routerLink]="['/explore']" [queryParams]="{ lugar: lugar.id }">
+        <article class="place-card" [routerLink]="['/detalle-empresa']" [queryParams]="{ id: lugar.id }">
           <div class="card-image-wrap">
             <img [src]="lugar.image" [alt]="lugar.name" />
             
@@ -86,28 +86,27 @@
       }
     </div>
   </div>
-
-  <!-- 🟢 BARRA DE NAVEGACIÓN INFERIOR -->
-  <nav class="bottom-nav">
-    <!-- Casita (Inicio) forzada a activa (azul #2f80ed) en esta vista -->
-    <button type="button" class="nav-item" routerLink="/home" [class.nav-active]="true">
-      <ion-icon name="home" class="nav-icon"></ion-icon>
-      <span>Inicio</span>
-    </button>
-
-    <button type="button" class="nav-item" routerLink="/explore" [class.nav-active]="esRutaActiva('/explore')">
-      <ion-icon name="search-outline" class="nav-icon"></ion-icon>
-      <span>Explorar</span>
-    </button>
-
-    <button type="button" class="nav-item" routerLink="/favorites" [class.nav-active]="esRutaActiva('/favorites')">
-      <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
-      <span>Favoritos</span>
-    </button>
-
-    <button type="button" class="nav-item" routerLink="/configuracion" [class.nav-active]="esRutaActiva('/configuracion')">
-      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
-      <span>Configuración</span>
-    </button>
-  </nav>
 </ion-content>
+
+<!-- BARRA DE NAVEGACIÓN INFERIOR (FIJA FUERA DE ION-CONTENT) -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" routerLink="/home" [class.nav-active]="true">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button type="button" class="nav-item" routerLink="/explore" [class.nav-active]="esRutaActiva('/explore')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button type="button" class="nav-item" routerLink="/favorites" [class.nav-active]="esRutaActiva('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button type="button" class="nav-item" routerLink="/configuracion" [class.nav-active]="esRutaActiva('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

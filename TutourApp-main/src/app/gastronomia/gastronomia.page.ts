@@ -3,7 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { IonContent, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBackOutline, restaurantOutline, chevronForwardOutline } from 'ionicons/icons';
+import {
+  arrowBackOutline,
+  restaurantOutline,
+  chevronForwardOutline,
+  home,
+  search,
+  heartOutline,
+  settingsOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-gastronomia',
@@ -14,7 +22,7 @@ import { arrowBackOutline, restaurantOutline, chevronForwardOutline } from 'ioni
 })
 export class GastronomiaPage implements OnInit, OnDestroy {
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef); // 👈 Forzar renderizado en pantalla
+  private cdr = inject(ChangeDetectorRef);
 
   fotosHero: string[] = [
     'assets/images/gastronomia-banner-1.jpg',
@@ -30,17 +38,24 @@ export class GastronomiaPage implements OnInit, OnDestroy {
   ];
 
   fotoActualIndex = 0;
-  private timer: any;
+  private timer: ReturnType<typeof setInterval> | undefined;
 
   constructor() {
-    addIcons({ arrowBackOutline, restaurantOutline, chevronForwardOutline });
+    addIcons({
+      arrowBackOutline,
+      restaurantOutline,
+      chevronForwardOutline,
+      home,
+      search,
+      heartOutline,
+      settingsOutline
+    });
   }
 
   ngOnInit(): void {
     this.iniciarCarrusel();
   }
 
-  // Ciclos de vida nativos de Ionic
   ionViewDidEnter(): void {
     this.iniciarCarrusel();
   }
@@ -57,7 +72,7 @@ export class GastronomiaPage implements OnInit, OnDestroy {
     this.detenerCarrusel();
     this.timer = setInterval(() => {
       this.fotoActualIndex = (this.fotoActualIndex + 1) % this.fotosHero.length;
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     }, 3000);
   }
 
@@ -73,8 +88,28 @@ export class GastronomiaPage implements OnInit, OnDestroy {
     this.cdr.detectChanges();
     this.iniciarCarrusel();
   }
-  
+
   verOpcionesCalvillo(): void {
-  void this.router.navigate(['/gastronomia-calvillo']);
+    void this.router.navigate(['/gastronomia-calvillo']);
+  }
+
+  // --- LÓGICA DE NAVEGACIÓN ---
+  esRutaActiva(ruta: string): boolean {
+    if (ruta === '/home') {
+      return this.router.url === '/home' || this.router.url.includes('gastronomia');
+    }
+    return this.router.url === ruta;
+  }
+
+  irA(seccion: string): void {
+    const rutas: Record<string, string> = {
+      inicio: '/home',
+      explorar: '/explore',
+      favoritos: '/favorites',
+      configuracion: '/configuracion'
+    };
+    if (rutas[seccion]) {
+      this.router.navigateByUrl(rutas[seccion]);
+    }
+  }
 }
-} 

@@ -96,6 +96,13 @@ export class GastronomiaCalvilloPage implements OnInit, OnDestroy {
     this.detenerCarrusel();
   }
 
+  // NAVEGACIÓN A DETALLE EMPRESA
+  verDetalleEmpresa(id: number): void {
+    void this.router.navigate(['/detalle-empresa'], {
+      queryParams: { id }
+    });
+  }
+
   esRutaActiva(ruta: string): boolean {
     return this.router.url.includes(ruta);
   }

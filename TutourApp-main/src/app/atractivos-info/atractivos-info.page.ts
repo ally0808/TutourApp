@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
+import { IonContent, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
   chevronForwardOutline,
   compassOutline,
   home,
-  searchOutline,
+  search,
   heartOutline,
   settingsOutline
 } from 'ionicons/icons';
@@ -18,7 +18,7 @@ import {
   templateUrl: './atractivos-info.page.html',
   styleUrls: ['./atractivos-info.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonIcon]
 })
 export class AtractivosInfoPage implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
@@ -39,7 +39,7 @@ export class AtractivosInfoPage implements OnInit, OnDestroy {
       chevronForwardOutline,
       compassOutline,
       home,
-      searchOutline,
+      search,
       heartOutline,
       settingsOutline
     });
@@ -61,6 +61,28 @@ export class AtractivosInfoPage implements OnInit, OnDestroy {
     this.detenerCarrusel();
   }
 
+  // --- LÓGICA DE NAVEGACIÓN IGUAL A HOME ---
+  esRutaActiva(ruta: string): boolean {
+  if (ruta === '/home') {
+    // Mantiene "Inicio" activo en /home y dentro de la subvista de atractivos
+    return this.router.url === '/home' || this.router.url.includes('atractivos');
+  }
+  return this.router.url === ruta;
+}
+
+  irA(seccion: string): void {
+    const rutas: Record<string, string> = {
+      inicio: '/home',
+      explorar: '/explore',
+      favoritos: '/favorites',
+      configuracion: '/configuracion'
+    };
+    if (rutas[seccion]) {
+      this.router.navigateByUrl(rutas[seccion]);
+    }
+  }
+
+  // --- CARRUSEL ---
   iniciarCarrusel(): void {
     this.detenerCarrusel();
     if (this.fotosHero.length <= 1) return;
