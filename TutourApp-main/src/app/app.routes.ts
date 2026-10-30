@@ -89,6 +89,18 @@ export const routes: Routes = [
   loadComponent: () => import('./atractivos-calvillo/atractivos-calvillo.page').then(m => m.AtractivosCalvilloPage)
   },
   {
+  path: 'explora-pueblos',
+  loadComponent: () => import('./explora-pueblos/explora-pueblos.page').then(m => m.ExploraPueblosPage)
+  },
+  {
+  path: 'articulos-blog',
+  loadComponent: () => import('./articulos-blog/articulos-blog.page').then(m => m.ArticulosBlogPage)
+  },
+  {
+  path: 'detalle-articulo/:id',
+  loadComponent: () => import('./detalle-articulo/detalle-articulo.page').then(m => m.DetalleArticuloPage)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',

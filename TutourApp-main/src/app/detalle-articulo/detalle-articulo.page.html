@@ -1,0 +1,112 @@
+<ion-content [fullscreen]="true" class="detalle-page">
+  @if (articulo) {
+    <!-- CABECERA HERO CON CARRUSEL DE IMÁGENES -->
+    <div class="hero-container">
+      <!-- AL HACER CLIC EN LA IMAGEN SE ABRE PANTALLA COMPLETA -->
+      <img 
+        [src]="articulo.imagenes[imagenActivaIndex]" 
+        [alt]="articulo.titulo" 
+        class="hero-image"
+        (click)="abrirModalImagen()"
+        (error)="onImgError($event)" />
+
+      <!-- INDICADOR DE 'TOCA PARA AMPLIAR' -->
+      <button type="button" class="expand-btn-hint" (click)="abrirModalImagen()">
+        <ion-icon name="expand-outline"></ion-icon>
+      </button>
+
+      <div class="hero-overlay">
+        <!-- BOTÓN REGRESAR Y TÍTULO CABECERA -->
+        <div class="hero-top-bar">
+          <button type="button" class="back-circle-btn" (click)="regresar()" aria-label="Regresar">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </button>
+          <h1 class="hero-category">{{ articulo.categoria }}</h1>
+        </div>
+
+        <!-- PUNTOS DEL CARRUSEL INTERACTIVOS -->
+        <div class="carousel-dots">
+          @for (img of articulo.imagenes; track $index) {
+            <button 
+              type="button"
+              class="dot" 
+              [class.active]="$index === imagenActivaIndex"
+              (click)="seleccionarImagen($index)"
+              [attr.aria-label]="'Ver imagen ' + ($index + 1)">
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- HOJA DE CONTENIDO -->
+    <div class="content-sheet">
+      @for (parrafo of articulo.descripcionGeneral; track $index) {
+        <p class="body-p">{{ parrafo }}</p>
+      }
+
+      <div class="highlight-card">
+        <div class="badge-tag">
+          <ion-icon name="location-sharp"></ion-icon>
+          <span>{{ articulo.estado }}</span>
+        </div>
+
+        <h2 class="highlight-title">{{ articulo.subtitulo }}</h2>
+        <p class="highlight-text">{{ articulo.destacadoTexto }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- MODAL / VISOR A PANTALLA COMPLETA -->
+  @if (mostrarModalImagen && articulo) {
+    <div class="image-modal-overlay" (click)="cerrarModalImagen()">
+      <button type="button" class="close-modal-btn" (click)="cerrarModalImagen()" aria-label="Cerrar imagen">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <img 
+        [src]="articulo.imagenes[imagenActivaIndex]" 
+        [alt]="articulo.titulo" 
+        class="modal-full-image" 
+        (click)="$event.stopPropagation()" />
+    </div>
+  }
+</ion-content>
+
+<!-- MENÚ INFERIOR UNIFICADO -->
+<nav class="bottom-nav">
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/home')" 
+    (click)="irANavegacion('/home')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item nav-active" 
+    (click)="irANavegacion('/articulos-blog')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/favorites')" 
+    (click)="irANavegacion('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/configuracion')" 
+    (click)="irANavegacion('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

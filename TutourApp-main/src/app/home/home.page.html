@@ -285,27 +285,27 @@
     <section class="discover-section">
       <h2>Descubre los Pueblos Mágicos</h2>
       <div class="discover-options">
-        <article class="discover-card">
-          <div class="discover-icon pueblos-icon">
-            <img src="assets/icon/explora-pueblos.png" alt="Explora Pueblos" />
-          </div>
-          <div class="discover-text">
-            <h3>Explora Pueblos</h3>
-            <p>Encuentra los Pueblos Mágicos más cercanos.</p>
-          </div>
-          <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
-        </article>
+        <article class="discover-card" (click)="irAPueblos()">
+         <div class="discover-icon pueblos-icon">
+         <img src="assets/icon/explora-pueblos.png" alt="Explora Pueblos" />
+         </div>
+      <div class="discover-text">
+    <h3>Explora Pueblos</h3>
+    <p>Encuentra los Pueblos Mágicos más cercanos.</p>
+  </div>
+  <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
+</article>
 
-        <article class="discover-card">
-          <div class="discover-icon blog-icon">
-            <img src="assets/icon/articulos-consejos.png" alt="Artículos y Consejos" />
-          </div>
-          <div class="discover-text">
-            <h3>Artículos y Consejos - Blog</h3>
-            <p>Descubre historias, eventos y recomendaciones.</p>
-          </div>
-          <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
-        </article>
+        <article class="discover-card" (click)="irABlog()">
+  <div class="discover-icon blog-icon">
+    <img src="assets/icon/blog-icon.png" alt="Blog" />
+  </div>
+  <div class="discover-text">
+    <h3>Artículos y Consejos - Blog</h3>
+    <p>Descubre historias, eventos y recomendaciones.</p>
+  </div>
+  <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
+</article>
 
         <article class="discover-card">
           <div class="discover-icon community-icon">

@@ -7,7 +7,7 @@ import {
   inject
 } from '@angular/core';
 
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonContent, IonIcon, NavController } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LUGARES } from '../data/lugares.data';
@@ -52,6 +52,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   busqueda = '';
   terminoBusqueda = '';
   private router = inject(Router);
+  private navCtrl = inject(NavController);
   private favoritosService = inject(FavoritosService);
 
   @ViewChild('featuredScroll') featuredScroll?: ElementRef<HTMLDivElement>;
@@ -196,6 +197,8 @@ export class HomePage implements AfterViewInit, OnDestroy {
     );
   }
 
+  
+
   // ==========================================
   // NAVEGACIÓN Y NAVEGACIÓN A DETALLE
   // ==========================================
@@ -336,6 +339,15 @@ irAlojamientoAventuraCalvillo(): void {
       this.featuredScroll.nativeElement.classList.remove('is-dragging');
     }
   }
+
+  irAPueblos(): void {
+    void this.navCtrl.navigateForward('/explora-pueblos');
+  }
+
+  irABlog(): void {
+    void this.navCtrl.navigateForward('/articulos-blog');
+  }
+
 
   iniciarTouch(event: TouchEvent): void {
     this.fueArrastre = false;

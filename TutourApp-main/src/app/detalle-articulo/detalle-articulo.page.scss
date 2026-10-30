@@ -1,0 +1,256 @@
+/* =====================================================
+   ESTILOS GENERALES Y TEMA CLARO PARA EL CONTENIDO
+===================================================== */
+.detalle-page {
+  --background: #ffffff;
+  color: #222222;
+}
+
+/* =====================================================
+   HERO Y CABECERA CON CARRUSEL
+===================================================== */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  background-color: #111111;
+  overflow: hidden;
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 20px 32px 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+
+    .hero-top-bar, 
+    .carousel-dots {
+      pointer-events: auto;
+    }
+  }
+
+  /* BARRA SUPERIOR (BOTÓN REGRESAR CIRCULAR Y TÍTULO DE CATEGORÍA) */
+  .hero-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: env(safe-area-inset-top, 10px);
+
+    .back-circle-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+
+      &:active {
+        transform: scale(0.92);
+      }
+    }
+
+    .hero-category {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  /* PUNTOS DEL CARRUSEL (ACTIVO EN COLOR NARANJA COMO EN LA IMAGEN) */
+  .carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.25s ease;
+
+      &.active {
+        width: 28px;
+        border-radius: 12px;
+        background-color: #E86C27; /* Naranja idéntico a la imagen */
+      }
+    }
+  }
+}
+
+/* =====================================================
+   HOJA DE CONTENIDO BLANCA CON SUPERPOSICIÓN REDONDEADA
+===================================================== */
+.content-sheet {
+  position: relative;
+  margin-top: -24px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  background-color: #ffffff;
+  padding: 24px 20px 100px 20px;
+  z-index: 10;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+
+  .body-p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #4a4a4a;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+}
+
+/* TARJETA DESTACADA INTERNA EN TONO CREMA / NARANJA SUAVE */
+.highlight-card {
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 20px;
+  background: #FFF5EB; /* Fondo crema idéntico a la tarjeta de la imagen */
+  border: 1px solid #FFE4D1;
+
+  .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background-color: #E86C27; /* Etiqueta naranja */
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+
+    ion-icon {
+      font-size: 15px;
+    }
+  }
+
+  .highlight-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.3px;
+  }
+
+  .highlight-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4a4a4a;
+    margin: 0;
+  }
+}
+
+/* =====================================================
+   VISOR MODAL DE IMAGEN A PANTALLA COMPLETA
+===================================================== */
+.image-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  .close-modal-btn {
+    position: absolute;
+    top: max(20px, env(safe-area-inset-top));
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100000;
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  .modal-full-image {
+    max-width: 98%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+}
+
+/* =====================================================
+   MENÚ INFERIOR UNIFICADO (TEMA OSCURO CON TAB AZUL)
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  height: 65px;
+  background-color: #0b0b0e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  .nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #a1a1aa;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 12px;
+
+    .nav-icon {
+      font-size: 22px;
+    }
+
+    &.nav-active {
+      color: #2563EB; /* Azul vibrante como el tab de "Inicio" en tu imagen */
+      font-weight: 700;
+    }
+  }
+}

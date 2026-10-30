@@ -1,0 +1,79 @@
+<ion-content [fullscreen]="true" class="pueblos-page">
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" (click)="regresar()" aria-label="Regresar">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Explora Pueblos Mágicos</h1>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL APILADO -->
+  <div class="main-container">
+    <div class="pueblos-list">
+      @for (pueblo of pueblos; track pueblo.id) {
+        <article class="pueblo-card">
+          <!-- IMAGEN PRINCIPAL -->
+          <div class="card-img-wrapper">
+            <img [src]="pueblo.imagen" [alt]="pueblo.nombre" (error)="onImgError($event)" />
+          </div>
+
+          <div class="card-content">
+            <!-- LOGO PUEBLOS MÁGICOS Y TÍTULO -->
+            <div class="header-row">
+              <img class="pueblo-logo" src="assets/icon/pueblos-magicos-logo.png" alt="Pueblos Mágicos" (error)="onLogoError($event)" />
+              <h2 class="pueblo-title">{{ pueblo.nombre }}</h2>
+            </div>
+
+            <div class="divider-group">
+              <span class="line"></span>
+              <span class="pueblo-state">{{ pueblo.estado }}</span>
+              <span class="line"></span>
+            </div>
+
+            <p class="pueblo-desc">{{ pueblo.descripcion }}</p>
+
+            <!-- BOTÓN CON COLOR #F06277 -->
+            <button type="button" class="info-btn" (click)="irAHistoria(pueblo.id)">
+              Más información
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</ion-content>
+
+<!-- MENÚ INFERIOR -->
+<nav class="bottom-nav">
+  <button 
+    type="button" 
+    class="nav-item nav-active" 
+    (click)="irANavegacion('/home')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    (click)="irANavegacion('/explora-pueblos')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    (click)="irANavegacion('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    (click)="irANavegacion('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

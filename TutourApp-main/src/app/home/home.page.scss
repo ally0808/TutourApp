@@ -843,18 +843,37 @@ ion-content.home-content {
 }
 
 .discover-icon {
-  flex: 0 0 70px;
-  width: 70px;
-  height: 70px;
-
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  flex-shrink: 0; /* 👈 Evita que se aplaste o deforme si el texto es más largo */
+  border-radius: 18px; /* Mismo redondeo exacto para los 3 */
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
 
-  border-radius: 18px;
-  overflow: hidden;
+  img, ion-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  /* COLORES DE FONDO INDIVIDUALES */
+  &.pueblos-icon {
+    background-color: #c46d46;
+  }
+
+  &.blog-icon {
+    background-color: #a3d139;
+  }
+
+  &.comunidad-icon {
+    background-color: #e61d53;
+  }
 }
-
 .discover-icon img {
   width: 50px;
   height: 50px;
@@ -874,6 +893,23 @@ ion-content.home-content {
   background: #EA1242;
 }
 
+.blog-icon {
+  width: 52px;
+  height: 52px;
+  background-color: #a3d139;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+}
 .discover-text {
   flex: 1;
   min-width: 0;

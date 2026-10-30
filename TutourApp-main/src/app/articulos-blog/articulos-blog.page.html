@@ -1,0 +1,78 @@
+<ion-content [fullscreen]="true" class="blog-page">
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <button type="button" class="back-btn" (click)="regresar()" aria-label="Regresar">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="page-title">Artículos y consejos - Blog</h1>
+  </div>
+
+  <!-- LISTA DE ARTÍCULOS APILADOS -->
+  <div class="main-container">
+    <div class="articulos-list">
+      @for (articulo of articulos; track articulo.id) {
+        <article class="articulo-card">
+          <!-- IMAGEN DEL ARTÍCULO -->
+          <div class="card-img-wrapper">
+            <img [src]="articulo.imagen" [alt]="articulo.titulo" (error)="onImgError($event)" />
+          </div>
+
+          <div class="card-content">
+            <h2 class="articulo-title">{{ articulo.titulo }}</h2>
+
+            <!-- METADATOS: ETIQUETA CORAL Y AUTOR -->
+            <div class="meta-row">
+              <span class="badge-articulo">{{ articulo.numeroArticulo }}</span>
+              <span class="autor-text">Por {{ articulo.autor }}</span>
+            </div>
+
+            <p class="articulo-desc">{{ articulo.descripcion }}</p>
+
+            <button type="button" class="info-btn" (click)="irADetalle(articulo.id)">
+              Más información
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</ion-content>
+
+<!-- MENÚ INFERIOR UNIFICADO -->
+<nav class="bottom-nav">
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/home')" 
+    (click)="irANavegacion('/home')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/explora-pueblos') || esRutaActiva('/articulos-blog')" 
+    (click)="irANavegacion('/articulos-blog')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/favorites')" 
+    (click)="irANavegacion('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/configuracion')" 
+    (click)="irANavegacion('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>
