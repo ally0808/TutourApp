@@ -1,5 +1,3 @@
-scss
-
 /* =====================================================
    CONFIGURACIÓN GENERAL
 ===================================================== */
@@ -380,24 +378,26 @@ ion-content.home-content {
 
 /* CARRUSEL */
 
+
 .featured-scroll {
   display: flex;
   align-items: stretch;
   gap: 12px;
   width: 100%;
-  padding: 0 18px 8px;
+  
+  /* 💡 Aumenta el padding izquierdo para crear el margen inicial */
+  padding: 0 20px 12px 20px;
+  
+  /* 💡 Le indica al motor de scroll que la primera parada deje 20px de espacio */
+  scroll-padding-left: 20px;
 
   overflow-x: auto;
   overflow-y: hidden;
-
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-
   scrollbar-width: none;
-
   cursor: grab;
   user-select: none;
-
   touch-action: pan-x;
 }
 
@@ -416,6 +416,12 @@ ion-content.home-content {
   color: #000000;
   scroll-snap-align: start;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+
+  /* 💡 ESTO DESPEGA LA PRIMERA TARJETA DEL BORDE DE LA PANTALLA */
+  &:first-child {
+    margin-left: 3px; 
+    scroll-margin-left: 20px;
+  }
 }
 
 /* IMAGEN */
