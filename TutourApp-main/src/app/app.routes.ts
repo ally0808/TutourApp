@@ -93,12 +93,26 @@ export const routes: Routes = [
   loadComponent: () => import('./explora-pueblos/explora-pueblos.page').then(m => m.ExploraPueblosPage)
   },
   {
+    path: 'historia-pueblo/:id',
+    loadComponent: () => import('./historia-pueblo/historia-pueblo.page').then(m => m.HistoriaPuebloPage)
+  },
+  {
   path: 'articulos-blog',
   loadComponent: () => import('./articulos-blog/articulos-blog.page').then(m => m.ArticulosBlogPage)
   },
   {
   path: 'detalle-articulo/:id',
   loadComponent: () => import('./detalle-articulo/detalle-articulo.page').then(m => m.DetalleArticuloPage)
+  },
+  {
+    path: 'comunidad',
+    loadComponent: () => import('./comunidad/comunidad.page').then(m => m.ComunidadPage)
+  },
+
+  // RUTA CON PARÁMETRO: Permite cargar artículos o vistas específicas con ID
+  {
+    path: 'comunidad/:id',
+    loadComponent: () => import('./comunidad/comunidad.page').then(m => m.ComunidadPage)
   },
   {
     path: '',

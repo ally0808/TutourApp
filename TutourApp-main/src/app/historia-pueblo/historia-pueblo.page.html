@@ -1,0 +1,171 @@
+<ion-content [fullscreen]="true" class="historia-page">
+  @if (pueblo) {
+    <!-- BOTÓN REGRESAR CIRCULAR FLOTANTE (40px) -->
+    <div class="top-float-header">
+      <button type="button" class="back-circle-btn" (click)="regresar()" aria-label="Regresar">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- CARRUSEL DE IMÁGENES CON PUNTOS INDICADORES -->
+<section class="carousel-wrapper">
+  <div #carouselContainer class="carousel-scroll" (scroll)="onScrollCarousel($event)">
+    @for (img of pueblo.carruselImagenes; track $index) {
+      <div class="slide">
+        <img [src]="img" [alt]="pueblo.nombre" (error)="onImgError($event)" />
+      </div>
+    }
+  </div>
+
+  @if (pueblo.carruselImagenes && pueblo.carruselImagenes.length > 1) {
+    <div class="carousel-dots">
+      @for (img of pueblo.carruselImagenes; track i; let i = $index) {
+        <button 
+          type="button" 
+          class="dot" 
+          [class.active]="i === imagenActivaIndex"
+          (click)="seleccionarImagen(i, carouselContainer)"
+          [attr.aria-label]="'Ir a la imagen ' + (i + 1)">
+        </button>
+      }
+    </div>
+  }
+</section>
+
+    <div class="page-body">
+      <!-- TÍTULO PRINCIPAL -->
+      <header class="pueblo-header">
+        <h1 class="main-title">{{ pueblo.nombre }}</h1>
+        <p class="subtitle">{{ pueblo.subtitulo }}</p>
+      </header>
+
+      <!-- SECCIÓN HISTORIA -->
+      <section class="content-block">
+        <h2 class="block-title">Historia de {{ pueblo.nombre }}</h2>
+
+        @for (p of pueblo.historiaPart1; track $index) {
+          <p class="paragraph">{{ p }}</p>
+        }
+
+        <!-- FOTO HISTÓRICA / DON ELIGIO -->
+        @if (pueblo.imagenViejita) {
+          <figure class="historical-photo-card">
+            <img [src]="pueblo.imagenViejita" [alt]="pueblo.pieImagenViejita" (error)="onImgError($event)" />
+            <figcaption>{{ pueblo.pieImagenViejita }}</figcaption>
+          </figure>
+        }
+
+        @if (pueblo.historiaPart2) {
+          <p class="paragraph">{{ pueblo.historiaPart2 }}</p>
+        }
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- CÓMO LLEGAR -->
+      <section class="content-block">
+        <h2 class="block-title">¿Cómo llegar?</h2>
+
+        <div class="travel-card">
+          <div class="card-head">
+            <ion-icon name="bus-outline"></ion-icon>
+            <h3>Autobús:</h3>
+          </div>
+          <p>{{ pueblo.comoLlegar.autobus }}</p>
+        </div>
+
+        <div class="travel-card">
+          <div class="card-head">
+            <ion-icon name="airplane-outline"></ion-icon>
+            <h3>Avión:</h3>
+          </div>
+          <p>{{ pueblo.comoLlegar.avion }}</p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- RUTAS EN TRANVÍA TURÍSTICO -->
+      <section class="content-block">
+        <div class="tranvia-header-banner">
+          <ion-icon name="map-outline"></ion-icon>
+          <div>
+            <h2>Rutas en Tranvía Turístico</h2>
+            <p>{{ pueblo.nombre }} te ofrece grandiosas e interesantes rutas turísticas arribando en el famoso <strong>Guayequito</strong>.</p>
+          </div>
+        </div>
+
+        <div class="tranvia-list">
+          @for (ruta of pueblo.rutasTranvia; track ruta.id) {
+            <article class="ruta-card">
+              <div class="ruta-img-container">
+                <img [src]="ruta.imagen" [alt]="ruta.nombre" (error)="onImgError($event)" />
+              </div>
+
+              <div class="ruta-info">
+                <h3 class="ruta-name">{{ ruta.nombre }}</h3>
+                <p class="ruta-desc">{{ ruta.descripcion }}</p>
+
+                <div class="ruta-details-box">
+                  <div class="detail-item">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <div>
+                      <strong>Costo:</strong> Adultos {{ ruta.costoAdultos }} | {{ ruta.costoNinos }}
+                    </div>
+                  </div>
+
+                  <div class="detail-item">
+                    <ion-icon name="time-outline"></ion-icon>
+                    <div>
+                      <strong>Horario:</strong> {{ ruta.horario }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    </div>
+  }
+</ion-content>
+
+<!-- NAVEGACIÓN INFERIOR -->
+<!-- MENÚ INFERIOR DINÁMICO -->
+<nav class="bottom-nav">
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/home')" 
+    (click)="irANavegacion('/home')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/explora-pueblos')"
+    (click)="irANavegacion('/explora-pueblos')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/favorites')" 
+    (click)="irANavegacion('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/configuracion')" 
+    (click)="irANavegacion('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

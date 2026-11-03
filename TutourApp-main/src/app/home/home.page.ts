@@ -354,6 +354,10 @@ irAlojamientoAventuraCalvillo(): void {
     this.touchStartX = event.touches[0].clientX;
   }
 
+  irAComunidad(): void {
+  void this.navCtrl.navigateForward('/comunidad');
+}
+
   terminarTouch(event: TouchEvent): void {
     this.touchEndX = event.changedTouches[0].clientX;
     const diferencia = this.touchStartX - this.touchEndX;
