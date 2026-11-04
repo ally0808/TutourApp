@@ -43,7 +43,7 @@
   <button 
     type="button" 
     class="nav-item" 
-    [class.nav-active]="esRutaActiva('/home')" 
+    [class.nav-active]="esRutaActiva('/home')|| esRutaActiva('/articulos-blog')" 
     (click)="irANavegacion('/home')">
     <ion-icon name="home" class="nav-icon"></ion-icon>
     <span>Inicio</span>
@@ -52,8 +52,8 @@
   <button 
     type="button" 
     class="nav-item" 
-    [class.nav-active]="esRutaActiva('/explora-pueblos') || esRutaActiva('/articulos-blog')" 
-    (click)="irANavegacion('/articulos-blog')">
+    [class.nav-active]="esRutaActiva('/explora-pueblos')"
+    (click)="irANavegacion('/explora-pueblos')">
     <ion-icon name="search-outline" class="nav-icon"></ion-icon>
     <span>Explorar</span>
   </button>

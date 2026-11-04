@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true" class="explore-content">
-
   <!-- Encabezado -->
   <header class="header-container">
     <h1 class="title-explore">Explorar</h1>
@@ -9,7 +8,6 @@
   <section class="search-wrapper">
     <div class="search-bar">
       <ion-icon name="search-outline" class="search-icon"></ion-icon>
-
       <input
         type="search"
         id="input-busqueda"
@@ -25,8 +23,6 @@
   <!-- Carrusel de categorías deslizable -->
   <section class="categories-section" aria-label="Categorías turísticas">
     <div class="carousel-outer-wrapper">
-
-      <!-- Flecha izquierda cuando hay desplazamiento previo -->
       @if (puedeScrollIzq) {
         <button
           type="button"
@@ -38,7 +34,6 @@
         </button>
       }
 
-      <!-- Contenedor con scroll táctil / deslizable -->
       <div
         class="categories-carousel"
         #categoryCarousel
@@ -65,7 +60,6 @@
         }
       </div>
 
-      <!-- Flecha derecha -->
       @if (puedeScrollDer) {
         <button
           type="button"
@@ -76,10 +70,8 @@
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </button>
       }
-
     </div>
 
-    <!-- Texto 'Ver más categorías' -->
     @if (puedeScrollDer) {
       <div class="more-categories-row">
         <button
@@ -106,7 +98,6 @@
       >
         Lista
       </button>
-
       <button
         type="button"
         id="btn-toggle-mapa"
@@ -121,13 +112,12 @@
   </section>
 
   <!-- ==============================================
-        VISTA DE LISTA
+        VISTA DE LISTA (CLIC -> DETALLE DIRECTO)
   =============================================== -->
   @if (vistaActual === 'lista') {
     <section class="places-list">
       @for (place of lugaresFiltrados; track place.id) {
-        <article class="place-card" (click)="verEnMapa(place)">
-          <!-- Fotografía -->
+        <article class="place-card" (click)="verDetalleNegocio(place.id)">
           <div
             class="card-image-container"
             (click)="ampliarImagen(place.image, place.name); $event.stopPropagation()"
@@ -142,31 +132,24 @@
               loading="lazy"
             />
           </div>
-
-          <!-- Información del negocio -->
           <div class="card-info">
             <h2 class="place-title">{{ place.name }}</h2>
-
             <span
               class="badge-category"
               [style.backgroundColor]="place.color"
             >
               {{ place.category }}
             </span>
-
             <div class="rating-row">
               <ion-icon name="star" class="star-icon"></ion-icon>
               <span class="rating-score">{{ place.rating }}</span>
               <span class="rating-reviews">({{ place.reviews }})</span>
             </div>
-
             <div class="location-row">
               <ion-icon name="location-outline" class="location-icon"></ion-icon>
               <span class="location-text">{{ place.location }}</span>
             </div>
           </div>
-
-          <!-- Botón de favoritos -->
           <button
             type="button"
             class="favorite-button"
@@ -179,14 +162,11 @@
               class="heart-icon"
             ></ion-icon>
           </button>
-
-          <!-- Flecha hacia adelante -->
           <div class="card-arrow">
             <ion-icon name="chevron-forward-outline"></ion-icon>
           </div>
         </article>
       }
-
       @if (lugaresFiltrados.length === 0) {
         <div class="empty-state">
           <p>No se encontraron lugares</p>
@@ -201,7 +181,6 @@
   =============================================== -->
   @if (vistaActual === 'mapa') {
     <section class="map-view-container">
-
       <!-- Mapa interactivo de fondo -->
       <div class="map-wrapper">
         <iframe
@@ -210,8 +189,6 @@
           loading="lazy"
           allowfullscreen
         ></iframe>
-
-        <!-- Marcador y Callout de ubicación -->
         @if (negocioSeleccionadoMapa) {
           <div class="map-marker-overlay">
             <div class="marker-callout">
@@ -228,7 +205,7 @@
         }
       </div>
 
-      <!-- CASO A: Negocio seleccionado -> Muestra botón para volver y la tarjeta del negocio -->
+      <!-- CASO A: Negocio seleccionado -> Muestra solo esa tarjeta (CLIC -> DETALLE) -->
       @if (negocioSeleccionadoMapa) {
         <div class="selected-header-row">
           <button type="button" class="btn-back-all" (click)="deseleccionarNegocioMapa()">
@@ -236,12 +213,11 @@
             Ver todos los lugares
           </button>
         </div>
-
         <div class="map-bottom-card-container">
-          <article class="place-card map-floating-card">
+          <article class="place-card map-floating-card" (click)="verDetalleNegocio(negocioSeleccionadoMapa.id)">
             <div
               class="card-image-container"
-              (click)="ampliarImagen(negocioSeleccionadoMapa.image, negocioSeleccionadoMapa.name)"
+              (click)="ampliarImagen(negocioSeleccionadoMapa.image, negocioSeleccionadoMapa.name); $event.stopPropagation()"
               role="button"
               tabindex="0"
             >
@@ -251,29 +227,24 @@
                 class="place-img"
               />
             </div>
-
             <div class="card-info">
               <h2 class="place-title">{{ negocioSeleccionadoMapa.name }}</h2>
-
               <span
                 class="badge-category"
                 [style.backgroundColor]="negocioSeleccionadoMapa.color"
               >
                 {{ negocioSeleccionadoMapa.category }}
               </span>
-
               <div class="rating-row">
                 <ion-icon name="star" class="star-icon"></ion-icon>
                 <span class="rating-score">{{ negocioSeleccionadoMapa.rating }}</span>
                 <span class="rating-reviews">({{ negocioSeleccionadoMapa.reviews }})</span>
               </div>
-
               <div class="location-row">
                 <ion-icon name="location-outline" class="location-icon"></ion-icon>
                 <span class="location-text">{{ negocioSeleccionadoMapa.location }}</span>
               </div>
             </div>
-
             <button
               type="button"
               class="favorite-button"
@@ -285,7 +256,6 @@
                 class="heart-icon"
               ></ion-icon>
             </button>
-
             <div class="card-arrow">
               <ion-icon name="chevron-forward-outline"></ion-icon>
             </div>
@@ -293,12 +263,12 @@
         </div>
       }
 
-      <!-- CASO B: Sin negocio seleccionado -> Muestra la LISTA COMPLETA de lugares abajo del mapa -->
+      <!-- CASO B: Sin negocio seleccionado -> Muestra lista (CLIC -> ACTUALIZA MAPA) -->
       @else {
         <div class="map-places-list">
           @for (place of lugaresFiltrados; track place.id) {
+            <!-- 💡 CORREGIDO: (click)="verEnMapa(place)" para actualizar mapa y mostrar tarjeta única -->
             <article class="place-card" (click)="verEnMapa(place)">
-              <!-- Fotografía -->
               <div
                 class="card-image-container"
                 (click)="ampliarImagen(place.image, place.name); $event.stopPropagation()"
@@ -313,31 +283,24 @@
                   loading="lazy"
                 />
               </div>
-
-              <!-- Información del negocio -->
               <div class="card-info">
                 <h2 class="place-title">{{ place.name }}</h2>
-
                 <span
                   class="badge-category"
                   [style.backgroundColor]="place.color"
                 >
                   {{ place.category }}
                 </span>
-
                 <div class="rating-row">
                   <ion-icon name="star" class="star-icon"></ion-icon>
                   <span class="rating-score">{{ place.rating }}</span>
                   <span class="rating-reviews">({{ place.reviews }})</span>
                 </div>
-
                 <div class="location-row">
                   <ion-icon name="location-outline" class="location-icon"></ion-icon>
                   <span class="location-text">{{ place.location }}</span>
                 </div>
               </div>
-
-              <!-- Botón de favoritos -->
               <button
                 type="button"
                 class="favorite-button"
@@ -350,14 +313,11 @@
                   class="heart-icon"
                 ></ion-icon>
               </button>
-
-              <!-- Flecha hacia adelante -->
               <div class="card-arrow">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
               </div>
             </article>
           }
-
           @if (lugaresFiltrados.length === 0) {
             <div class="empty-state map-empty">
               <p>No se encontraron resultados para la búsqueda</p>
@@ -366,7 +326,6 @@
           }
         </div>
       }
-
     </section>
   }
 
@@ -389,7 +348,6 @@
       />
     </div>
   }
-
 </ion-content>
 
 <!-- Menú inferior dinámico -->
@@ -403,7 +361,6 @@
     <ion-icon name="home" class="nav-icon"></ion-icon>
     <span>Inicio</span>
   </button>
-
   <button
     type="button"
     class="nav-item"
@@ -413,7 +370,6 @@
     <ion-icon name="search" class="nav-icon"></ion-icon>
     <span>Explorar</span>
   </button>
-
   <button
     type="button"
     class="nav-item"
@@ -423,7 +379,6 @@
     <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
     <span>Favoritos</span>
   </button>
-
   <button
     type="button"
     class="nav-item"

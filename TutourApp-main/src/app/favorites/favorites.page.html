@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true" class="favorites-content">
-
   <!-- Encabezado -->
   <header class="header-container">
     <h1 class="title-favorites">Favoritos</h1>
@@ -9,7 +8,7 @@
     <!-- ==============================================
          ESTADO VACÍO
     =============================================== -->
-   <section class="empty-favorites" aria-live="polite">
+    <section class="empty-favorites" aria-live="polite">
       <div class="empty-illustration" aria-hidden="true">
         <svg class="empty-heart" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
           <!-- Corazón -->
@@ -26,13 +25,11 @@
           </g>
         </svg>
       </div>
-
       <h2 class="empty-title">Todavía no tienes favoritos</h2>
       <p class="empty-text">
         Guarda los lugares y experiencias que quieras visitar para encontrarlos fácilmente después
       </p>
-
-      <!-- Botón para ir a Explorar (Llamado a la acción) -->
+      <!-- Botón para ir a Explorar -->
       <button type="button" class="btn-explore" (click)="irA('explorar')">
         <ion-icon name="compass-outline" class="btn-explore-icon"></ion-icon>
         Explorar lugares
@@ -44,10 +41,11 @@
     =============================================== -->
     <section class="favorites-list">
       @for (place of favoritos(); track place.id; let i = $index) {
+        <!-- 💡 CLIC EN LA TARJETA ABRE DIRECTO EL DETALLE DE LA EMPRESA -->
         <article
           class="place-card"
           [style.animationDelay.ms]="i * 60"
-          (click)="verLugar(place)"
+          (click)="verDetalle(place.id)"
         >
           <!-- Fotografía -->
           <div
@@ -59,27 +57,22 @@
           >
             <img [src]="place.image" [alt]="place.name" class="place-img" loading="lazy" />
           </div>
-
           <!-- Información -->
           <div class="card-info">
             <h2 class="place-title">{{ place.name }}</h2>
-
             <span class="badge-category" [style.backgroundColor]="place.color">
               {{ place.category }}
             </span>
-
             <div class="rating-row">
               <ion-icon name="star" class="star-icon"></ion-icon>
               <span class="rating-score">{{ place.rating }}</span>
               <span class="rating-reviews">({{ place.reviews }})</span>
             </div>
-
             <div class="location-row">
               <ion-icon name="location-outline" class="location-icon"></ion-icon>
               <span class="location-text">{{ place.location }}</span>
             </div>
           </div>
-
           <!-- Quitar de favoritos -->
           <button
             type="button"
@@ -90,7 +83,6 @@
           >
             <ion-icon name="heart" class="heart-icon"></ion-icon>
           </button>
-
           <!-- Flecha -->
           <div class="card-arrow">
             <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -119,7 +111,6 @@
       />
     </div>
   }
-
 </ion-content>
 
 <!-- Menú inferior -->
@@ -133,7 +124,6 @@
     <ion-icon name="home" class="nav-icon"></ion-icon>
     <span>Inicio</span>
   </button>
-
   <button
     type="button"
     class="nav-item"
@@ -143,7 +133,6 @@
     <ion-icon name="search" class="nav-icon"></ion-icon>
     <span>Explorar</span>
   </button>
-
   <button
     type="button"
     class="nav-item"
@@ -153,7 +142,6 @@
     <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
     <span>Favoritos</span>
   </button>
-
   <button
     type="button"
     class="nav-item"

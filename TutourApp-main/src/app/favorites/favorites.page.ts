@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonContent, IonIcon, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   heart,
@@ -12,7 +12,6 @@ import {
   search,
   settingsOutline
 } from 'ionicons/icons';
-
 import { Lugar } from '../data/lugares.data';
 import { FavoritosService } from '../services/favoritos.service';
 
@@ -25,12 +24,11 @@ import { FavoritosService } from '../services/favoritos.service';
 })
 export class FavoritesPage {
   private router = inject(Router);
+  private navCtrl = inject(NavController);
   private favoritosService = inject(FavoritosService);
 
-  /** Lista reactiva: se actualiza sola al agregar/quitar desde cualquier vista. */
   readonly favoritos = this.favoritosService.lugaresFavoritos;
 
-  // Visor de imágenes
   imagenAmpliada: string | null = null;
   nombreImagenAmpliada = '';
 
@@ -47,7 +45,19 @@ export class FavoritesPage {
     });
   }
 
-  // Navegación
+  // 💡 Navegación directa al detalle enviando el origen 'favoritos'
+  verDetalle(id: number | string): void {
+    if (id !== undefined && id !== null && id !== '') {
+      void this.navCtrl.navigateForward(['/detalle-empresa', id], {
+        state: { origen: 'favoritos' }
+      });
+    }
+  }
+
+  verLugar(lugar: Lugar): void {
+    this.verDetalle(lugar.id);
+  }
+
   esRutaActiva(ruta: string): boolean {
     return this.router.url.includes(ruta);
   }
@@ -59,16 +69,10 @@ export class FavoritesPage {
       favoritos: '/favorites',
       configuracion: '/configuracion'
     };
-
     const ruta = rutas[seccion];
     if (ruta) {
       void this.router.navigateByUrl(ruta);
     }
-  }
-
-  // Abre el lugar en Explorar (vista de mapa)
-  verLugar(lugar: Lugar): void {
-    void this.router.navigate(['/explore'], { queryParams: { lugar: lugar.id } });
   }
 
   quitarFavorito(id: number, event?: Event): void {

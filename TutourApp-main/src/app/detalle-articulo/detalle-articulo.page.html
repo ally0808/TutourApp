@@ -77,16 +77,15 @@
 <nav class="bottom-nav">
   <button 
     type="button" 
-    class="nav-item" 
-    [class.nav-active]="esRutaActiva('/home')" 
-    (click)="irANavegacion('/home')">
+    class="nav-item nav-active"
+    (click)="irANavegacion('/articulos-blog')">
     <ion-icon name="home" class="nav-icon"></ion-icon>
     <span>Inicio</span>
   </button>
 
   <button 
     type="button" 
-    class="nav-item nav-active" 
+    class="nav-item" 
     (click)="irANavegacion('/articulos-blog')">
     <ion-icon name="search-outline" class="nav-icon"></ion-icon>
     <span>Explorar</span>

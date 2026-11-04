@@ -12,9 +12,9 @@ export const routes: Routes = [
       import('./welcome/welcome.page').then((m) => m.WelcomePage),
   },
   {
-    path: 'detalle-empresa',
-    loadComponent: () => import('./detalle-empresa/detalle-empresa.page').then(m => m.DetalleEmpresaPage)
-  },
+  path: 'detalle-empresa/:id',
+  loadComponent: () => import('./detalle-empresa/detalle-empresa.page').then(m => m.DetalleEmpresaPage)
+},
   {
     path: 'home',
     loadComponent: () =>
@@ -69,8 +69,8 @@ export const routes: Routes = [
     loadComponent: () => import('./gastronomia-calvillo/gastronomia-calvillo.page').then(m => m.GastronomiaCalvilloPage)
   },
   {
-    path: 'gastronomia-calvillo',
-    loadComponent: () => import('./gastronomia-calvillo/gastronomia-calvillo.page').then(m => m.GastronomiaCalvilloPage)
+    path: 'atractivos-info',
+    loadComponent: () => import('./atractivos-info/atractivos-info.page').then(m => m.AtractivosInfoPage)
   },
   {
     path: 'alojamiento-aventura-calvillo',
@@ -79,14 +79,6 @@ export const routes: Routes = [
     {
     path: 'alojamiento-info',
     loadComponent: () => import('./alojamiento-info/alojamiento-info.page').then(m => m.AlojamientoInfoPage)
-  },
-  {
-  path: 'atractivos-info',
-  loadComponent: () => import('./atractivos-info/atractivos-info.page').then(m => m.AtractivosInfoPage)
-  },
-  {
-  path: 'atractivos-turisticos-calvillo',
-  loadComponent: () => import('./atractivos-calvillo/atractivos-calvillo.page').then(m => m.AtractivosCalvilloPage)
   },
   {
   path: 'explora-pueblos',

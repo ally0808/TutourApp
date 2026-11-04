@@ -4,9 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-
 import { LUGARES, Lugar } from '../data/lugares.data';
-
+import { FavoritosService } from '../services/favoritos.service';
 import {
   arrowBackOutline,
   heart,
@@ -46,10 +45,11 @@ export class DetalleEmpresaPage implements OnInit {
   private route = inject(ActivatedRoute);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
+  // 💡 Inyectamos el servicio de favoritos
+  private favoritosService = inject(FavoritosService);
 
-  // Tipado estricto para evitar errores en las comparaciones de la plantilla
+  origen: 'inicio' | 'explorar' | 'favoritos' | 'configuracion' = 'inicio';
   seccionActiva: 'info' | 'oferta' | 'servicios' | 'ubicacion' = 'info';
-  esFavorito: boolean = false;
   fotoActualIndex: number = 0;
   empresaActual: Lugar = LUGARES[0];
 
@@ -84,24 +84,42 @@ export class DetalleEmpresaPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      const id = Number(params.get('id'));
-      const encontrada = LUGARES.find((p) => p.id === id);
-      if (encontrada) {
-        this.empresaActual = encontrada;
+    const state = history.state as { origen?: 'inicio' | 'explorar' | 'favoritos' | 'configuracion' };
+    if (state && state.origen) {
+      this.origen = state.origen;
+    }
+
+    this.route.paramMap.subscribe((params) => {
+      const idParam = params.get('id');
+     
+      if (idParam) {
+        const encontrada = LUGARES.find((p) => String(p.id) === String(idParam));
+        if (encontrada) {
+          this.empresaActual = encontrada;
+        }
       }
       this.fotoActualIndex = 0;
     });
   }
 
+  // 💡 Estado de favorito dinámico recuperado del servicio
+  get esFavorito(): boolean {
+    return this.favoritosService.esFavorito(Number(this.empresaActual?.id));
+  }
+
+  toggleFavorito(): void {
+    if (this.empresaActual?.id) {
+      this.favoritosService.alternar(Number(this.empresaActual.id));
+    }
+  }
+
   get mapUrl(): SafeResourceUrl {
-  const nombre = this.empresaActual?.name || '';
-  const direccion = this.empresaActual?.location || 'Calvillo, Ags';
-  const busqueda = encodeURIComponent(`${nombre} ${direccion}`);
-  // URL limpia compatible con iframe
-  const url = `https://www.google.com/maps?q=${busqueda}&output=embed`;
-  return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-}
+    const nombre = this.empresaActual?.name || '';
+    const direccion = this.empresaActual?.location || 'Calvillo, Ags';
+    const busqueda = encodeURIComponent(`${nombre} ${direccion}`);
+    const url = `https://www.google.com/maps?q=${busqueda}&output=embed`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   abrirGoogleMaps(): void {
     const direccion = this.empresaActual?.location || this.empresaActual?.name || 'Calvillo, Ags';
@@ -121,10 +139,6 @@ export class DetalleEmpresaPage implements OnInit {
 
   cambiarTab(tab: 'info' | 'oferta' | 'servicios' | 'ubicacion'): void {
     this.seccionActiva = tab;
-  }
-
-  toggleFavorito(): void {
-    this.esFavorito = !this.esFavorito;
   }
 
   siguienteFoto(): void {

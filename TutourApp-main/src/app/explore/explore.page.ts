@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonContent, IonIcon, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   star,
@@ -27,6 +27,7 @@ import {
   settingsOutline
 } from 'ionicons/icons';
 import { LUGARES, Lugar } from '../data/lugares.data';
+import { FavoritosService } from '../services/favoritos.service';
 
 @Component({
   selector: 'app-explore',
@@ -38,15 +39,16 @@ import { LUGARES, Lugar } from '../data/lugares.data';
 export class ExplorePage implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private navCtrl = inject(NavController);
   private sanitizer = inject(DomSanitizer);
+  // 💡 Inyectamos el servicio global de favoritos
+  private favoritosService = inject(FavoritosService);
 
   @ViewChild('categoryCarousel') categoryCarousel?: ElementRef<HTMLDivElement>;
 
   // Búsqueda y categorías
   busqueda = '';
   categoriaSeleccionada = 'Todos';
-
-  // Objeto de categorías para la iteración del HTML (@for (cat of categories; track cat.name))
   categories = [
     { name: 'Todos', color: '#f39c12' },
     { name: 'Bares', color: '#FF0000'},
@@ -77,9 +79,6 @@ export class ExplorePage implements OnInit, AfterViewInit {
   // Visualizador de imagen ampliada
   imagenAmpliada: string | null = null;
   nombreImagenAmpliada = '';
-
-  // Lista de favoritos (IDs)
-  favoritosIds: (number | string)[] = [];
 
   // Variables de control de arrastre del carrusel
   private isDragging = false;
@@ -121,6 +120,14 @@ export class ExplorePage implements OnInit, AfterViewInit {
     this.verificarScroll();
   }
 
+  verDetalleNegocio(id: number | string): void {
+    if (id !== undefined && id !== null && id !== '') {
+      void this.navCtrl.navigateForward(['/detalle-empresa', id], {
+        state: { origen: 'explorar' }
+      });
+    }
+  }
+
   // 🔍 Métodos de Búsqueda y Filtros
   alBuscar(): void {
     this.filtrarLugares();
@@ -137,7 +144,6 @@ export class ExplorePage implements OnInit, AfterViewInit {
 
     this.lugaresFiltrados = this.todosLosLugares.filter(lugar => {
       const catLugar = lugar.category.toLowerCase().trim();
-
       let coincideCategoria = false;
 
       if (catSel === 'todos') {
@@ -159,7 +165,6 @@ export class ExplorePage implements OnInit, AfterViewInit {
       } else if (catSel === 'lugares recreativos') {
         coincideCategoria = ['lugares recreativos', 'lugar recreativo', 'atractivos', 'atractivo', 'recreativo', 'parque', 'presa', 'balneario'].includes(catLugar);
       } else {
-        // Fallback por si agregas otra categoría no listada
         coincideCategoria = catLugar === catSel || catLugar.includes(catSel) || catSel.includes(catLugar);
       }
 
@@ -180,26 +185,18 @@ export class ExplorePage implements OnInit, AfterViewInit {
   // 📍 Mapa / Negocio Seleccionado
   verEnMapa(place: Lugar): void {
     this.negocioSeleccionadoMapa = place;
-
-    // 1. Si la empresa tiene su propia URL de mapa en la base de datos (ej. place.mapUrl)
     if ((place as any).mapUrl) {
       this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl((place as any).mapUrl);
     } else {
-      // 2. Si no tiene URL guardada, genera un mapa de Google Maps con su nombre y dirección
       const busqueda = encodeURIComponent(`${place.name}, ${place.location || 'Calvillo, Ags.'}`);
       const embedUrl = `https://maps.google.com/maps?q=${busqueda}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-      
       this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
     }
-
-    // Cambia automáticamente a la pestaña de mapa
     this.cambiarVista('mapa');
   }
 
   deseleccionarNegocioMapa(): void {
     this.negocioSeleccionadoMapa = null;
-    
-    // Restablece el mapa al mapa general de Calvillo
     this.mapaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59265.80800361286!2d-102.7533827!3d21.8466185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429b634860b73cb%3A0x280be08e2b83eb1e!2sCalvillo%2C%20Ags.!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx'
     );
@@ -216,31 +213,14 @@ export class ExplorePage implements OnInit, AfterViewInit {
     this.nombreImagenAmpliada = '';
   }
 
-  // ❤️ Favoritos
+  // ❤️ FAVORITOS CONECTADOS AL SERVICIO GLOBAL
   esFavorito(id: number | string): boolean {
-    return this.favoritosIds.includes(id);
+    return this.favoritosService.esFavorito(Number(id));
   }
 
   alternarFavorito(id: number | string): void {
-    if (this.esFavorito(id)) {
-      this.favoritosIds = this.favoritosIds.filter(favId => favId !== id);
-    } else {
-      this.favoritosIds.push(id);
-    }
+    this.favoritosService.alternar(Number(id));
   }
-
-  // 1. Cargar los IDs guardados al iniciar
-  cargarFavoritos(): void {
-    const favsGuardados = localStorage.getItem('favoritosIds');
-    if (favsGuardados) {
-      try {
-        this.favoritosIds = JSON.parse(favsGuardados);
-      } catch {
-        this.favoritosIds = [];
-      }
-    }
-  }
-  
 
   // 🧭 Navegación
   esRutaActiva(ruta: string): boolean {
@@ -280,12 +260,10 @@ export class ExplorePage implements OnInit, AfterViewInit {
     if (!this.categoryCarousel?.nativeElement) return;
     const el = this.categoryCarousel.nativeElement;
     const desplazamiento = 160;
-
     el.scrollBy({
       left: direccion === 'der' ? desplazamiento : -desplazamiento,
       behavior: 'smooth'
     });
-
     setTimeout(() => this.verificarScroll(), 300);
   }
 

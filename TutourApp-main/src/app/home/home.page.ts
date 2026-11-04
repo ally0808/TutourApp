@@ -6,7 +6,6 @@ import {
   OnDestroy,
   inject
 } from '@angular/core';
-
 import { IonContent, IonIcon, NavController } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -56,7 +55,6 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private favoritosService = inject(FavoritosService);
 
   @ViewChild('featuredScroll') featuredScroll?: ElementRef<HTMLDivElement>;
-
   private carouselInterval: ReturnType<typeof setInterval> | undefined;
   private initTimeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -65,10 +63,8 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private fueArrastre = false;
   private startX = 0;
   private scrollLeft = 0;
-
   private touchStartX = 0;
   private touchEndX = 0;
-
   bannerPresionado: string | null = null;
 
   // 🎨 Vinculamos automáticamente con lugares.data.ts e incluimos el 'color'
@@ -79,7 +75,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
     calificacion: lugar.rating,
     direccion: lugar.location,
     imagen: lugar.image,
-    color: lugar.color || '#ff9f43' 
+    color: lugar.color || '#ff9f43'
   }));
 
   empresasCarrusel = [
@@ -117,19 +113,17 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   obtenerColorCategoria(categoria: string): string {
-  if (!categoria) return '#ff9f43';
-  const cat = categoria.toLowerCase().trim();
-
-  if (cat.includes('hospedaje') || cat.includes('hotel')) return '#5CC6D0';
-  if (cat.includes('restaurante') || cat.includes('gastronomía')) return '#FAA954';
-  if (cat.includes('recreativo') || cat.includes('atractivo')) return '#660066';
-  if (cat.includes('desayuno')) return '#A8CF45';
-  if (cat.includes('cenaduría') || cat.includes('cenaduria')) return '#CB7246';
-  if (cat.includes('sabor') || cat.includes('pueblo')) return '#FCD846';
-  if (cat.includes('artesanía') || cat.includes('artesania')) return '#F06277';
-  if (cat.includes('bar') || cat.includes('bares')) return '#FF0000';
-
-  return '#ff9f43'; // Color por defecto si no encuentra coincidencia
+    if (!categoria) return '#ff9f43';
+    const cat = categoria.toLowerCase().trim();
+    if (cat.includes('hospedaje') || cat.includes('hotel')) return '#5CC6D0';
+    if (cat.includes('restaurante') || cat.includes('gastronomía')) return '#FAA954';
+    if (cat.includes('recreativo') || cat.includes('atractivo')) return '#660066';
+    if (cat.includes('desayuno')) return '#A8CF45';
+    if (cat.includes('cenaduría') || cat.includes('cenaduria')) return '#CB7246';
+    if (cat.includes('sabor') || cat.includes('pueblo')) return '#FCD846';
+    if (cat.includes('artesanía') || cat.includes('artesania')) return '#F06277';
+    if (cat.includes('bar') || cat.includes('bares')) return '#FF0000';
+    return '#ff9f43'; // Color por defecto si no encuentra coincidencia
   }
 
   // Método para limpiar la búsqueda y volver al inicio
@@ -138,7 +132,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.busqueda = '';
   }
 
-  //Método para regresar a la página anterior
+  // Método para regresar a la página anterior
   regresar(): void {
     this.location.back();
   }
@@ -156,19 +150,15 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.initTimeout = setTimeout(() => {
       const container = this.featuredScroll?.nativeElement;
       if (!container) return;
-
       const tarjeta = container.querySelector('.business-card') as HTMLElement;
       if (!tarjeta) return;
-
       const distancia = tarjeta.offsetWidth + 12;
       const anchoBloque = distancia * this.empresas.length;
-
       if (typeof container.scrollTo === 'function') {
         container.scrollTo({ left: anchoBloque, behavior: 'auto' });
       } else {
         container.scrollLeft = anchoBloque;
       }
-
       this.carouselInterval = setInterval(() => {
         this.moverCarrusel();
       }, 3000);
@@ -197,18 +187,27 @@ export class HomePage implements AfterViewInit, OnDestroy {
     );
   }
 
-  
-
   // ==========================================
   // NAVEGACIÓN Y NAVEGACIÓN A DETALLE
   // ==========================================
-  
-  verDetalle(id: number): void {
+  verDetalle(eventOrId: Event | number | string, possibleId?: number | string): void {
+    let id: number | string | undefined;
+    // Detecta si se pasó $event como primer parámetro o directamente el ID
+    if (eventOrId && typeof eventOrId === 'object' && 'stopPropagation' in eventOrId) {
+      (eventOrId as Event).stopPropagation();
+      id = possibleId;
+    } else {
+      id = eventOrId as number | string;
+    }
     if (this.fueArrastre) {
       this.fueArrastre = false;
       return;
     }
-    void this.router.navigate(['/detalle-empresa'], { queryParams: { id } });
+    if (id !== undefined && id !== null && id !== '') {
+      void this.navCtrl.navigateForward(['/detalle-empresa', id], {
+        state: { origen: 'inicio' }
+      });
+    }
   }
 
   esRutaActiva(ruta: string): boolean {
@@ -222,7 +221,6 @@ export class HomePage implements AfterViewInit, OnDestroy {
       favoritos: '/favorites',
       configuracion: '/configuracion'
     };
-
     const ruta = rutas[seccion];
     if (ruta) {
       void this.router.navigateByUrl(ruta);
@@ -242,13 +240,13 @@ export class HomePage implements AfterViewInit, OnDestroy {
   irAGastronomia(): void {
     this.irACategoria('gastronomía');
   }
-irAlojamientoAventuraCalvillo(): void {
-    this.router.navigate(['/alojamiento-info']); 
+
+  irAlojamientoAventuraCalvillo(): void {
+    this.router.navigate(['/alojamiento-info']);
   }
 
-
   irAtractivosTuristicos(): void {
-    this.router.navigate(['/atractivos-info']); 
+    this.router.navigate(['/atractivos-info']);
   }
 
   // ==========================================
@@ -279,13 +277,10 @@ irAlojamientoAventuraCalvillo(): void {
   moverCarrusel(): void {
     const container = this.featuredScroll?.nativeElement;
     if (!container) return;
-
     const tarjeta = container.querySelector('.business-card') as HTMLElement;
     if (!tarjeta || this.empresas.length === 0) return;
-
     const distancia = tarjeta.offsetWidth + 12;
     const anchoBloque = distancia * this.empresas.length;
-
     if (container.scrollLeft >= anchoBloque * 2 - distancia) {
       if (typeof container.scrollTo === 'function') {
         container.scrollTo({
@@ -296,7 +291,6 @@ irAlojamientoAventuraCalvillo(): void {
         container.scrollLeft = container.scrollLeft - anchoBloque;
       }
     }
-
     if (typeof container.scrollBy === 'function') {
       container.scrollBy({ left: distancia, behavior: 'smooth' });
     } else {
@@ -308,7 +302,6 @@ irAlojamientoAventuraCalvillo(): void {
     this.fueArrastre = false;
     const container = this.featuredScroll?.nativeElement;
     if (!container) return;
-
     this.isDragging = true;
     this.startX = event.pageX - container.offsetLeft;
     this.scrollLeft = container.scrollLeft;
@@ -317,24 +310,19 @@ irAlojamientoAventuraCalvillo(): void {
 
   moverArrastre(event: MouseEvent): void {
     if (!this.isDragging) return;
-
     const container = this.featuredScroll?.nativeElement;
     if (!container) return;
-
     const x = event.pageX - container.offsetLeft;
     const distancia = (x - this.startX) * 1.2;
-
     if (Math.abs(x - this.startX) > 5) {
       this.fueArrastre = true;
     }
-
     container.scrollLeft = this.scrollLeft - distancia;
   }
 
   terminarArrastre(): void {
     if (!this.isDragging) return;
     this.isDragging = false;
-
     if (this.featuredScroll?.nativeElement) {
       this.featuredScroll.nativeElement.classList.remove('is-dragging');
     }
@@ -348,32 +336,26 @@ irAlojamientoAventuraCalvillo(): void {
     void this.navCtrl.navigateForward('/articulos-blog');
   }
 
-
   iniciarTouch(event: TouchEvent): void {
     this.fueArrastre = false;
     this.touchStartX = event.touches[0].clientX;
   }
 
   irAComunidad(): void {
-  void this.navCtrl.navigateForward('/comunidad');
-}
+    void this.navCtrl.navigateForward('/comunidad');
+  }
 
   terminarTouch(event: TouchEvent): void {
     this.touchEndX = event.changedTouches[0].clientX;
     const diferencia = this.touchStartX - this.touchEndX;
-
     if (Math.abs(diferencia) > 10) {
       this.fueArrastre = true;
     }
-
     const container = this.featuredScroll?.nativeElement;
     if (!container || Math.abs(diferencia) < 30) return;
-
     const tarjeta = container.querySelector('.business-card') as HTMLElement;
     if (!tarjeta) return;
-
     const distancia = tarjeta.offsetWidth + 12;
-
     if (diferencia > 0) {
       if (typeof container.scrollBy === 'function') {
         container.scrollBy({ left: distancia, behavior: 'smooth' });
