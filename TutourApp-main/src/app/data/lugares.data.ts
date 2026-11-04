@@ -41,7 +41,7 @@ export const LUGARES: Lugar[] = [
     location: 'San Isidro no. 149, Carretera los Patos, Calvillo, Ags.',
     image: 'assets/images/el-manantial.png',
     logo: 'assets/icon/logo-el-manantial.png', // 🏷️ Coloca aquí la imagen del logo
-    gallery: ['assets/images/el-manantial.png'],
+    gallery: ['assets/images/el-manantial.png','assets/images/el-manantial01.jpg','assets/images/el-manantial02.jpg','assets/images/el-manantial03.jpg','assets/images/el-manantial04.jpg'],
     phone: '4959580968',
     whatsapp: '524959580968',
     hours: 'Lunes a Domingo: 24.00 horas',

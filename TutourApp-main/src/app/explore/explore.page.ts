@@ -223,9 +223,9 @@ export class ExplorePage implements OnInit, AfterViewInit {
   }
 
   // 🧭 Navegación
-  esRutaActiva(ruta: string): boolean {
-    return this.router.url === ruta;
-  }
+ esRutaActiva(ruta: string): boolean {
+  return this.router.url.split('?')[0] === ruta || this.router.url.includes(ruta);
+}
 
   irA(seccion: string): void {
     switch (seccion) {
