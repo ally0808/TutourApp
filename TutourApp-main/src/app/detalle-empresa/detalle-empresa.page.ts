@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -41,17 +41,20 @@ import {
   standalone: true,
   imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
 })
-export class DetalleEmpresaPage implements OnInit {
+export class DetalleEmpresaPage implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
-  // 💡 Inyectamos el servicio de favoritos
   private favoritosService = inject(FavoritosService);
+  private cdr = inject(ChangeDetectorRef);
 
   origen: 'inicio' | 'explorar' | 'favoritos' | 'configuracion' = 'inicio';
   seccionActiva: 'info' | 'oferta' | 'servicios' | 'ubicacion' = 'info';
   fotoActualIndex: number = 0;
   empresaActual: Lugar = LUGARES[0];
+
+  // ⏱️ Temporizador para cambio automático de imágenes
+  private timerCarrusel: any = null;
 
   constructor() {
     addIcons({
@@ -88,7 +91,6 @@ export class DetalleEmpresaPage implements OnInit {
     if (state && state.origen) {
       this.origen = state.origen;
     }
-
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
      
@@ -99,7 +101,38 @@ export class DetalleEmpresaPage implements OnInit {
         }
       }
       this.fotoActualIndex = 0;
+      this.iniciarAutoSlide(); // Inicia el cambio automático al cargar datos
     });
+  }
+
+  // 🔄 Encender / Apagar cambio automático según la visibilidad de la pantalla
+  ionViewWillEnter(): void {
+    this.iniciarAutoSlide();
+  }
+
+  ionViewWillLeave(): void {
+    this.detenerAutoSlide();
+  }
+
+  ngOnDestroy(): void {
+    this.detenerAutoSlide();
+  }
+
+  // ⏱️ Métodos del carrusel automático (2 segundos)
+  iniciarAutoSlide(): void {
+    this.detenerAutoSlide();
+    this.timerCarrusel = setInterval(() => {
+      if (this.fotos.length > 1) {
+        this.siguienteFoto();
+      }
+    }, 2000); // 2000 ms = 2 segundos
+  }
+
+  detenerAutoSlide(): void {
+    if (this.timerCarrusel) {
+      clearInterval(this.timerCarrusel);
+      this.timerCarrusel = null;
+    }
   }
 
   // 💡 Estado de favorito dinámico recuperado del servicio
@@ -144,13 +177,25 @@ export class DetalleEmpresaPage implements OnInit {
   siguienteFoto(): void {
     if (this.fotos.length > 0) {
       this.fotoActualIndex = (this.fotoActualIndex + 1) % this.fotos.length;
+      this.cdr.detectChanges();
     }
   }
 
   anteriorFoto(): void {
     if (this.fotos.length > 0) {
       this.fotoActualIndex = (this.fotoActualIndex - 1 + this.fotos.length) % this.fotos.length;
+      this.cdr.detectChanges();
     }
+  }
+
+  siguienteFotoManual(): void {
+    this.siguienteFoto();
+    this.iniciarAutoSlide(); // Reinicia la cuenta de 2 segundos desde cero
+  }
+
+  anteriorFotoManual(): void {
+    this.anteriorFoto();
+    this.iniciarAutoSlide(); // Reinicia la cuenta de 2 segundos desde cero
   }
 
   compartir(): void {
@@ -162,4 +207,14 @@ export class DetalleEmpresaPage implements OnInit {
       }).catch(() => {});
     }
   }
+
+  imagenAmpliada: string | null = null;
+
+ampliarImagen(url: string): void {
+  this.imagenAmpliada = url;
+}
+
+cerrarImagen(): void {
+  this.imagenAmpliada = null;
+}
 }

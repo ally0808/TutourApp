@@ -3,31 +3,52 @@
     <div class="detalle-container">
 
       <!-- 1. GALERÍA HERO CON CONTADOR Y NAVEGACIÓN -->
-      <div class="hero-gallery">
-        <img [src]="fotos[fotoActualIndex]" [alt]="empresaActual.name" class="hero-img" />
-        <div class="hero-overlay"></div>
-        
-        <button type="button" class="floating-btn back-btn" (click)="regresar()">
-          <ion-icon name="arrow-back-outline"></ion-icon>
-        </button>
+<div class="hero-gallery">
+  <!-- Evento click y el puntero -->
+  <img 
+  [src]="fotos[fotoActualIndex]" 
+  [alt]="empresaActual.name" 
+  class="hero-img" 
+  (click)="ampliarImagen(fotos[fotoActualIndex])" 
+  style="cursor: pointer;"
+/>
+  <div class="hero-overlay"></div>
+  
+  <button type="button" class="floating-btn back-btn" (click)="regresar()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </button>
 
-        <button type="button" class="floating-btn fav-btn" (click)="toggleFavorito()">
-          <ion-icon [name]="esFavorito ? 'heart' : 'heart-outline'" [class.active]="esFavorito"></ion-icon>
-        </button>
+  <button type="button" class="floating-btn fav-btn" (click)="toggleFavorito()">
+    <ion-icon [name]="esFavorito ? 'heart' : 'heart-outline'" [class.active]="esFavorito"></ion-icon>
+  </button>
 
-        @if (fotos.length > 1) {
-          <button type="button" class="carousel-arrow left-arrow" (click)="anteriorFoto()">
-            <ion-icon name="chevron-back-outline"></ion-icon>
-          </button>
-          <button type="button" class="carousel-arrow right-arrow" (click)="siguienteFoto()">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-          </button>
+  @if (fotos.length > 1) {
+    <button type="button" class="carousel-arrow left-arrow" (click)="anteriorFoto()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </button>
+    <button type="button" class="carousel-arrow right-arrow" (click)="siguienteFoto()">
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </button>
 
-          <div class="photo-counter">
-            {{ fotoActualIndex + 1 }}/{{ fotos.length }}
-          </div>
-        }
-      </div>
+    <div class="photo-counter">
+      {{ fotoActualIndex + 1 }}/{{ fotos.length }}
+    </div>
+  }
+</div>
+
+<!-- 🖼️ MODAL DE IMAGEN A PANTALLA COMPLETA (Sácalo del hero-gallery) -->
+@if (imagenAmpliada) {
+  <div class="modal-imagen-full" (click)="cerrarImagen()">
+    <button type="button" class="btn-cerrar" (click)="cerrarImagen()">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </button>
+    <img 
+      [src]="imagenAmpliada" 
+      [alt]="empresaActual.name" 
+      (click)="$event.stopPropagation()" 
+    />
+  </div>
+}
 
       <!-- 2. TARJETA CABECERA PRINCIPAL -->
       <div class="main-card">
