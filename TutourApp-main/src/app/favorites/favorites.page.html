@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="favorites-content">
   <!-- Encabezado -->
   <header class="header-container">
-    <h1 class="title-favorites">Favoritos</h1>
+    <h1 class="title-favorites">{{ 'MIS_FAVORITOS' | translate }}</h1>
   </header>
 
   @if (favoritos().length === 0) {
@@ -25,14 +25,14 @@
           </g>
         </svg>
       </div>
-      <h2 class="empty-title">Todavía no tienes favoritos</h2>
+      <h2 class="empty-title">{{ 'SIN_FAVORITOS_TITULO' | translate }}</h2>
       <p class="empty-text">
-        Guarda los lugares y experiencias que quieras visitar para encontrarlos fácilmente después
+        {{ 'SIN_FAVORITOS_DESC' | translate }}
       </p>
       <!-- Botón para ir a Explorar -->
       <button type="button" class="btn-explore" (click)="irA('explorar')">
         <ion-icon name="compass-outline" class="btn-explore-icon"></ion-icon>
-        Explorar lugares
+        {{ 'EXPLORAR_LUGARES' | translate }}
       </button>
     </section>
   } @else {
@@ -122,7 +122,7 @@
     (click)="irA('inicio')"
   >
     <ion-icon name="home" class="nav-icon"></ion-icon>
-    <span>Inicio</span>
+    <span>{{ 'INICIO' | translate }}</span>
   </button>
   <button
     type="button"
@@ -131,7 +131,7 @@
     (click)="irA('explorar')"
   >
     <ion-icon name="search" class="nav-icon"></ion-icon>
-    <span>Explorar</span>
+    <span>{{ 'EXPLORAR' | translate }}</span>
   </button>
   <button
     type="button"
@@ -140,7 +140,7 @@
     (click)="irA('favoritos')"
   >
     <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
-    <span>Favoritos</span>
+    <span>{{ 'FAVORITOS' | translate }}</span>
   </button>
   <button
     type="button"
@@ -149,6 +149,6 @@
     (click)="irA('configuracion')"
   >
     <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
-    <span>Configuración</span>
+    <span>{{ 'CONFIGURACION' | translate }}</span>
   </button>
 </nav>

@@ -6,6 +6,7 @@ import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { LUGARES, Lugar } from '../data/lugares.data';
 import { FavoritosService } from '../services/favoritos.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   arrowBackOutline,
   heart,
@@ -39,7 +40,7 @@ import {
   templateUrl: './detalle-empresa.page.html',
   styleUrls: ['./detalle-empresa.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon, TranslatePipe]
 })
 export class DetalleEmpresaPage implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);

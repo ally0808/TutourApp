@@ -28,13 +28,14 @@ import {
 } from 'ionicons/icons';
 import { LUGARES, Lugar } from '../data/lugares.data';
 import { FavoritosService } from '../services/favoritos.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.page.html',
   styleUrls: ['./explore.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonIcon]
+  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonIcon, TranslatePipe]
 })
 export class ExplorePage implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);

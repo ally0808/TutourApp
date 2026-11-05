@@ -13,6 +13,7 @@ import { LUGARES } from '../data/lugares.data';
 import { Router, RouterLink } from '@angular/router';
 import { FavoritosService } from '../services/favoritos.service';
 import { addIcons } from 'ionicons';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   arrowBackOutline,
   searchOutline,
@@ -44,7 +45,7 @@ import {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, FormsModule, IonIcon, RouterLink]
+  imports: [IonContent, FormsModule, IonIcon, RouterLink, TranslatePipe]
 })
 export class HomePage implements AfterViewInit, OnDestroy {
   private location = inject(Location);

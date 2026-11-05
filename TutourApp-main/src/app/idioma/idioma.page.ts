@@ -1,27 +1,32 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
   globeOutline,
   informationCircleOutline,
-  homeOutline, // 👈 Corregido: home -> homeOutline
+  homeOutline,
   searchOutline,
   heartOutline,
   settingsOutline
 } from 'ionicons/icons';
+
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-idioma',
   templateUrl: './idioma.page.html',
   styleUrls: ['./idioma.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon, TranslatePipe]
 })
-export class IdiomaPage {
-  // Variable para saber qué idioma está activo (Español por defecto)
+export class IdiomaPage implements OnInit {
+  private languageService = inject(LanguageService);
+  private location = inject(Location);
+
   idiomaSeleccionado: string = 'es';
 
   constructor() {
@@ -36,8 +41,16 @@ export class IdiomaPage {
     });
   }
 
-  // Función para cambiar la selección del radio button al hacer clic
-  seleccionarIdioma(codigo: string) {
+  ngOnInit(): void {
+    this.idiomaSeleccionado = this.languageService.getCurrentLanguage();
+  }
+
+  seleccionarIdioma(codigo: string): void {
     this.idiomaSeleccionado = codigo;
+    this.languageService.setLanguage(codigo);
+  }
+
+  regresar(): void {
+    this.location.back();
   }
 }

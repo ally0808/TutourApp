@@ -1,58 +1,52 @@
 <ion-content class="detalle-page" [fullscreen]="true">
   @if (empresaActual) {
     <div class="detalle-container">
-
       <!-- 1. GALERÍA HERO CON CONTADOR Y NAVEGACIÓN -->
-<div class="hero-gallery">
-  <!-- Evento click y el puntero -->
-  <img 
-  [src]="fotos[fotoActualIndex]" 
-  [alt]="empresaActual.name" 
-  class="hero-img" 
-  (click)="ampliarImagen(fotos[fotoActualIndex])" 
-  style="cursor: pointer;"
-/>
-  <div class="hero-overlay"></div>
-  
-  <button type="button" class="floating-btn back-btn" (click)="regresar()">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-  </button>
+      <div class="hero-gallery">
+        <img
+          [src]="fotos[fotoActualIndex]"
+          [alt]="empresaActual.name"
+          class="hero-img"
+          (click)="ampliarImagen(fotos[fotoActualIndex])"
+          style="cursor: pointer;"
+        />
+        <div class="hero-overlay"></div>
+       
+        <button type="button" class="floating-btn back-btn" (click)="regresar()" [attr.aria-label]="'VOLVER' | translate">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+        <button type="button" class="floating-btn fav-btn" (click)="toggleFavorito()">
+          <ion-icon [name]="esFavorito ? 'heart' : 'heart-outline'" [class.active]="esFavorito"></ion-icon>
+        </button>
+        @if (fotos.length > 1) {
+          <button type="button" class="carousel-arrow left-arrow" (click)="anteriorFoto()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <button type="button" class="carousel-arrow right-arrow" (click)="siguienteFoto()">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+          <div class="photo-counter">
+            {{ fotoActualIndex + 1 }}/{{ fotos.length }}
+          </div>
+        }
+      </div>
 
-  <button type="button" class="floating-btn fav-btn" (click)="toggleFavorito()">
-    <ion-icon [name]="esFavorito ? 'heart' : 'heart-outline'" [class.active]="esFavorito"></ion-icon>
-  </button>
-
-  @if (fotos.length > 1) {
-    <button type="button" class="carousel-arrow left-arrow" (click)="anteriorFoto()">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-    </button>
-    <button type="button" class="carousel-arrow right-arrow" (click)="siguienteFoto()">
-      <ion-icon name="chevron-forward-outline"></ion-icon>
-    </button>
-
-    <div class="photo-counter">
-      {{ fotoActualIndex + 1 }}/{{ fotos.length }}
-    </div>
-  }
-</div>
-
-<!-- 🖼️ MODAL DE IMAGEN A PANTALLA COMPLETA (Sácalo del hero-gallery) -->
-@if (imagenAmpliada) {
-  <div class="modal-imagen-full" (click)="cerrarImagen()">
-    <button type="button" class="btn-cerrar" (click)="cerrarImagen()">
-      <ion-icon name="close-circle-outline"></ion-icon>
-    </button>
-    <img 
-      [src]="imagenAmpliada" 
-      [alt]="empresaActual.name" 
-      (click)="$event.stopPropagation()" 
-    />
-  </div>
-}
+      <!-- MODAL DE IMAGEN A PANTALLA COMPLETA -->
+      @if (imagenAmpliada) {
+        <div class="modal-imagen-full" (click)="cerrarImagen()">
+          <button type="button" class="btn-cerrar" (click)="cerrarImagen()">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </button>
+          <img
+            [src]="imagenAmpliada"
+            [alt]="empresaActual.name"
+            (click)="$event.stopPropagation()"
+          />
+        </div>
+      }
 
       <!-- 2. TARJETA CABECERA PRINCIPAL -->
       <div class="main-card">
-        
         <div class="brand-row">
           @if (empresaActual.logo) {
             <div class="company-logo">
@@ -61,13 +55,12 @@
           }
           <div class="brand-info">
             <div class="category-tags">
-              <span class="tag tag-cyan">{{ empresaActual.category }}</span>
-              <span class="tag tag-gold">Calvillo Pueblo Mágico</span>
+              <span class="tag tag-cyan">{{ empresaActual.category | translate }}</span>
+              <span class="tag tag-gold">{{ 'TAG_PUEBLO_MAGICO' | translate }}</span>
             </div>
             <h1 class="company-name">{{ empresaActual.name }}</h1>
           </div>
         </div>
-
         <div class="meta-row">
           <div class="rating-badge">
             <ion-icon name="star"></ion-icon>
@@ -83,92 +76,84 @@
         <!-- BOTONES DE ACCIÓN PRINCIPALES -->
         <div class="figma-actions-grid">
           @if (empresaActual.phone) {
-            <a [href]="'tel:' + empresaActual.phone" class="action-card btn-call" aria-label="Llamar">
+            <a [href]="'tel:' + empresaActual.phone" class="action-card btn-call" [attr.aria-label]="'ACCION_LLAMAR' | translate">
               <ion-icon name="call"></ion-icon>
             </a>
           }
-
           @if (empresaActual.whatsapp) {
-            <a [href]="'https://wa.me/' + empresaActual.whatsapp" target="_blank" class="action-card btn-wsp" aria-label="WhatsApp">
+            <a [href]="'https://wa.me/' + empresaActual.whatsapp" target="_blank" class="action-card btn-wsp" [attr.aria-label]="'ACCION_WHATSAPP' | translate">
               <ion-icon name="logo-whatsapp"></ion-icon>
             </a>
           }
-
           @if (empresaActual.website) {
-            <a [href]="empresaActual.website" target="_blank" class="action-card btn-web" aria-label="Sitio Web">
+            <a [href]="empresaActual.website" target="_blank" class="action-card btn-web" [attr.aria-label]="'ACCION_WEB' | translate">
               <ion-icon name="globe-outline"></ion-icon>
             </a>
           }
-
-          <button type="button" class="action-card btn-share" (click)="compartir()" aria-label="Compartir">
+          <button type="button" class="action-card btn-share" (click)="compartir()" [attr.aria-label]="'ACCION_COMPARTIR' | translate">
             <ion-icon name="share-social"></ion-icon>
           </button>
         </div>
 
         <!-- 3. BARRA DE PESTAÑAS -->
         <div class="segments-bar">
-          <button 
-            type="button" 
-            class="segment-btn" 
+          <button
+            type="button"
+            class="segment-btn"
             [class.active]="seccionActiva === 'info'"
             (click)="cambiarTab('info')">
-            Información
+            {{ 'TAB_INFORMACION' | translate }}
           </button>
-
-          <button 
-            type="button" 
-            class="segment-btn" 
+          <button
+            type="button"
+            class="segment-btn"
             [class.active]="seccionActiva === 'oferta'"
             (click)="cambiarTab('oferta')">
-            ¿Qué ofrece?
+            {{ 'TAB_OFERTA' | translate }}
           </button>
-
-          <button 
-            type="button" 
-            class="segment-btn" 
+          <button
+            type="button"
+            class="segment-btn"
             [class.active]="seccionActiva === 'servicios'"
             (click)="cambiarTab('servicios')">
-            Servicios
+            {{ 'TAB_SERVICIOS' | translate }}
           </button>
-
-          <button 
-            type="button" 
-            class="segment-btn" 
+          <button
+            type="button"
+            class="segment-btn"
             [class.active]="seccionActiva === 'ubicacion'"
             (click)="cambiarTab('ubicacion')">
-            Ubicación
+            {{ 'TAB_UBICACION' | translate }}
           </button>
         </div>
 
         <!-- 4. CONTENIDO DINÁMICO -->
         <div class="tab-content">
-
           <!-- INFORMACIÓN -->
           @if (seccionActiva === 'info') {
             <div class="tab-pane">
               <div class="info-block">
-                <h3>¿Quiénes somos?</h3>
+                <h3>{{ 'QUIENES_SOMOS' | translate }}</h3>
                 @for (parrafo of empresaActual.about || []; track $index) {
-                  <p>{{ parrafo }}</p>
+                  <!-- 🌐 Traducción de párrafos descriptivos -->
+                  <p>{{ parrafo | translate }}</p>
                 }
               </div>
-
               @if (empresaActual.priceRange) {
                 <div class="detail-box price-box">
                   <div class="box-icon"><ion-icon name="cash-outline"></ion-icon></div>
                   <div class="box-text">
-                    <h4>Precios promedio</h4>
-                    <p class="price-range">{{ empresaActual.priceRange }} / persona</p>
-                    <span class="note">Precios de consumo sugerido. Para precios exactos comunicarse directamente.</span>
+                    <h4>{{ 'PRECIOS_PROMEDIO' | translate }}</h4>
+                    <p class="price-range">{{ empresaActual.priceRange }}</p>
+                    <span class="note">{{ 'NOTA_PRECIOS' | translate }}</span>
                   </div>
                 </div>
               }
-
               @if (empresaActual.hours) {
                 <div class="detail-box time-box">
                   <div class="box-icon"><ion-icon name="time-outline"></ion-icon></div>
                   <div class="box-text">
-                    <h4>Horarios de atención</h4>
+                    <h4>{{ 'HORARIOS_ATENCION' | translate }}</h4>
                     <p><strong>{{ empresaActual.hours }}</strong></p>
                   </div>
                 </div>
@@ -181,7 +166,8 @@
             <div class="tab-pane">
               <div class="menu-chips-grid">
                 @for (item of empresaActual.offers || []; track $index) {
-                  <span class="menu-chip">{{ item }}</span>
+                  <!-- 🌐 Traducción de elementos ofertados -->
+                  <span class="menu-chip">{{ item | translate }}</span>
                 }
               </div>
             </div>
@@ -192,12 +178,12 @@
             <div class="tab-pane">
               <div class="services-grid">
                 @for (s of empresaActual.services || []; track $index) {
-                  <div 
-                    class="service-item" 
+                  <div
+                    class="service-item"
                     [class.active-service]="s.disponible"
                     [class.inactive-service]="!s.disponible">
                     <ion-icon [name]="s.disponible ? 'checkmark-circle' : 'close-circle-outline'"></ion-icon>
-                    <span>{{ s.nombre }}</span>
+                    <span>{{ s.nombre | translate }}</span>
                   </div>
                 }
               </div>
@@ -210,11 +196,10 @@
               <div class="address-card">
                 <ion-icon name="location-sharp" class="loc-icon"></ion-icon>
                 <div>
-                  <h4>Dirección</h4>
+                  <h4>{{ 'DIRECCION' | translate }}</h4>
                   <p>{{ empresaActual.location }}</p>
                 </div>
               </div>
-
               <div class="map-container">
                 <iframe
                   [src]="mapUrl"
@@ -226,18 +211,14 @@
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
               </div>
-
               <button type="button" class="btn-open-maps" (click)="abrirGoogleMaps()">
                 <ion-icon name="navigate-outline"></ion-icon>
-                <span>Cómo llegar</span>
+                <span>{{ 'COMO_LLEGAR' | translate }}</span>
               </button>
             </div>
           }
-
         </div>
-
       </div>
-
     </div>
   }
 </ion-content>
@@ -252,9 +233,8 @@
       routerLink="/home"
     >
       <ion-icon name="home"></ion-icon>
-      <span>Inicio</span>
+      <span>{{ 'INICIO' | translate }}</span>
     </button>
-
     <button
       type="button"
       class="tab-item"
@@ -262,9 +242,8 @@
       routerLink="/explore"
     >
       <ion-icon name="search-outline"></ion-icon>
-      <span>Explorar</span>
+      <span>{{ 'EXPLORAR' | translate }}</span>
     </button>
-
     <button
       type="button"
       class="tab-item"
@@ -272,9 +251,8 @@
       routerLink="/favorites"
     >
       <ion-icon name="heart-outline"></ion-icon>
-      <span>Favoritos</span>
+      <span>{{ 'FAVORITOS' | translate }}</span>
     </button>
-
     <button
       type="button"
       class="tab-item"
@@ -282,7 +260,7 @@
       routerLink="/configuracion"
     >
       <ion-icon name="settings-outline"></ion-icon>
-      <span>Configuración</span>
+      <span>{{ 'CONFIGURACION' | translate }}</span>
     </button>
   </nav>
 </ion-footer>

@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="explore-content">
   <!-- Encabezado -->
   <header class="header-container">
-    <h1 class="title-explore">Explorar</h1>
+    <h1 class="title-explore">{{ 'EXPLORAR' | translate }}</h1>
   </header>
 
   <!-- Buscador -->
@@ -11,7 +11,7 @@
       <input
         type="search"
         id="input-busqueda"
-        placeholder="Buscar lugares servicios o experiencias"
+        [placeholder]="'BUSCAR_EXPLORE_PLACEHOLDER' | translate"
         class="search-input"
         [(ngModel)]="busqueda"
         (ngModelChange)="alBuscar()"
@@ -33,7 +33,6 @@
           <ion-icon name="chevron-back-outline"></ion-icon>
         </button>
       }
-
       <div
         class="categories-carousel"
         #categoryCarousel
@@ -55,11 +54,11 @@
             [attr.aria-pressed]="categoriaSeleccionada === cat.name"
             (click)="seleccionarCategoria(cat.name)"
           >
-            <span>{{ cat.name }}</span>
+            <!-- 🌐 Traducción de nombre de categoría -->
+            <span>{{ cat.name | translate }}</span>
           </button>
         }
       </div>
-
       @if (puedeScrollDer) {
         <button
           type="button"
@@ -71,7 +70,6 @@
         </button>
       }
     </div>
-
     @if (puedeScrollDer) {
       <div class="more-categories-row">
         <button
@@ -79,7 +77,7 @@
           class="more-categories-btn"
           (click)="desplazarCategorias('der')"
         >
-          Ver más categorías
+          {{ 'VER_MAS_CATEGORIAS' | translate }}
         </button>
       </div>
     }
@@ -96,7 +94,7 @@
         [class.inactive]="vistaActual !== 'lista'"
         (click)="cambiarVista('lista')"
       >
-        Lista
+        {{ 'TOGGLE_LISTA' | translate }}
       </button>
       <button
         type="button"
@@ -106,7 +104,7 @@
         [class.inactive]="vistaActual !== 'mapa'"
         (click)="cambiarVista('mapa')"
       >
-        Mapa
+        {{ 'TOGGLE_MAPA' | translate }}
       </button>
     </div>
   </section>
@@ -138,7 +136,8 @@
               class="badge-category"
               [style.backgroundColor]="place.color"
             >
-              {{ place.category }}
+              <!-- 🌐 Traducción de categoría en lista -->
+              {{ place.category | translate }}
             </span>
             <div class="rating-row">
               <ion-icon name="star" class="star-icon"></ion-icon>
@@ -169,8 +168,8 @@
       }
       @if (lugaresFiltrados.length === 0) {
         <div class="empty-state">
-          <p>No se encontraron lugares</p>
-          <span>Intenta con otra búsqueda o categoría</span>
+          <p>{{ 'NO_LUGARES_ENCONTRADOS' | translate }}</p>
+          <span>{{ 'INTENTA_OTRA_BUSQUEDA' | translate }}</span>
         </div>
       }
     </section>
@@ -204,13 +203,12 @@
           </div>
         }
       </div>
-
       <!-- CASO A: Negocio seleccionado -> Muestra solo esa tarjeta (CLIC -> DETALLE) -->
       @if (negocioSeleccionadoMapa) {
         <div class="selected-header-row">
           <button type="button" class="btn-back-all" (click)="deseleccionarNegocioMapa()">
             <ion-icon name="chevron-back-outline"></ion-icon>
-            Ver todos los lugares
+            {{ 'VER_TODOS_LUGARES' | translate }}
           </button>
         </div>
         <div class="map-bottom-card-container">
@@ -233,7 +231,8 @@
                 class="badge-category"
                 [style.backgroundColor]="negocioSeleccionadoMapa.color"
               >
-                {{ negocioSeleccionadoMapa.category }}
+                <!-- 🌐 Traducción de categoría en tarjeta del mapa -->
+                {{ negocioSeleccionadoMapa.category | translate }}
               </span>
               <div class="rating-row">
                 <ion-icon name="star" class="star-icon"></ion-icon>
@@ -262,12 +261,10 @@
           </article>
         </div>
       }
-
       <!-- CASO B: Sin negocio seleccionado -> Muestra lista (CLIC -> ACTUALIZA MAPA) -->
       @else {
         <div class="map-places-list">
           @for (place of lugaresFiltrados; track place.id) {
-            <!-- 💡 CORREGIDO: (click)="verEnMapa(place)" para actualizar mapa y mostrar tarjeta única -->
             <article class="place-card" (click)="verEnMapa(place)">
               <div
                 class="card-image-container"
@@ -289,7 +286,8 @@
                   class="badge-category"
                   [style.backgroundColor]="place.color"
                 >
-                  {{ place.category }}
+                  <!-- 🌐 Traducción de categoría en lista mapa -->
+                  {{ place.category | translate }}
                 </span>
                 <div class="rating-row">
                   <ion-icon name="star" class="star-icon"></ion-icon>
@@ -320,8 +318,8 @@
           }
           @if (lugaresFiltrados.length === 0) {
             <div class="empty-state map-empty">
-              <p>No se encontraron resultados para la búsqueda</p>
-              <span>Escribe otro término o selecciona otra categoría</span>
+              <p>{{ 'NO_RESULTADOS_BUSQUEDA' | translate }}</p>
+              <span>{{ 'ESCRIBE_OTRO_TERMINO' | translate }}</span>
             </div>
           }
         </div>
@@ -359,7 +357,7 @@
     (click)="irA('inicio')"
   >
     <ion-icon name="home" class="nav-icon"></ion-icon>
-    <span>Inicio</span>
+    <span>{{ 'INICIO' | translate }}</span>
   </button>
   <button
     type="button"
@@ -368,7 +366,7 @@
     (click)="irA('explorar')"
   >
     <ion-icon name="search" class="nav-icon"></ion-icon>
-    <span>Explorar</span>
+    <span>{{ 'EXPLORAR' | translate }}</span>
   </button>
   <button
     type="button"
@@ -377,7 +375,7 @@
     (click)="irA('favoritos')"
   >
     <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
-    <span>Favoritos</span>
+    <span>{{ 'FAVORITOS' | translate }}</span>
   </button>
   <button
     type="button"
@@ -386,6 +384,6 @@
     (click)="irA('configuracion')"
   >
     <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
-    <span>Configuración</span>
+    <span>{{ 'CONFIGURACION' | translate }}</span>
   </button>
 </nav>

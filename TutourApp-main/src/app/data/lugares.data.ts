@@ -47,13 +47,13 @@ export const LUGARES: Lugar[] = [
     hours: 'Lunes a Domingo: 24.00 horas',
     priceRange: 'Desde $1,500.00 MXN',
     about: [
-      'El Manantial es un espacio familiar y accesible que ofrece un ambiente tranquilo y cómodo para todas las edades.',
-      'Contamos con una cabaña premium totalmente equipada y una segunda cabaña con alberca, ideal para descansar y disfrutar en un entorno natural y privado.'
+      'MANANTIAL_ABOUT_1',
+      'MANANTIAL_ABOUT_2'
     ],
     offers: [
-      'Cabaña premium equipada',
-      'Cabaña con alberca privada',
-      'Instalaciones familiares y seguras'
+      'MANANTIAL_OFFER_1',
+      'MANANTIAL_OFFER_2',
+      'MANANTIAL_OFFER_3'
     ],
     services: [
       { nombre: 'Zona discapacitados', disponible: true },
@@ -88,14 +88,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Lun-Vie: 1:30 pm a 10:00 pm | Sáb: 1:30 pm a 11:30 pm | Dom: 1:30 pm a 12:00 am',
     priceRange: 'Desde $50.00 MXN',
     about: [
-      'Taquería El Popular es una taquería familiar con más de 20 años de experiencia donde cada taco y salsa es especial e inigualable en sabor, sazón y textura.',
-      'Nos distingue nuestra gran variedad de salsas y niveles de picor para acompañar cada platillo.'
+      'TAQUERIA_EL_POPULAR_ABOUT_1',
+      'TAQUERIA_EL_POPULAR_ABOUT_2'
     ],
     offers: [
-      'Tacos y Quesadillas de Bistec',
-      'Lechón, Costilla y Adobada',
-      'Tripa e Hígado',
-      'Salsa roja, verde, mortajada y macha'
+      'TAQUERIA_EL_POPULAR_OFFER_1',
+      'TAQUERIA_EL_POPULAR_OFFER_2',
+      'TAQUERIA_EL_POPULAR_OFFER_3',
+      'TAQUERIA_EL_POPULAR_OFFER_4'
     ],
     services: [
       { nombre: 'Baños', disponible: true },
@@ -125,15 +125,15 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días (Cerrado Miércoles): 9:00 a.m. a 12:00 a.m.',
     priceRange: '$50.00 a $200.00 MXN',
     about: [
-      'Llévate una experiencia única de Calvillo disfrutando una de las hermosas y exclusivas vistas al centro histórico.',
-      'Combinamos nuestros sabores en desayunos, snacks y coctelería especial en la tan conocida calle de Las Graditas.'
+      'GRADA_NOVENTA_Y_SEIS_ABOUT_1',
+      'GRADA_NOVENTA_Y_SEIS_ABOUT_2'
     ],
     offers: [
-      'Huevos al gusto, Baguettes y Ensaladas',
-      'Alitas, Hamburguesas y Aguachiles',
-      'Tacos de Arrachera y Camarón',
-      'Waffles y Crepas de Guayaba',
-      'Coctelería especial y Cerveza'
+      'GRADA_NOVENTA_Y_SEIS_OFFER_1',
+      'GRADA_NOVENTA_Y_SEIS_OFFER_2',
+      'GRADA_NOVENTA_Y_SEIS_OFFER_3',
+      'GRADA_NOVENTA_Y_SEIS_OFFER_4',
+      'GRADA_NOVENTA_Y_SEIS_OFFER_5'
     ],
     services: [
       { nombre: 'Baños', disponible: true },
@@ -164,14 +164,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días: 10:00 a.m. a 4:00 p.m.',
     priceRange: 'Acceso gratuito',
     about: [
-      'La Casa del Artesano es un centro donde encontrarás todas las artesanías que se producen en el municipio de Calvillo, Pueblo Mágico.',
-      'Aprecia y adquiere trabajos de deshilado, madera, cestería de mimbre, bisutería y joyería de piedras semipreciosas como ópalo.'
+      'CASA_DEL_ARTESANO_ABOUT_1',
+      'CASA_DEL_ARTESANO_ABOUT_2'
     ],
     offers: [
-      'Trabajos de deshilado tradicional',
-      'Cestería de mimbre y madera',
-      'Joyería en piedras semipreciosas',
-      'Cafetería y área didáctica'
+      'CASA_DEL_ARTESANO_OFFER_1',
+      'CASA_DEL_ARTESANO_OFFER_2',
+      'CASA_DEL_ARTESANO_OFFER_3',
+      'CASA_DEL_ARTESANO_OFFER_4'
     ],
     services: [
       { nombre: 'Zona discapacitados', disponible: true },
@@ -201,14 +201,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días: 10:00 a.m. a 8:00 p.m.',
     priceRange: 'Desde $30.00 a $3,000.00 MXN',
     about: [
-      'Ofrecemos una amplia variedad de dulces típicos elaborados artesanalmente por manos calvillenses.',
-      'Destacan nuestros emblemáticos dulces de guayaba marca Flor de Calvillo, chamucos, tamarindos, dulces de leche y artesanías locales.'
+      'DULCERIA_LA_TRADICIONAL_ABOUT_1',
+      'DULCERIA_LA_TRADICIONAL_ABOUT_2'
     ],
     offers: [
-      'Dulces de guayaba tradicionales',
-      'Chamucos y tamarindos artesanal',
-      'Dulces de leche regionales',
-      'Artesanías típicas mexicanas'
+      'DULCERIA_LA_TRADICIONAL_OFFER_1',
+      'DULCERIA_LA_TRADICIONAL_OFFER_2',
+      'DULCERIA_LA_TRADICIONAL_OFFER_3',
+      'DULCERIA_LA_TRADICIONAL_OFFER_4'
     ],
     services: [
       { nombre: 'Baños', disponible: true },
@@ -236,14 +236,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Lunes a Viernes: 1:00 p.m. a 6:00 p.m.',
     priceRange: 'Desde $10,000.00 MXN (Eventos)',
     about: [
-      'Jardín La Lagunita en colaboración con Mi Vida Colección de Bodas crea experiencias memorables y románticas.',
-      'Artesanos y empresarios locales especialistas en diseño de eventos para lograr que tu boda o evento sea perfecto.'
+      'LA_LAGUNITA_ABOUT_1',
+      'LA_LAGUNITA_ABOUT_2'
     ],
     offers: [
-      'Wedding Planner profesional',
-      'Diseño y producción de eventos',
-      'Tours turísticos',
-      'Servicio de Catering y Hostelería'
+      'LA_LAGUNITA_OFFER_1',
+      'LA_LAGUNITA_OFFER_2',
+      'LA_LAGUNITA_OFFER_3',
+      'LA_LAGUNITA_OFFER_4'
     ],
     services: [
       { nombre: 'Estacionamiento', disponible: true },
@@ -273,15 +273,15 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días: 8:00 a.m. a 3:00 p.m.',
     priceRange: '$35.00 a $100.00 MXN',
     about: [
-      '¡Que tu aventura en Calvillo inicie mágicamente deliciosa! Te esperamos para gozar de un desayuno inigualable.',
-      'Disfruta de postres y café en una casona llena de historia, ambiente agradable y áreas al aire libre.'
+      'TRITON_DESAYUNOS_ABOUT_1',
+      'TRITON_DESAYUNOS_ABOUT_2'
     ],
     offers: [
-      'Omelettes Denver y Molletes',
-      'Chilaquiles y Huevos Rancheros',
-      'Baguette de pollo y Ensaladas',
-      'Hot cakes y Pan francés',
-      'Coctel de frutas, jugos y café'
+      'TRITON_DESAYUNOS_OFFER_1',
+      'TRITON_DESAYUNOS_OFFER_2',
+      'TRITON_DESAYUNOS_OFFER_3',
+      'TRITON_DESAYUNOS_OFFER_4',
+      'TRITON_DESAYUNOS_OFFER_5'
     ],
     services: [
       { nombre: 'Baños', disponible: true },
@@ -311,14 +311,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días: 4:00 p.m. a 10:00 p.m.',
     priceRange: '$50.00 a $80.00 MXN',
     about: [
-      'Enamórate del exquisito sabor de nuestras populares empapeladas, chascas y dorichascas con granos de elote cocidos en su punto.',
-      'Con más de 10 años complaciendo a miles de turistas y calvillenses, somos una parada obligatoria en tu visita.'
+      'EMPAPERADAS_DE_ABEL_ABOUT_1',
+      'EMPAPERADAS_DE_ABEL_ABOUT_2'
     ],
     offers: [
-      'Empapeladas de Arrachera, Camarón y 3 Quesos',
-      'Chascas tradicionales',
-      'Tostitos preparados y Dorichascas',
-      'Frappes y Bebidas frías'
+      'EMPAPERADAS_DE_ABEL_OFFER_1',
+      'EMPAPERADAS_DE_ABEL_OFFER_2',
+      'EMPAPERADAS_DE_ABEL_OFFER_3',
+      'EMPAPERADAS_DE_ABEL_OFFER_4'
     ],
     services: [
       { nombre: 'Baños', disponible: true },
@@ -346,14 +346,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Todos los días: 11:00 a.m. a 7:00 p.m.',
     priceRange: '$95.00 a $300.00 MXN',
     about: [
-      'Parte de la familia de Mariscos La Fragua. Nuestra sazón es única donde puedes gozar de nuestros exclusivos molcajetes.',
-      'Ambiente 100% familiar con la mejor selección en cortes de carne, mariscos y especialidades de la casa.'
+      'LA_ESPERANZA_DE_ELIAS_ABOUT_1',
+      'LA_ESPERANZA_DE_ELIAS_ABOUT_2'
     ],
     offers: [
-      'Molcajete Azteca y Molcajete Marino',
-      'Cocteles, Aguachiles y Ceviche',
-      'Cortes de carne y Milanesas',
-      'Tilapias y Filetes empanizados'
+      'LA_ESPERANZA_DE_ELIAS_OFFER_1',
+      'LA_ESPERANZA_DE_ELIAS_OFFER_2',
+      'LA_ESPERANZA_DE_ELIAS_OFFER_3',
+      'LA_ESPERANZA_DE_ELIAS_OFFER_4'
     ],
     services: [
       { nombre: 'Zona discapacitados', disponible: true },
@@ -385,14 +385,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Lunes a Domingo: 9:00 a.m. a 8:00 p.m.',
     priceRange: 'Según paquete seleccionado',
     about: [
-      'Un espacio de relajación y bienestar holístico enclavado en la naturaleza que te invita a conectar con tu cuerpo, mente y espíritu.',
-      'Disfruta de técnicas ancestrales de temazcal, masajes, hidroterapia y terapias alternativas en un resort de primer nivel.'
+      'YOLIHUANI_RELAX_RESORT_ABOUT_1',
+      'YOLIHUANI_RELAX_RESORT_ABOUT_2'
     ],
     offers: [
-      'Terapias de relajación y Masajes',
-      'Temazcal ancestral e Hidroterapia',
-      'Spa integral y tratamientos holísticos',
-      'Estancias de bienestar y nutrición'
+      'YOLIHUANI_RELAX_RESORT_OFFER_1',
+      'YOLIHUANI_RELAX_RESORT_OFFER_2',
+      'YOLIHUANI_RELAX_RESORT_OFFER_3',
+      'YOLIHUANI_RELAX_RESORT_OFFER_4'
     ],
     services: [
       { nombre: 'Estacionamiento', disponible: true },
@@ -422,14 +422,14 @@ export const LUGARES: Lugar[] = [
     hours: 'Jueves a Domingos: 3:00 p.m. a 10:00 p.m.',
     priceRange: '$200.00 a $400.00 MXN',
     about: [
-      'Somos un restaurante campestre de comida italiana con un ambiente cálido y hogareño en el que disfrutarás de hermosos paisajes y atardeceres.',
-      'Deliciosos platillos italianos elaborados con ingredientes de alta calidad y frescura.'
+      'LA_MIA_CASA_ABOUT_1',
+      'LA_MIA_CASA_ABOUT_2'
     ],
     offers: [
-      'Pizzas artesanales al horno',
-      'Fettuccine, Pasta Primavera y Lasaña',
-      'Camarones Cajún y Pescado a la Veracruzana',
-      'Postres italianos artesanales'
+      'LA_MIA_CASA_OFFER_1',
+      'LA_MIA_CASA_OFFER_2',
+      'LA_MIA_CASA_OFFER_3',
+      'LA_MIA_CASA_OFFER_4'
     ],
     services: [
       { nombre: 'Estacionamiento', disponible: true },

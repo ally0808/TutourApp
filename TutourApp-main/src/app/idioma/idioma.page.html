@@ -6,7 +6,7 @@
       <button type="button" class="back-btn" routerLink="/configuracion">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
-      <h1 class="idioma-title">Idioma</h1>
+      <h1 class="idioma-title">{{ 'IDIOMA' | translate }}</h1>
     </header>
 
     <!-- Tarjeta Principal de Idiomas -->
@@ -16,42 +16,42 @@
         <div class="globe-icon">
           <ion-icon name="globe-outline"></ion-icon>
         </div>
-        <h2 class="card-title">Selecciona el idioma<br />de la aplicación</h2>
+        <h2 class="card-title">{{ 'SELECCIONA_IDIOMA' | translate }}</h2>
       </div>
 
       <ul class="lang-list">
         <!-- Español -->
         <li class="lang-item" (click)="seleccionarIdioma('es')">
           <img src="assets/icon/es.png" alt="Español" class="flag-img" />
-          <span class="lang-name">Español</span>
+          <span class="lang-name">{{ 'ESPANOL' | translate }}</span>
           <div class="radio" [class.checked]="idiomaSeleccionado === 'es'"></div>
         </li>
 
         <!-- Inglés -->
         <li class="lang-item" (click)="seleccionarIdioma('en')">
           <img src="assets/icon/en.png" alt="Inglés" class="flag-img" />
-          <span class="lang-name">Inglés</span>
+          <span class="lang-name">{{ 'INGLES' | translate }}</span>
           <div class="radio" [class.checked]="idiomaSeleccionado === 'en'"></div>
         </li>
 
         <!-- Francés -->
         <li class="lang-item" (click)="seleccionarIdioma('fr')">
           <img src="assets/icon/fr.png" alt="Francés" class="flag-img" />
-          <span class="lang-name">Francés</span>
+          <span class="lang-name">{{ 'FRANCES' | translate }}</span>
           <div class="radio" [class.checked]="idiomaSeleccionado === 'fr'"></div>
         </li>
 
         <!-- Portugués -->
         <li class="lang-item" (click)="seleccionarIdioma('pt')">
           <img src="assets/icon/pt.png" alt="Portugués" class="flag-img" />
-          <span class="lang-name">Portugués</span>
+          <span class="lang-name">{{ 'PORTUGUES' | translate }}</span>
           <div class="radio" [class.checked]="idiomaSeleccionado === 'pt'"></div>
         </li>
 
         <!-- Japonés -->
         <li class="lang-item" (click)="seleccionarIdioma('ja')">
           <img src="assets/icon/ja.png" alt="Japonés" class="flag-img" />
-          <span class="lang-name">Japonés</span>
+          <span class="lang-name">{{ 'JAPONES' | translate }}</span>
           <div class="radio" [class.checked]="idiomaSeleccionado === 'ja'"></div>
         </li>
       </ul>
@@ -61,7 +61,7 @@
     <!-- Mensaje informativo inferior -->
     <button type="button" class="info-btn">
       <ion-icon name="information-circle-outline"></ion-icon>
-      <span>Otros idiomas estarán disponibles pronto...</span>
+      <span>{{ 'OTROS_IDIOMAS_PRONTO' | translate }}</span>
     </button>
 
   </div>
@@ -72,22 +72,22 @@
   <nav class="bottom-nav">
     <button type="button" class="nav-item" routerLink="/home">
       <ion-icon name="home-outline" class="nav-icon"></ion-icon>
-      <span>Inicio</span>
+      <span>{{ 'Inicio' | translate }}</span>
     </button>
 
     <button type="button" class="nav-item" routerLink="/explore">
       <ion-icon name="search-outline" class="nav-icon"></ion-icon>
-      <span>Explorar</span>
+      <span>{{ 'Explorar' | translate }}</span>
     </button>
 
     <button type="button" class="nav-item" routerLink="/favorites">
       <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
-      <span>Favoritos</span>
+      <span>{{ 'Favoritos' | translate }}</span>
     </button>
 
     <button type="button" class="nav-item nav-active" routerLink="/configuracion">
       <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
-      <span>Configuración</span>
+      <span>{{ 'Configuración' | translate }}</span>
     </button>
   </nav>
 </ion-footer>

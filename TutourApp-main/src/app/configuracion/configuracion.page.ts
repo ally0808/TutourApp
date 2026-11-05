@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonContent, IonFooter, IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   arrowBackOutline,
   helpOutline,
@@ -15,7 +16,7 @@ import {
   searchOutline,
   heartOutline,
   settingsOutline,
-  homeOutline
+  homeOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -23,7 +24,7 @@ import {
   templateUrl: './configuracion.page.html',
   styleUrls: ['./configuracion.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon]
+  imports: [CommonModule, RouterLink, IonContent, IonFooter, IonIcon, TranslatePipe]
 })
 export class ConfiguracionPage {
   constructor() {

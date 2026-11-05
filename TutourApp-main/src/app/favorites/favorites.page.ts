@@ -14,13 +14,14 @@ import {
 } from 'ionicons/icons';
 import { Lugar } from '../data/lugares.data';
 import { FavoritosService } from '../services/favoritos.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.page.html',
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
-  imports: [IonContent, IonIcon]
+  imports: [IonContent, IonIcon,  TranslatePipe]
 })
 export class FavoritesPage {
   private router = inject(Router);
@@ -41,7 +42,7 @@ export class FavoritesPage {
       chevronForwardOutline,
       home,
       search,
-      settingsOutline
+      settingsOutline,
     });
   }
 
