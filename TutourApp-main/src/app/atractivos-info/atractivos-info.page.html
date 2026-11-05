@@ -1,0 +1,108 @@
+<ion-content [fullscreen]="true" class="atractivos-info-page">
+  <!-- SECCIÓN HERO CON HEADER INTEGRADO -->
+  <div class="hero-carousel">
+    <img [src]="fotosHero[fotoActualIndex]" alt="Atractivos Turísticos" class="hero-img" />
+    
+    <!-- Header superpuesto -->
+    <div class="hero-header-overlay">
+      <button type="button" class="back-btn" routerLink="/home" aria-label="Regresar">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <h1 class="page-title">Atractivos Turísticos</h1>
+    </div>
+
+    <div class="hero-gradient"></div>
+
+    <!-- Puntos del Carrusel -->
+    <div class="carousel-dots">
+      @for (foto of fotosHero; track $index) {
+        <span 
+          class="dot" 
+          [class.active]="$index === fotoActualIndex"
+          (click)="cambiarFoto($index)">
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL CON TRASLAPE BLANCO -->
+  <div class="main-container">
+    <p class="intro-text">
+      En los <strong>pueblos mágicos de México</strong> hay una gran cantidad de pintorescos lugares en los cuales muestran toda la diversidad natural exclusiva de cada pueblo mágico.
+    </p>
+
+    <p class="intro-text">
+      México tiene tantos atractivos turísticos que escoger solo hablar de unos cuantos es una difícil tarea, pero lo importante es dar a conocer que hay para todos los gustos: si disfrutas los ecosistemas montañosos, Michoacán tiene dos grandes santuarios en la montaña de <em>El Rosario</em> y <em>Sierra Chincua</em> para observar la mariposa monarca entre noviembre y marzo. Y si prefieres el sol, mar y arena, sitios como <em>Bacalar en Quintana Roo</em> y su Laguna de los Siete Colores deslumbran con sus rápidos, estromatolitos y cenotes.
+    </p>
+
+    <!-- 1. TARJETA CALVILLO -->
+    <div class="info-card card-calvillo">
+      <div class="badge-tag">
+        <ion-icon name="compass-outline"></ion-icon>
+        <span>Aguascalientes</span>
+      </div>
+
+      <h2 class="card-title">Calvillo Pueblo Mágico</h2>
+
+      <p class="card-desc">
+        Calvillo alberga impresionantes paisajes naturales como la <strong>Presa de La Codorniz</strong>, la imponente <strong>Parroquia del Señor del Salitre</strong> y senderos en la <strong>Sierra Fría</strong>.
+      </p>
+
+      <hr class="card-divider" />
+
+      <p class="callout-text">
+        ¡Descubre los Atractivos Turísticos de Calvillo Pueblo Mágico!
+      </p>
+
+      <button type="button" class="btn-discover" routerLink="/atractivos-turisticos-calvillo">
+        <span>¡Descúbrela!</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- 2. TARJETA SAN JOSÉ DE GRACIA -->
+    <div class="info-card card-sanjose">
+      <div class="badge-tag">
+        <ion-icon name="compass-outline"></ion-icon>
+        <span>Aguascalientes</span>
+      </div>
+
+      <h2 class="card-title">San José de Gracia</h2>
+
+      <p class="card-desc">
+        San José de Gracia destaca por el monumental <strong>Santuario del Cristo Roto</strong> en la Presa Plutarco Elías Calles, las emocionantes tirolesas y puentes colgantes de <strong>Boca de Túnel</strong>, y su hermoso entorno natural.
+      </p>
+
+      <hr class="card-divider" />
+
+      <p class="callout-text">
+        ¡Descubre los Atractivos Turísticos de San José de Gracia Pueblo Mágico!
+      </p>
+
+      <button type="button" class="btn-discover" routerLink="/atractivos-turisticos-san-jose">
+        <span>¡Descúbrela!</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+</ion-content>
+
+<!-- NAVEGACIÓN INFERIOR (UNIFICADA) -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/home')" (click)="irA('inicio')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/explore')" (click)="irA('explorar')">
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/favorites')" (click)="irA('favoritos')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/configuracion')" (click)="irA('configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

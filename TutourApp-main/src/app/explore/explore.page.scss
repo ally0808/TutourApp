@@ -1,0 +1,846 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'Inter', sans-serif;
+}
+
+ion-content.explore-content {
+  --background: #000000;
+  --color: #ffffff;
+}
+
+/* =====================================================
+   ENCABEZADO
+===================================================== */
+
+.header-container {
+  text-align: center;
+  margin: 16px 16px 12px;
+}
+
+.title-explore {
+  color: #ffffff;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* =====================================================
+   BUSCADOR
+===================================================== */
+
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 0 14px;
+  margin-bottom: 14px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+  min-width: 0;
+  height: 42px;
+  padding: 0 14px;
+  background: #ffffff;
+  border-radius: 21px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.search-icon {
+  font-size: 19px;
+  color: #666666;
+  flex: 0 0 19px;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #222222;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+}
+
+.search-input::placeholder {
+  color: #777777;
+  opacity: 1;
+}
+
+/* =====================================================
+   CARRUSEL CON FLECHAS FLOTANTES TRANSPARENTES
+===================================================== */
+.categories-section {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 14px;
+  box-sizing: border-box;
+}
+
+.carousel-outer-wrapper {
+  position: relative; /* Contenedor base para posicionar las flechas */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.categories-carousel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* El padding lateral crea el espacio para que los botones pasen debajo de las flechas */
+  padding: 4px 36px;
+  box-sizing: border-box;
+  touch-action: pan-x;
+}
+
+.categories-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.category-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 18px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  user-select: none;
+}
+
+.category-btn:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+.category-btn.category-selected {
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+/* Flechas flotantes con fondo translúcido/cristal */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none !important;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.carousel-arrow:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+.carousel-arrow ion-icon {
+  font-size: 16px;
+}
+
+/* Flecha Izquierda */
+.arrow-left {
+  left: 2px;
+  border-color: #ffffff !important;
+}
+
+.arrow-left ion-icon {
+  color: #ffffff !important;
+}
+
+/* Flecha Derecha */
+.arrow-right {
+  right: 2px;
+  border-color: #ffffff !important;
+}
+
+.arrow-right ion-icon {
+  color: #ffffff !important;
+}
+
+.more-categories-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 8px;
+  margin-top: 3px;
+}
+
+.more-categories-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.more-categories-btn:hover {
+  text-decoration: underline;
+}
+
+
+/* Texto 'Ver más categorías' debajo */
+.more-categories-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 8px;
+  margin-top: 3px;
+}
+
+.more-categories-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.more-categories-btn:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   SELECTOR LISTA / MAPA
+===================================================== */
+
+.toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 0 14px;
+  margin-bottom: 16px;
+}
+
+.toggle-container {
+  display: flex;
+  width: 100%;
+  max-width: 380px;
+  height: 36px;
+  padding: 3px;
+  border-radius: 10px;
+  background: #505054;
+  box-sizing: border-box;
+  gap: 3px;
+}
+
+.toggle-btn {
+  flex: 1 1 50%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.toggle-btn.active {
+  background: #f29c38;
+  color: #ffffff;
+}
+
+.toggle-btn.inactive {
+  background: transparent;
+  color: #ffffff;
+}
+
+/* =====================================================
+   LISTA DE NEGOCIOS (TARJETAS)
+===================================================== */
+
+.places-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 12px 100px;
+  box-sizing: border-box;
+}
+
+.place-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  min-height: 124px;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 10px 10px 10px 10px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  gap: 10px;
+  transition: transform 0.15s ease;
+}
+
+.place-card:active {
+  transform: scale(0.99);
+}
+
+/* Fotografía del negocio */
+.card-image-container {
+  flex: 0 0 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #eaeaea;
+  cursor: zoom-in;
+}
+
+.place-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Información */
+.card-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.place-title {
+  margin: 0 0 3px 0;
+  color: #111111;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+/* Badge de categoría */
+.badge-category {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* Fila de calificación */
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 3px;
+}
+
+.star-icon {
+  font-size: 13.5px;
+  color: #f7c93c;
+  flex-shrink: 0;
+}
+
+.rating-score {
+  color: #111111;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rating-reviews {
+  color: #777777;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Fila de ubicación */
+.location-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
+
+.location-icon {
+  font-size: 13px;
+  color: #777777;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.location-text {
+  color: #555555;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+/* Botón de favoritos */
+.favorite-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.heart-icon {
+  display: block;
+  font-size: 24px;
+  color: #777777;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.favorite-active .heart-icon {
+  color: #ff3b30;
+  transform: scale(1.1);
+}
+
+/* Flecha hacia adelante */
+.card-arrow {
+  position: absolute;
+  right: 10px;
+  top: 55%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+/* Estado sin resultados */
+.empty-state {
+  width: 100%;
+  padding: 40px 16px;
+  color: #ffffff;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.empty-state p {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.empty-state span {
+  color: #aaaaaa;
+  font-size: 13px;
+}
+
+/* =====================================================
+   VISTA DE MAPA INTERACTIVO (FIEL A IMAGEN 2)
+===================================================== */
+
+.map-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 0 12px 100px;
+  box-sizing: border-box;
+  gap: 14px; /* Espaciado entre el mapa y las tarjetas */
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px; /* Altura fija para que el mapa no comprima la lista */
+  border-radius: 20px;
+  overflow: hidden;
+  background: #c5dcf0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.map-wrapper iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.map-places-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* Separa cada tarjeta igual que en la lista */
+  width: 100%;
+}
+
+/* Botón 'Ver todos los lugares' cuando hay un negocio enfocado */
+.selected-header-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 4px;
+}
+
+.btn-back-all {
+  background: transparent;
+  border: none;
+  color: #2f80ed;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+/* Marcador y Callout de ubicación */
+.map-marker-overlay {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Marcador y Callout de ubicación */
+.map-marker-overlay {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.marker-callout {
+  position: relative;
+  background: #25282e;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.callout-arrow {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #25282e;
+}
+
+.marker-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.pin-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2f80ed;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-inner-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.pin-shadow {
+  width: 12px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  margin-top: 2px;
+}
+
+/* Tarjeta flotante en la parte inferior del mapa */
+.map-bottom-card-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.map-floating-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.map-empty {
+  padding: 60px 16px;
+}
+
+/* =====================================================
+   MODAL VISOR DE IMAGEN
+===================================================== */
+
+.image-viewer {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.94);
+  box-sizing: border-box;
+}
+
+.image-viewer-photo {
+  display: block;
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.image-viewer-close {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111111;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* =====================================================
+   MENÚ INFERIOR (BOTTOM NAVIGATION) - UNIFICADO
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 60px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 2px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Iconos unificados a 30px reales */
+.bottom-nav .nav-item ion-icon.nav-icon,
+.nav-icon {
+  font-size: 30px !important;
+  width: 30px !important;
+  height: 30px !important;
+  color: #ffffff;
+}
+
+.nav-item.nav-active {
+  color: #2f80ed;
+}
+
+.nav-item.nav-active .nav-icon {
+  color: #2f80ed;
+}
+
+/* =====================================================
+   MENÚ INFERIOR (BOTTOM NAVIGATION) - UNIFICADO TOTAL
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item span {
+  display: block;
+  font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Iconos */
+.bottom-nav .nav-item ion-icon.nav-icon,
+.nav-icon {
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  color: #ffffff;
+}
+
+/* Estado ACTIVO */
+.bottom-nav .nav-item.nav-active,
+.nav-item.nav-active {
+  color: #2f80ed !important;
+}
+
+.bottom-nav .nav-item.nav-active ion-icon.nav-icon,
+.nav-item.nav-active .nav-icon {
+  color: #2f80ed !important;
+}

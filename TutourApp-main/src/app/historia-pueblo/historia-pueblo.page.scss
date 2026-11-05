@@ -1,0 +1,407 @@
+.historia-page {
+  --background: #f8f9fa;
+}
+
+/* BOTÓN CIRCULAR OSCURO FLOTANTE DE 40PX */
+.top-float-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+
+  .back-circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    &:active {
+      transform: scale(0.92);
+      background: rgba(0, 0, 0, 0.75);
+    }
+  }
+}
+
+/* CARRUSEL DE IMÁGENES SUPERIOR */
+.carousel-wrapper {
+  width: 100%;
+  height: 240px;
+  background: #111;
+
+  .carousel-scroll {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    height: 100%;
+    scroll-snap-align: start;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+/* CUERPO DE LA PÁGINA */
+.page-body {
+  padding: 20px 16px 90px 16px;
+}
+
+.pueblo-header {
+  margin-bottom: 20px;
+
+  .main-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 6px 0;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.content-block {
+  margin-bottom: 24px;
+
+  .block-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 14px 0;
+  }
+
+  .paragraph {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+}
+
+/* FOTO HISTÓRICA / DON ELIGIO */
+.historical-photo-card {
+  margin: 16px 0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+
+  figcaption {
+    font-size: 12px;
+    color: #777777;
+    text-align: center;
+    margin-top: 6px;
+    font-style: italic;
+  }
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 24px 0;
+}
+
+/* CÓMO LLEGAR */
+.travel-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    color: #F06277;
+
+    ion-icon {
+      font-size: 20px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: #444444;
+    line-height: 1.4;
+  }
+}
+
+/* RUTAS EN TRANVÍA */
+.tranvia-header-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff3f5;
+  border-left: 4px solid #F06277;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+
+  ion-icon {
+    font-size: 28px;
+    color: #F06277;
+  }
+
+  h2 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #900c21;
+  }
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.3;
+  }
+}
+
+.tranvia-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ruta-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  .ruta-img-container {
+    width: 100%;
+    height: 150px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .ruta-info {
+    padding: 14px;
+
+    .ruta-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 6px 0;
+    }
+
+    .ruta-desc {
+      font-size: 12px;
+      color: #555555;
+      line-height: 1.4;
+      margin: 0 0 12px 0;
+    }
+
+    .ruta-details-box {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .detail-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        font-size: 11px;
+        color: #444444;
+
+        ion-icon {
+          font-size: 15px;
+          color: #F06277;
+          margin-top: 1px;
+        }
+      }
+    }
+  }
+}
+
+
+/* CARRUSEL DE IMÁGENES SUPERIOR CON INDICADORES */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #111111;
+
+  .carousel-scroll {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    /* Oculta la barra de scroll nativa */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: start;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /* INDICADORES (PUNTOS) FLOTANTES */
+  .carousel-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transition: all 0.25s ease;
+
+      &.active {
+        background: #ffffff;
+        width: 18px;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+/* =====================================================
+   MENÚ INFERIOR (BOTTOM NAVIGATION) - UNIFICADO TOTAL
+===================================================== */
+.bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 62px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  border-top: 1px solid #1a1a1a;
+  background: #0d0d0d;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item span {
+  display: block;
+  font-family: system-ui, -apple-system, 'Inter', Roboto, sans-serif;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Iconos */
+.bottom-nav .nav-item ion-icon.nav-icon,
+.nav-icon {
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  color: #ffffff;
+}
+
+/* Estado ACTIVO */
+.bottom-nav .nav-item.nav-active,
+.nav-item.nav-active {
+  color: #2f80ed !important;
+}
+
+.bottom-nav .nav-item.nav-active ion-icon.nav-icon,
+.nav-item.nav-active .nav-icon {
+  color: #2f80ed !important;
+}

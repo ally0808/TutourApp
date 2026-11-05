@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true" class="comunidad-page">
+  <div class="main-container">
+    
+    <!-- CABECERA SUPERIOR CON BOTÓN CIRCULAR Y TÍTULO -->
+    <div class="header-bar">
+      <button type="button" class="back-circle-btn" (click)="regresar()" aria-label="Regresar">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <h1 class="page-title">Comunidad</h1>
+    </div>
+
+    <!-- SECCIÓN ÚNICA: VIDEOS -->
+    <section class="videos-section">
+      <div class="videos-grid">
+        @for (video of videos; track video.id) {
+          <div class="video-card">
+            <div class="video-ribbon">Videos</div>
+            <div class="iframe-wrapper">
+              <iframe 
+                [src]="video.urlSafe" 
+                [title]="video.titulo"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</ion-content>
+
+<!-- MENÚ INFERIOR UNIFICADO (INICIO ACTIVO EN AZUL) -->
+<nav class="bottom-nav">
+  <button 
+    type="button" 
+    class="nav-item nav-active" 
+    (click)="irANavegacion('/home')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>Inicio</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/articulos-blog')"
+    (click)="irANavegacion('/articulos-blog')">
+    <ion-icon name="search-outline" class="nav-icon"></ion-icon>
+    <span>Explorar</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/favorites')" 
+    (click)="irANavegacion('/favorites')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>Favoritos</span>
+  </button>
+
+  <button 
+    type="button" 
+    class="nav-item" 
+    [class.nav-active]="esRutaActiva('/configuracion')" 
+    (click)="irANavegacion('/configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>Configuración</span>
+  </button>
+</nav>

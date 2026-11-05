@@ -1,0 +1,71 @@
+<ion-content class="sobre-page" [fullscreen]="true">
+  <div class="sobre-container">
+    <header class="sobre-header">
+      <button type="button" class="back-btn" id="sobre-back-btn" routerLink="/configuracion" aria-label="Regresar">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <h1 class="sobre-title">Sobre nosotros</h1>
+    </header>
+
+    <section class="sobre-hero">
+      <img class="hero-img" src="assets/images/andador.png" alt="Tutour Pueblos Mágicos" />
+    </section>
+
+    <section class="sobre-card">
+      <h2 class="card-title">¿Qué es Tutour?</h2>
+      <p class="card-text">
+        Tutour es una aplicación turística creada para facilitar el acceso a información sobre
+        Calvillo, Aguascalientes.<br />
+        Su objetivo es ayudar a visitantes y habitantes a descubrir lugares, servicios y
+        experiencias de una manera sencilla, rápida y visual.
+      </p>
+
+      <article class="info-box" id="sobre-mision">
+        <div class="info-icon icon-green">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="info-text">
+          <h3>Nuestra misión</h3>
+          <p>
+            Facilitar el acceso a información turística de Calvillo, conectando a los visitantes
+            con lugares, servicios, experiencias y tradiciones.
+          </p>
+        </div>
+      </article>
+
+      <article class="info-box" id="sobre-vision">
+        <div class="info-icon icon-purple">
+          <ion-icon name="eye-outline"></ion-icon>
+        </div>
+        <div class="info-text">
+          <h3>Nuestra visión</h3>
+          <p>
+            Ser una herramienta digital de referencia para descubrir y conocer Calvillo,
+            impulsando la difusión de sus atractivos turísticos.
+          </p>
+        </div>
+      </article>
+    </section>
+  </div>
+</ion-content>
+
+<ion-footer class="sobre-footer">
+  <nav class="tab-bar">
+    <button type="button" class="tab-item" id="tab-inicio" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+      <span>Inicio</span>
+    </button>
+    <button type="button" class="tab-item" id="tab-explorar" routerLink="/explore">
+      <ion-icon name="search-outline"></ion-icon>
+      <span>Explorar</span>
+    </button>
+    <button type="button" class="tab-item" id="tab-favoritos" routerLink="/favorites">
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>Favoritos</span>
+    </button>
+    <button type="button" class="tab-item active" id="tab-configuracion" routerLink="/configuracion">
+      <ion-icon name="settings-outline"></ion-icon>
+      <span>Configuración</span>
+    </button>
+  </nav>
+</ion-footer>

@@ -1,0 +1,329 @@
+<ion-content [fullscreen]="true" class="home-content">
+  <!-- ==============================================
+       HERO / CABECERA CON BUSCADOR
+  =============================================== -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img
+        src="assets/icon/logo-tutour-pueblos-magico.png"
+        alt="Tutour Pueblos Mágicos"
+        class="tutour-logo"
+      />
+      <h1>{{ 'HERO_TITULO' | translate }}</h1>
+      
+      <!-- BUSCADOR FUNCIONAL -->
+      <div class="search-container-row">
+        @if (terminoBusqueda.length > 0) {
+          <button
+            type="button"
+            class="back-btn"
+            (click)="limpiarBusqueda()"
+            aria-label="Regresar al inicio"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </button>
+        }
+        <div class="search-box">
+          <ion-icon name="search-outline"></ion-icon>
+          <input
+            type="text"
+            [placeholder]="'BUSCAR_PLACEHOLDER' | translate"
+            aria-label="Buscar"
+            [value]="terminoBusqueda"
+            (input)="onSearchInput($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       RESULTADOS DE BÚSQUEDA
+  =============================================== -->
+  @if (terminoBusqueda.length > 0) {
+    <section class="search-results-section">
+      <h2 class="results-title">{{ 'RESULTADOS_PARA' | translate }} "{{ terminoBusqueda }}"</h2>
+      @if (empresasFiltradas.length > 0) {
+        <div class="results-list">
+          @for (empresa of empresasFiltradas; track empresa.id) {
+            <article class="search-card" (click)="verDetalle(empresa.id)">
+              <div class="search-card-img">
+                <img [src]="empresa.imagen" [alt]="empresa.nombre" />
+              </div>
+              <div class="search-card-info">
+                <div class="card-header-row">
+                  <h3>{{ empresa.nombre }}</h3>
+                  <button
+                    class="fav-btn"
+                    type="button"
+                    (click)="$event.stopPropagation(); toggleFavorite(empresa)"
+                  >
+                    <ion-icon [name]="esFavorito(empresa.id) ? 'heart' : 'heart-outline'"></ion-icon>
+                  </button>
+                </div>
+                <span
+                  class="badge-cat"
+                  [style.backgroundColor]="obtenerColorCategoria(empresa.categoria)"
+                >
+                  {{ empresa.categoria }}
+                </span>
+                <div class="rating-row">
+                  <ion-icon name="star"></ion-icon>
+                  <span class="score">{{ empresa.calificacion }}</span>
+                  <span class="reviews">(500)</span>
+                </div>
+                <div class="location-row">
+                  <ion-icon name="location"></ion-icon>
+                  <span>{{ empresa.direccion }}</span>
+                </div>
+              </div>
+              <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+            </article>
+          }
+        </div>
+      } @else {
+        <p class="no-results">{{ 'SIN_RESULTADOS' | translate }}</p>
+      }
+    </section>
+  }
+  @else {
+    <!-- ==============================================
+         CATEGORÍAS
+    =============================================== -->
+    <section class="categories-section">
+      <h2>{{ 'SELECCIONA_LO_QUE_BUSCAS' | translate }}</h2>
+      <div class="categories-grid">
+        <button class="category-item" type="button" (click)="irACategoria('Hospedaje')">
+          <div class="category-icon hospedaje">
+            <img src="assets/icon/hospedaje.png" alt="Hospedaje" />
+          </div>
+          <span>{{ 'CAT_HOSPEDAJE' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Restaurantes')">
+          <div class="category-icon restaurante">
+            <img src="assets/icon/restaurante.png" alt="Restaurantes" />
+          </div>
+          <span>{{ 'CAT_RESTAURANTES' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Lugares recreativos')">
+          <div class="category-icon recreativos">
+            <img src="assets/icon/lugares-recreativos.png" alt="Lugares Recreativos" />
+          </div>
+          <span>{{ 'CAT_RECREATIVOS' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Desayunos')">
+          <div class="category-icon desayunos">
+            <img src="assets/icon/desayunos.png" alt="Desayunos" />
+          </div>
+          <span>{{ 'CAT_DESAYUNOS' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Cenadurías')">
+          <div class="category-icon cenadurias">
+            <img src="assets/icon/cenadurias.png" alt="Cenadurías" />
+          </div>
+          <span>{{ 'CAT_CENADURIAS' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Sabores de mi Pueblo')">
+          <div class="category-icon sabores">
+            <img src="assets/icon/sabores-de-mi-pueblo.png" alt="Sabores de mi Pueblo" />
+          </div>
+          <span>{{ 'CAT_SABORES' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Artesanías')">
+          <div class="category-icon artesanias">
+            <img src="assets/icon/artesanias.png" alt="Artesanías" />
+          </div>
+          <span>{{ 'CAT_ARTESANIAS' | translate }}</span>
+        </button>
+        <button class="category-item" type="button" (click)="irACategoria('Bares')">
+          <div class="category-icon bares">
+            <img src="assets/icon/bares.png" alt="Bares" />
+          </div>
+          <span>{{ 'CAT_BARES' | translate }}</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         EMPRESAS DESTACADAS
+    =============================================== -->
+    <section class="featured-section">
+      <div class="section-header">
+        <h2>{{ 'DESTACADAS_TITULO' | translate }}</h2>
+        <button class="see-more" type="button" (click)="irANavegacion('/explore')">
+          {{ 'VER_MAS' | translate }}
+        </button>
+      </div>
+      <div
+        class="featured-scroll"
+        #featuredScroll
+        (mousedown)="iniciarArrastre($event)"
+        (mousemove)="moverArrastre($event)"
+        (mouseup)="terminarArrastre()"
+        (mouseleave)="terminarArrastre()"
+        (touchstart)="iniciarTouch($event)"
+        (touchend)="terminarTouch($event)"
+      >
+        @for (empresa of empresasCarrusel; track $index) {
+          <article class="business-card" (click)="verDetalle(empresa.id)">
+            <div class="business-image">
+              <img [src]="empresa.imagen" [alt]="empresa.nombre" />
+              <button
+                class="favorite-button"
+                type="button"
+                [class.is-favorite]="esFavorito(empresa.id)"
+                [attr.aria-label]="esFavorito(empresa.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+                (click)="$event.stopPropagation(); toggleFavorite(empresa)"
+              >
+                <ion-icon [name]="esFavorito(empresa.id) ? 'heart' : 'heart-outline'"></ion-icon>
+              </button>
+              <span
+                class="category-badge"
+                [class.hospedaje]="empresa.categoria === 'Hospedaje'"
+                [class.sabores-de-mi-pueblo]="empresa.categoria === 'Sabores de mi Pueblo'"
+                [class.bares]="empresa.categoria === 'Bares'"
+                [class.restaurantes]="empresa.categoria === 'Restaurantes'"
+                [class.cenadurias]="empresa.categoria === 'Cenadurías'"
+                [class.artesanias]="empresa.categoria === 'Artesanías'"
+                [class.recreativos]="empresa.categoria === 'Lugares Recreativos'"
+                [class.desayunos]="empresa.categoria === 'Desayunos'"
+              >
+                {{ empresa.categoria }}
+              </span>
+            </div>
+            <div class="business-info">
+              <div class="business-info-content">
+                <h3>{{ empresa.nombre }}</h3>
+                <div class="rating">
+                  <ion-icon name="star"></ion-icon>
+                  <span>{{ empresa.calificacion }}</span>
+                </div>
+                <div class="location">
+                  <ion-icon name="location"></ion-icon>
+                  <span>{{ empresa.direccion }}</span>
+                </div>
+              </div>
+              <button
+                class="detail-button"
+                type="button"
+                aria-label="Ver detalle"
+                (click)="$event.stopPropagation(); verDetalle(empresa.id)"
+              >
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <!-- ==============================================
+         PROMOCIONES Y BANNERS INTERACTIVOS
+    =============================================== -->
+    <section class="promotions-section">
+      <article
+        class="promotion-card"
+        [class.is-pressed]="bannerPresionado === 'gastronomia'"
+        (pointerdown)="presionarBanner('gastronomia')"
+        (pointerup)="soltarBanner()"
+        (pointercancel)="soltarBanner()"
+        (pointerleave)="soltarBanner()"
+        routerLink="/gastronomia"
+      >
+        <img src="assets/images/banner-gastronomia.jpg" alt="Gastronomía de Calvillo" />
+        <div class="promotion-overlay"></div>
+        <h2>{{ 'BANNER_GASTRONOMIA' | translate }}</h2>
+      </article>
+
+      <article
+        class="promotion-card"
+        [class.is-pressed]="bannerPresionado === 'alojamiento'"
+        (pointerdown)="presionarBanner('alojamiento')"
+        (pointerup)="soltarBanner()"
+        (pointercancel)="soltarBanner()"
+        (pointerleave)="soltarBanner()"
+        routerLink="/alojamiento-info"
+      >
+        <img src="assets/images/banner-alojamiento.jpg" alt="Alojamiento y Aventura en Calvillo" />
+        <h2>{{ 'BANNER_ALOJAMIENTO' | translate }}</h2>
+      </article>
+
+      <article
+        class="promotion-card"
+        [class.is-pressed]="bannerPresionado === 'atractivos'"
+        (pointerdown)="presionarBanner('atractivos')"
+        (pointerup)="soltarBanner()"
+        (pointercancel)="soltarBanner()"
+        (pointerleave)="soltarBanner()"
+        routerLink="/atractivos-info"
+      >
+        <img src="assets/images/banner-atractivos.jpg" alt="Atractivos turísticos de Calvillo" />
+        <div class="promotion-overlay"></div>
+        <h2>{{ 'BANNER_ATRACTIVOS' | translate }}</h2>
+      </article>
+    </section>
+
+    <!-- ==============================================
+         DESCUBRE LOS PUEBLOS MÁGICOS
+    =============================================== -->
+    <section class="discover-section">
+      <h2>{{ 'DESCUBRE_TITULO' | translate }}</h2>
+      <div class="discover-options">
+        <article class="discover-card" (click)="irAPueblos()">
+          <div class="discover-icon pueblos-icon">
+            <img src="assets/icon/explora-pueblos.png" alt="Explora Pueblos" />
+          </div>
+          <div class="discover-text">
+            <h3>{{ 'EXPLORA_PUEBLOS' | translate }}</h3>
+            <p>{{ 'EXPLORA_PUEBLOS_DESC' | translate }}</p>
+          </div>
+          <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
+        </article>
+
+        <article class="discover-card" (click)="irABlog()">
+          <div class="discover-icon blog-icon">
+            <img src="assets/icon/blog-icon.png" alt="Blog" />
+          </div>
+          <div class="discover-text">
+            <h3>{{ 'BLOG_TITULO' | translate }}</h3>
+            <p>{{ 'BLOG_DESC' | translate }}</p>
+          </div>
+          <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
+        </article>
+
+        <article class="discover-card" (click)="irAComunidad()">
+          <div class="discover-icon community-icon">
+            <img src="assets/icon/comunidad.png" alt="Comunidad" />
+          </div>
+          <div class="discover-text">
+            <h3>{{ 'COMUNIDAD_TITULO' | translate }}</h3>
+            <p>{{ 'COMUNIDAD_DESC' | translate }}</p>
+          </div>
+          <ion-icon class="discover-arrow" name="chevron-forward-outline"></ion-icon>
+        </article>
+      </div>
+    </section>
+  }
+  <div class="bottom-space"></div>
+</ion-content>
+
+<!-- NAVEGACIÓN INFERIOR -->
+<nav class="bottom-nav">
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/home')" (click)="irA('inicio')">
+    <ion-icon name="home" class="nav-icon"></ion-icon>
+    <span>{{ 'INICIO' | translate }}</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/explore')" (click)="irA('explorar')">
+    <ion-icon name="search" class="nav-icon"></ion-icon>
+    <span>{{ 'EXPLORAR' | translate }}</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/favorites')" (click)="irA('favoritos')">
+    <ion-icon name="heart-outline" class="nav-icon"></ion-icon>
+    <span>{{ 'FAVORITOS' | translate }}</span>
+  </button>
+  <button type="button" class="nav-item" [class.nav-active]="esRutaActiva('/configuracion')" (click)="irA('configuracion')">
+    <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+    <span>{{ 'CONFIGURACION' | translate }}</span>
+  </button>
+</nav>
